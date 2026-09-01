@@ -1,0 +1,47 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{amsmath} 
+ 
+\title{ieee-prime}
+\author{Irawan Widi Widayat}
+\date{August 2026}
+
+\begin{document}
+
+\maketitle
+
+\section{Results Analysis}
+\subsection{Proactive Autonomic Controller via M/M/c Queueing Theory} 
+
+\begin{itemize}
+    \item \textbf{The Phenomenon: Non-Linear Degradation in $M/M/c$ Systems}  
+
+To mathematically formalize the system's performance under increasing target rates, the system architecture can be modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / T_{compute}$), and $c$ parallel computing resources.The traffic intensity, or utilization factor $\rho$, is defined as:
+
+$$\rho = \frac{\lambda}{c\mu}$$
+
+For the system to remain stable, $\rho < 1$. As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula, the probability that an arriving request must wait in the queue ($P_Q$) is:
+
+$$P_Q = \frac{\frac{(c\rho)^c}{c!(1-\rho)}}{\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!(1-\rho)}}$$
+
+Consequently, the average expected wait time in the queue ($W_q$) grows non-linearly:
+
+$$W_q = \frac{P_Q}{c\mu(1-\rho)}$$
+
+As $\rho \to 1$, $W_q$ approaches infinity. This mathematical phenomenon explains the severe spikes observed in the empirical $p99$ tail latencies; minor fluctuations in arrival intervals at high utilization cause disproportionate queuing delays ($T_{net\_and\_queue}$).The Process: Proactive Autonomic InterventionA reactive controller waits for the total end-to-end latency ($W = W_q + \frac{1}{\mu}$) to breach a Service Level Agreement (SLA) before intervening. In contrast, the implemented proactive autonomic controller leverages this queueing theory framework to anticipate degradation.Instead of monitoring absolute latency thresholds, the proactive controller monitors the rate of change of the queueing delay with respect to the incoming load ($\frac{\partial W_q}{\partial \lambda}$), or establishes a critical utilization threshold ($\rho_{crit} < 1$).The trigger condition is mathematically defined to activate when the predicted waiting time approaches the upper bound of the acceptable SLA variance:
+
+$$Trigger \rightarrow True \quad \text{if} \quad \rho \ge \rho_{crit} \quad \text{or} \quad W_q(\lambda_{t+1}) > SLA_{threshold}$$
+
+Upon triggering, the autonomic mechanism intervenes proactively—typically by scaling the number of resources ($c \to c'$) or applying backpressure to throttle incoming requests ($\lambda \to \lambda'$). By dynamically increasing the denominator ($c'\mu$) or capping the numerator ($\lambda'$), the controller artificially forces $\rho$ back to a stable state ($\rho < \rho_{crit}$), effectively neutralizing the exponential queuing delay before the physical system exhibits SLA violations.
+
+\item \textbf{Overcoming Connection Bottlenecks: CPR vs. PCR Models} 
+
+Traditional microservice architectures utilizing the Per-Connection-Request (PCR) model frequently suffer from connection exhaustion under high concurrency. Mathematically, this is evidenced in our dataset by the strong positive Pearson correlation ($r =$ [Insert Pearson r], $p < 0.05$) between the $target_rate$ ($\lambda$) and the $T_{net_and_queue_ms}$ ($W_q$). In a standard PCR model, as $\lambda$ increases, the exponential growth of $W_q$ dictates a severe connection bottleneck, forcing the system into saturation.To resolve this, our system employs an autonomic controller leveraging the CPR model. The effectiveness of this approach is validated by the point-biserial correlation ($r_{pb} =$ [Insert Point-Biserial r]) and logistic regression analysis. The regression yields a coefficient of $\beta =$ [Insert Beta], establishing that the CPR-based autonomic controller proactively triggers as a direct function of impending queue degradation, rather than waiting for connection failure. By intervening dynamically, the CPR model restructures the connection pooling allocation before the theoretical utilization limit ($\rho \to 1$) is breached, successfully capping $T_{net\_and\_queue}$ and averting the cascading bottlenecks inherent to PCR.
+
+\item \textbf{Mitigation of Connection Bottlenecks via the CPR Autonomic Controller}
+
+In traditional Per-Connection-Request (PCR) architectures, $T_{net_and_queue_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_q$).However, our empirical analysis of the implemented CPR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410$, $p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the CPR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic PCR-style queuing can occur.
+
+\end{itemize}
+
+\end{document}
