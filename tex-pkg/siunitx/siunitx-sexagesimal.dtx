@@ -1,0 +1,1125 @@
+% \iffalse meta-comment
+%
+% File: siunitx-sexagesimal.dtx Copyright (C) 2016-2019,2021-2026 Joseph Wright
+%
+% It may be distributed and/or modified under the conditions of the
+% LaTeX Project Public License (LPPL), either version 1.3c of this
+% license or (at your option) any later version.  The latest version
+% of this license is in the file
+%
+%    https://www.latex-project.org/lppl.txt
+%
+% This file is part of the "siunitx bundle" (The Work in LPPL)
+% and all files in that bundle must be distributed together.
+%
+% The released version of this bundle is available from CTAN.
+%
+% -----------------------------------------------------------------------
+%
+% The development version of the bundle can be found at
+%
+%    https://github.com/josephwright/siunitx
+%
+% for those people who are interested.
+%
+% -----------------------------------------------------------------------
+%
+%<*driver>
+\documentclass{l3doc}
+% Additional commands needed in this source
+\ProvideDocumentCommand\email{m}{\href{mailto:#1}{\nolinkurl{#1}}}
+\ProvideDocumentCommand\foreign{m}{\textit{#1}}
+% The next line is needed so that \GetFileInfo will be able to pick up
+% version data
+\usepackage{siunitx}
+\begin{document}
+  \DocInput{\jobname.dtx}
+\end{document}
+%</driver>
+% \fi
+%
+% \GetFileInfo{siunitx.sty}
+%
+% \title{^^A
+%   \pkg{siunitx-sexagesimal} -- Formatting sexagesimal values^^A
+%   \thanks{This file describes \fileversion,
+%     last revised \filedate.}^^A
+% }
+%
+% \author{^^A
+%  Joseph Wright^^A
+%  \thanks{^^A
+%    E-mail:
+%    \email{joseph@texdev.net}^^A
+%   }^^A
+% }
+%
+% \date{Released \filedate}
+%
+% \maketitle
+%
+% \begin{documentation}
+%
+% \section{Formatting sexagesimal values}
+%
+% The generic sexagesimal formatting code is designed for values which have
+% three components, each related by a factor of 60 to the next higher
+% component.
+%
+% \begin{function}
+%   {
+%     \siunitx_sexagesimal:n, \siunitx_sexagesimal:e,
+%     \siunitx_sexagesimal:nnn, \siunitx_sexagesimal:eee
+%   }
+%   \begin{syntax}
+%     \cs{siunitx_sexagesimal:n} \Arg{decimal}
+%     \cs{siunitx_sexagesimal:nnn} \Arg{major} \Arg{intermediate} \Arg{minor}
+%   \end{syntax}
+%   Typeset the \meta{sexagesimal} value (which may be given as separate
+%   \meta{major}, \meta{intermediate} and \meta{minor} components). The
+%   \meta{sexagesimal} (or components) may be given as expressions. The
+%   \meta{sexagesimal} should be a number as understood by
+%   \cs{siunitx_format_number:nN}, with no uncertainty, exponent or imaginary
+%   part. The unit symbols for \meta{major}, \meta{intermediate}, \meta{minor}
+%   are set by the options described below.
+% \end{function}
+%
+% \begin{function}{sexagesimal-mode}
+%   \begin{syntax}
+%     |sexagesimal-mode| = \meta{choice}
+%   \end{syntax}
+%   Selects how sexagesimal values are formatted: a choice from
+%   the options |parts|, |decimal| and |input|. The option |components| means
+%   that sexagesimal values will always be typeset in components (major,
+%   intermediate, minor) format, whilst |decimal| means that angles are typeset
+%   as a single decimal value. The |input| setting means that the input format
+%   (\foreign{i.e.}~difference between \cs{siunitx_sexagesimal:n} and
+%   \cs{siunitx_sexagesimal:nnn}) is maintained. The standard setting is
+%   |input|.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     fill-sexagesimal-major        ,
+%     fill-sexagesimal-intermediate ,
+%     fill-sexagesimal-minor
+%   }
+%   \begin{syntax}
+%     |fill-sexagesimal-major| = |true|\verb"|"|false|
+%   \end{syntax}
+%   Determines whether a missing component is zero-filled when printing an
+%   arc. The standard setting is |false|.
+% \end{function}
+%
+% \begin{function}{sexagesimal-separator}
+%   \begin{syntax}
+%     |sexagesimal-separator| = \meta{separator}
+%   \end{syntax}
+%   Inserted between component parts (major, intermediate and minor
+%   components). The standard setting is empty.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     sexagesimal-unit-major        ,
+%     sexagesimal-unit-intermediate ,
+%     sexagesimal-unit-minor
+%   }
+%   \begin{syntax}
+%     |sexagesimal-unit-major| = \meta{unit}
+%   \end{syntax}
+%   Sets the unit symbol(s) used for major, intermediate and minor components,
+%   respectively. The standard settings are empty.
+% \end{function}
+%
+% \begin{function}{sexagesimal-unit-over-decimal}
+%   \begin{syntax}
+%     |sexagesimal-unit-over-decimal| = |true|\verb"|"|false|
+%   \end{syntax}
+%   Determines if the component separator is printed over the decimal marker.
+%   The standard setting is |false|.
+% \end{function}
+%
+% \section{Formatting angles}
+%
+% \begin{function}
+%   {
+%     \siunitx_angle:n, \siunitx_angle:e,
+%     \siunitx_angle:nnn, \siunitx_angle:eee
+%   }
+%   \begin{syntax}
+%     \cs{siunitx_angle:n} \Arg{angle}
+%     \cs{siunitx_angle:nnn} \Arg{degrees} \Arg{minutes} \Arg{seconds}
+%   \end{syntax}
+%   Typeset the \meta{angle} (which may be given as separate \meta{degree},
+%   \meta{minute} and \meta{second} components). The \meta{angle}
+%   (or components) may be given as expressions. The \meta{angle} should be a
+%   number as understood by \cs{siunitx_format_number:nN}, with no uncertainty,
+%   exponent or imaginary part.  The unit symbols for degrees, minutes and
+%   seconds are |\degree|, |\arcminute| and |\arcsecond|, respectively.
+% \end{function}
+%
+% \begin{function}{angle-mode}
+%   \begin{syntax}
+%     |angle-mode| = \meta{choice}
+%   \end{syntax}
+%   Selects how angles are formatted: a choice from
+%   the options |arc|, |decimal| and |input|. The option |arc| means that angles
+%   will always be typeset in arc (degree, minute, second) format, whilst
+%   |decimal| means that angles are typeset as a single decimal value. The
+%   |input| setting means that the input format (\foreign{i.e.}~difference
+%   between \cs{siunitx_angle:n} and \cs{siunitx_angle:nnn}) is maintained. The
+%   standard setting is |input|.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     angle-symbol-degree ,
+%     angle-symbol-minute ,
+%     angle-symbol-second
+%   }
+%   \begin{syntax}
+%     |angle-symbol-degree| = \meta{symbol}
+%   \end{syntax}
+%   Sets the symbol used for arc degrees, minutes or seconds, respectively.
+% \end{function}
+%
+% \begin{function}{angle-symbol-over-decimal}
+%   \begin{syntax}
+%     |angle-symbol-over-decimal| = |true|\verb"|"|false|
+%   \end{syntax}
+%   Determines if the arc separator is printed over the decimal marker, a
+%   format used in astronomy. The standard setting is |false|.
+% \end{function}
+%
+% \begin{function}{angle-separator}
+%   \begin{syntax}
+%     |angle-separator| = \meta{separator}
+%   \end{syntax}
+%   Inserted between angle parts (degree, minute and second components).
+%   The standard setting is empty.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     fill-angle-degrees ,
+%     fill-angle-minutes ,
+%     fill-angle-seconds
+%   }
+%   \begin{syntax}
+%     |fill-arc-degrees| = |true|\verb"|"|false|
+%   \end{syntax}
+%   Determines whether a missing angle part is zero-filled when printing an
+%   arc. The standard setting is |false|.
+% \end{function}
+%
+% \section{Formatting durations}
+%
+% \begin{function}
+%   {
+%     \siunitx_duration:n, \siunitx_duration:e,
+%     \siunitx_duration:nnn, \siunitx_duration:eee
+%   }
+%   \begin{syntax}
+%     \cs{siunitx_duration:n} \Arg{decimal}
+%     \cs{siunitx_duration:nnn} \Arg{hours} \Arg{minutes} \Arg{seconds}
+%   \end{syntax}
+%   Typeset the \meta{duration} (which may be given as separate \meta{hour},
+%   \meta{minute} and \meta{second} components). The \meta{duration}
+%   (or components) may be given as expressions. The \meta{duration} should be a
+%   number as understood by \cs{siunitx_format_number:nN}, with no uncertainty,
+%   exponent or imaginary part.  The unit symbols for hours, minutes and
+%   seconds are |\hour|, |\minute| and |\second|, respectively.
+% \end{function}
+%
+% \begin{function}{duration-separator}
+%   \begin{syntax}
+%     |duration-separator| = \meta{separator}
+%   \end{syntax}
+%   Inserted between duration parts (hour, minute and second components).
+%   The standard setting is an interword space.
+% \end{function}
+%
+% \begin{function}{duration-mode}
+%   \begin{syntax}
+%     |duration-mode| = \meta{choice}
+%   \end{syntax}
+%   Selects how durations are formatted: a choice from
+%   the options |component|, |decimal| and |input|. The option |component|
+%   means that durations will always be typeset in component (hour, minute,
+%   second) format, whilst |decimal| means that angles are typeset as a single
+%   decimal value. The |input| setting means that the input format
+%   (\foreign{i.e.}~difference  between \cs{siunitx_duration:n} and
+%   \cs{siunitx_duration:nnn}) is maintained. The standard setting is |input|.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     duration-unit-hour   ,
+%     duration-unit-minute ,
+%     duration-unit-second
+%   }
+%   \begin{syntax}
+%     |duration-unit-hour| = \meta{unit}
+%   \end{syntax}
+%   Sets the unit used for component hours, minutes or seconds, respectively.
+% \end{function}
+%
+% \begin{function}
+%   {
+%     fill-duration-hours   ,
+%     fill-duration-minutes ,
+%     fill-duration-seconds
+%   }
+%   \begin{syntax}
+%     |fill-duration-hours| = |true|\verb"|"|false|
+%   \end{syntax}
+%   Determines whether a missing part is zero-filled when printing an
+%   duration in component form. The standard setting is |false|.
+% \end{function}
+%
+% \end{documentation}
+%
+% \begin{implementation}
+%
+% \section{\pkg{siunitx-sexagesimal} implementation}
+%
+% Start the \pkg{DocStrip} guards.
+%    \begin{macrocode}
+%<*package>
+%    \end{macrocode}
+%
+% \subsection{General mechanism}
+%
+% Identify the internal prefix.
+%    \begin{macrocode}
+%<@@=siunitx_sexagesimal>
+%    \end{macrocode}
+%
+% \begin{variable}{\l_@@_tmp_bool, \l_@@_tmp_dim, \l_@@_tmp_tl}
+%   Scratch space.
+%    \begin{macrocode}
+\bool_new:N \l_@@_tmp_bool
+\dim_new:N \l_@@_tmp_dim
+\tl_new:N \l_@@_tmp_tl
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}
+%   {
+%     \l_@@_fill_major_bool    ,
+%     \l_@@_fill_inter_bool    ,
+%     \l_@@_fill_minor_bool    ,
+%     \l_@@_unit_major_tl      ,
+%     \l_@@_unit_inter_tl      ,
+%     \l_@@_unit_minor_tl      ,
+%     \l_@@_force_comp_bool    ,
+%     \l_@@_force_decimal_bool ,
+%     \l_@@_astronomy_bool     ,
+%     \l_@@_separator_tl
+%   }
+%    \begin{macrocode}
+\keys_define:nn { siunitx }
+  {
+    fill-sexagesimal-major .bool_set:N =
+      \l_@@_fill_major_bool ,
+    fill-sexagesimal-intermediate .bool_set:N =
+      \l_@@_fill_inter_bool ,
+    fill-sexagesimal-minor .bool_set:N =
+      \l_@@_fill_minor_bool ,
+    sexagesimal-mode .choice: ,
+    sexagesimal-mode / component .code:n =
+      {
+        \bool_set_true:N \l_@@_force_comp_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    sexagesimal-mode / decimal .code:n =
+      {
+        \bool_set_false:N \l_@@_force_comp_bool
+        \bool_set_true:N \l_@@_force_decimal_bool
+      } ,
+    sexagesimal-mode / input .code:n =
+      {
+        \bool_set_false:N \l_@@_force_comp_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    sexagesimal-unit-major .tl_set:N =
+      \l_@@_unit_major_tl ,
+    sexagesimal-unit-intermediate .tl_set:N =
+      \l_@@_unit_inter_tl ,
+    sexagesimal-unit-minor .tl_set:N =
+      \l_@@_unit_minor_tl ,
+    sexagesimal-unit-over-decimal .bool_set:N =
+      \l_@@_astronomy_bool ,
+    sexagesimal-separator .tl_set:N =
+      \l_@@_separator_tl
+  }
+\bool_new:N \l_@@_force_comp_bool
+\bool_new:N \l_@@_force_decimal_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\siunitx_sexagesimal:n, \siunitx_sexagesimal:e, \@@_decimal:n}
+% \begin{macro}{\siunitx_sexagesimal:nnn, \siunitx_sexagesimal:eee}
+% \begin{macro}{\@@_comp_convert:n, \@@_comp_convert:e}
+% \begin{macro}{\@@_comp_convert:w}
+%   The first step here is to force format conversion if required. Going to
+%   a decimal is easy, going to arc format is a bit more painful: avoid
+%   repeating calculations mainly for code readability.
+%    \begin{macrocode}
+\cs_new_protected:Npn \siunitx_sexagesimal:n #1
+  {
+    \bool_if:NTF \l_siunitx_number_parse_bool
+      { \@@_decimal:n {#1} }
+      {
+        \tl_if_blank:nF {#1}
+          {
+            \tl_set:Nn \l_@@_major_tl { \ensuremath {#1} }
+            \@@_comp_print:VVV
+              \l_@@_major_tl
+              \c_empty_tl
+              \c_empty_tl
+          }
+      }
+  }
+\cs_generate_variant:Nn \siunitx_sexagesimal:n { e }
+\cs_new_protected:Npn \@@_decimal:n #1
+  {
+    \bool_if:NTF \l_@@_force_comp_bool
+      { \@@_comp_convert:e { \fp_eval:n {#1} } }
+      {
+        \siunitx_number_parse:nN {#1} \l_@@_major_tl
+        \siunitx_number_process:NN \l_@@_major_tl \l_@@_major_tl
+        \tl_set:Ne \l_@@_major_tl
+          { \siunitx_number_output:NN \l_@@_major_tl \q_nil }
+        \@@_comp_print:VVV
+          \l_@@_major_tl
+          \c_empty_tl
+          \c_empty_tl
+      }
+  }
+\cs_new_protected:Npn \siunitx_sexagesimal:nnn #1#2#3
+  {
+    \bool_if:NTF \l_siunitx_number_parse_bool
+      {
+        \bool_if:NTF \l_@@_force_decimal_bool
+          {
+            \siunitx_sexagesimal:e
+              { \fp_eval:n { #1 + ( 0 #2 ) / 60 + ( 0 #3 ) / 3600 } }
+          }
+          { \@@_comp_sign:nnn {#1} {#2} {#3} }
+      }
+      {
+        \tl_set:Ne \l_@@_major_tl
+          { \tl_if_blank:nF {#1} { \exp_not:n { \ensuremath {#1} } } }
+        \tl_set:Ne \l_@@_inter_tl
+          { \tl_if_blank:nF {#2} { \exp_not:n { \ensuremath {#2} } } }
+        \tl_set:Ne \l_@@_minor_tl
+          { \tl_if_blank:nF {#3} { \exp_not:n { \ensuremath {#3} } } }
+        \@@_comp_print:VVV
+          \l_@@_major_tl
+          \l_@@_inter_tl
+          \l_@@_minor_tl
+      }
+  }
+\cs_generate_variant:Nn \siunitx_sexagesimal:nnn { eee }
+%    \end{macrocode}
+%   Here, the need for absolute values is to handle conversion of negative
+%   values: the result should be exactly one sign in the integer part. For
+%   integer input, we can control whether there are minute or second parts
+%   at all.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_comp_convert:n #1
+  {
+    \@@_comp_convert:w #1 . \q_nil . \q_stop
+  }
+\cs_generate_variant:Nn \@@_comp_convert:n { e }
+\cs_new_protected:Npn \@@_comp_convert:w #1 . #2 . #3 \q_stop
+  {
+    \quark_if_nil:nTF {#2}
+      {
+        \siunitx_sexagesimal:eee
+          { \fp_eval:n { trunc(#1,0) } }
+          { \bool_if:NT \l_@@_fill_inter_bool { 0 } }
+          { \bool_if:NT \l_@@_fill_minor_bool { 0 } }
+      }
+      {
+        \siunitx_sexagesimal:eee
+          { \fp_eval:n { trunc(#1.#2,0) } }
+          { \fp_eval:n { abs(trunc((#1.#2 - trunc(#1,0)) * 60,0)) } }
+          {
+            \fp_eval:n
+              {
+                abs
+                  (
+                            (#1.#2 - trunc(#1.#2,0)) * 60
+                    - trunc((#1.#2 - trunc(#1.#2,0)) * 60,0)
+                  )
+                * 60
+              }
+          }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \begin{variable}{\c_@@_parts_tl}
+%   For mappings.
+%    \begin{macrocode}
+\clist_const:Nn \c_@@_parts_tl { major , inter , minor }
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_major_tl, \l_@@_inter_tl, \l_@@_minor_tl}
+%   Space for formatting parsed numbers.
+%    \begin{macrocode}
+\tl_new:N \l_@@_major_tl
+\tl_new:N \l_@@_inter_tl
+\tl_new:N \l_@@_minor_tl
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_sign_tl}
+%   For the \enquote{sign shuffle}.
+%    \begin{macrocode}
+\tl_new:N \l_@@_sign_tl
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{variable}{\l_@@_signed_bool}
+%   To check that only one sign is seen in arc mode.
+%    \begin{macrocode}
+\bool_new:N \l_@@_signed_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\@@_suppress_comp:, \@@_suppress_exp:, \@@_suppress_uncert:,}
+%   Pre-compilation of keys to suppress uncertainties and exponents,
+%   and 
+%    \begin{macrocode}
+\keys_precompile:nnN
+  { siunitx }
+  { input-comparators = }
+  \l_@@_tmp_tl
+\cs_new_protected:Npe \@@_suppress_comp:
+  { \exp_not:V \l_@@_tmp_tl }
+\keys_precompile:nnN
+  { siunitx }
+  { input-exponent-markers = }
+  \l_@@_tmp_tl
+\cs_new_protected:Npe \@@_suppress_exp:
+  { \exp_not:V \l_@@_tmp_tl }
+\keys_precompile:nnN
+  { siunitx }
+  {
+    input-close-uncertainty = ,
+    input-open-uncertainty  = ,
+    input-uncertainty-signs =
+  }
+  \l_@@_tmp_tl
+\cs_new_protected:Npe \@@_suppress_uncert:
+  { \exp_not:V \l_@@_tmp_tl }
+%    \end{macrocode}
+% \end{macro}
+%
+% \begin{macro}{\@@_comp_sign:nnn}
+% \begin{macro}{\@@_comp_sign:nn}
+% \begin{macro}{\@@_comp_sign_auxi:, \@@_comp_sign_auxii:}
+% \begin{macro}{\@@_extract_sign:nnnnnnnn}
+% \begin{macro}[EXP]{\@@_sign:nnnnnnn}
+%   To get the sign in the right place whilst dealing with zero filling
+%   means doing some shuffling. That means doing processing of each number
+%   manually. For degrees, auto-conversion can give |-0|, which needs to be
+%   picked up early to set the sign. A bit of shuffling is needed as only
+%   the seconds argument is permitted to have an uncertainty.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_comp_sign:nnn #1#2#3
+  {
+    \group_begin:
+      \tl_clear:N \l_@@_sign_tl
+      \bool_set_false:N \l_@@_signed_bool
+      \group_begin:
+        \@@_suppress_exp:
+        \@@_suppress_uncert:
+        \str_if_eq:nnTF {#1} { -0 }
+          {
+            \@@_comp_sign:nn { } { major }
+            \@@_suppress_comp:
+            \tl_set:Nn \l_@@_sign_tl { - }
+            \bool_set_true:N \l_@@_signed_bool
+          }
+          { \@@_comp_sign:nn {#1} { major } } 
+        \@@_comp_sign:nn {#2} { inter }
+        \tl_set:Ne \l_@@_tmp_tl
+          {
+            \tl_set:Nn \exp_not:N \l_@@_sign_tl
+              { \exp_not:V \l_@@_sign_tl }
+            \tl_set:Nn \exp_not:N \l_@@_major_tl
+              { \exp_not:V \l_@@_major_tl }
+            \tl_set:Nn \exp_not:N \l_@@_inter_tl
+              { \exp_not:V \l_@@_inter_tl }
+            \exp_not:c
+              {
+                bool_set_
+                \bool_if:NTF \l_@@_signed_bool
+                  { true }
+                  { false }
+                :N
+              }
+                \exp_not:N \l_@@_signed_bool
+          }
+      \exp_after:wN \group_end: \l_@@_tmp_tl
+      \@@_comp_sign:nn {#3} { minor }
+      \tl_if_empty:NF \l_@@_sign_tl
+        {
+          \clist_map_function:NN \c_@@_parts_tl
+            \@@_comp_sign_auxi:n
+        }
+      \clist_map_function:NN \c_@@_parts_tl \@@_comp_sign_auxii:n
+      \@@_comp_print:VVV
+        \l_@@_major_tl
+        \l_@@_inter_tl
+        \l_@@_minor_tl
+    \group_end:
+  }
+\cs_new_protected:Npn \@@_comp_sign:nn #1#2
+  {
+    \tl_if_blank:nTF {#1}
+      {
+        \bool_if:cTF { l_@@_fill_ #2 _bool }
+          {
+            \tl_set:cn { l_@@_ #2 _tl }
+              { { } { } { 0 } { } { } { } { 0 } }
+          }
+          { \tl_clear:c { l_@@_ #2 _tl } }
+      }
+      {
+        \siunitx_number_parse:nN {#1} \l_@@_tmp_tl
+        \tl_if_empty:NF \l_@@_tmp_tl
+          {
+            \exp_after:wN \@@_extract_sign:nnnnnnnn \l_@@_tmp_tl {#2}
+            \bool_set_true:N \l_@@_signed_bool
+          }
+      }
+  }
+\cs_new_protected:Npn \@@_comp_sign_auxi:n #1
+  {
+    \tl_if_empty:cF { l_@@_ #1 _tl }
+      {
+        \tl_set:ce { l_@@_ #1 _tl }
+          {
+            { }
+            { \exp_not:V \l_@@_sign_tl }
+            \exp_after:wN \exp_after:wN \exp_after:wN
+              \@@_sign:nnnnnnn
+                \cs:w l_@@_ #1 _tl \cs_end:
+           }
+        \clist_map_break:
+      }
+  }
+\cs_new_protected:Npn \@@_comp_sign_auxii:n #1
+  {
+    \tl_if_empty:cF { l_@@_ #1 _tl }
+      {
+        \bool_lazy_and:nnF
+          { \l_@@_force_comp_bool }
+          { ! \str_if_eq_p:nn {#1} { minor } }
+          {
+            \siunitx_number_process:cc
+              { l_@@_ #1 _tl } { l_@@_ #1 _tl }
+          }
+        \tl_set:ce { l_@@_ #1 _tl }
+          {
+            \siunitx_number_output:cN
+              { l_@@_ #1 _tl } \q_nil
+          }
+      }
+  }
+\cs_new_protected:Npn \@@_extract_sign:nnnnnnnn #1#2#3#4#5#6#7#8
+  {
+    \tl_if_blank:nTF {#2}
+      { \tl_set_eq:cN { l_@@_ #8 _tl } \l_@@_tmp_tl }
+      {
+        \bool_if:NTF \l_@@_signed_bool
+          { \msg_error:nnn { siunitx } { sexagesimal-multi-sign } }
+          { \tl_set:Nn \l_@@_sign_tl {#2} }
+        \tl_set:cn { l_@@_ #8 _tl }
+          { {#1} { } {#3} {#4} {#5} {#6} {#7} }
+        \@@_suppress_comp:
+      }
+  }
+\cs_new:Npn \@@_sign:nnnnnnn #1#2#3#4#5#6#7
+  { \exp_not:n { {#3} {#4} {#5} {#6} {#7} } }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%  \begin{variable}{\l_@@_marker_box, \l_@@_unit_box}
+%    For \enquote{astronomy style} output.
+%    \begin{macrocode}
+\box_new:N \l_@@_marker_box
+\box_new:N \l_@@_unit_box
+%    \end{macrocode}
+%  \end{variable}
+%
+% \begin{macro}
+%   {
+%     \@@_comp_print:nnn, \@@_comp_print:VVV,
+%     \@@_comp_print_auxi:nnn, \@@_comp_print_auxi:nVn
+%   }
+% \begin{macro}{\@@_comp_print_auxii:w}
+% \begin{macro}{\@@_comp_print_auxiii:nw}
+% \begin{macro}{\@@_comp_print_auxiv:nnnnn}
+% \begin{macro}{\@@_comp_print_auxv:n}
+% \begin{macro}{\@@_comp_print_auxvi:NN}
+% \begin{macro}{\@@_comp_print_auxvii:nw}
+% \begin{macro}{\@@_comp_print_auxiix:nw}
+% \begin{macro}{\@@_comp_print_auxix:nn}
+%   The final stage of printing an angle is to put together the three parts:
+%   this works even for decimal angles as they will blank arguments for the
+%   other two parts The need to handle astronomy-style formatting means that
+%   the number has to be decomposed into parts.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_comp_print:nnn #1#2#3
+  {
+    \@@_comp_print_auxi:nVn {#1}
+      \l_@@_unit_major_tl {#2#3}
+    \@@_comp_print_auxi:nVn {#2}
+      \l_@@_unit_inter_tl {#3}
+    \@@_comp_print_auxi:nVn {#3}
+      \l_@@_unit_minor_tl { }
+  }
+\cs_generate_variant:Nn \@@_comp_print:nnn { VVV }
+\cs_new_protected:Npn \@@_comp_print_auxi:nnn #1#2#3
+  {
+    \tl_if_blank:nF {#1}
+      {
+        \bool_if:NTF \l_siunitx_number_parse_bool
+          {
+            \bool_if:NTF \l_@@_astronomy_bool
+              { \@@_comp_print_auxii:nw {#2} #1 \q_stop }
+              { \@@_comp_print_auxvii:nw {#2} #1 \q_stop }
+          }
+          { \@@_comp_print_auxix:nn {#1} {#2} }
+       \tl_if_blank:nF {#3}
+          {
+            \nobreak
+            \l_@@_separator_tl
+          }
+      }        
+  }
+\cs_generate_variant:Nn \@@_comp_print_auxi:nnn { nV }
+%    \end{macrocode}
+%    To align the two parts of the astronomy-style marker, we need to allow
+%    for the |\scriptspace|.
+%    \begin{macrocode}
+\cs_new_protected:Npn \@@_comp_print_auxii:nw
+  #1#2 \q_nil #3 \q_nil #4 \q_nil #5 \q_nil #6 \q_nil #7 \q_stop
+  {
+    \@@_comp_print_auxiii:nw {#6} #7 \q_stop
+      {#2#3#4} {#5} {#1}
+  }
+\cs_new_protected:Npn \@@_comp_print_auxiii:nw
+  #1#2 \q_nil #3 \q_nil #4 \q_nil #5 \q_nil #6 \q_nil #7 \q_stop
+  { \@@_comp_print_auxiv:nnnnn {#1} {#6#7} }
+\cs_new_protected:Npn \@@_comp_print_auxiv:nnnnn #1#2#3#4#5
+  {
+    \mode_if_math:TF
+      { \bool_set_true:N \l_@@_tmp_bool }
+      { \bool_set_false:N \l_@@_tmp_bool }
+    \siunitx_print_number:n {#3}
+    \tl_if_blank:nTF {#1}
+      { \@@_comp_print_auxix:nn {#2} {#5} }
+      {
+        \hbox_set:Nn \l_@@_marker_box
+          {
+            \@@_comp_print_auxv:n
+               { \siunitx_print_number:n {#4} }
+          }
+        \hbox_set:Nn \l_@@_unit_box
+          {
+            \@@_comp_print_auxv:n
+              {
+                \siunitx_unit_format:nN {#5} \l_@@_tmp_tl
+                \siunitx_print_unit:V \l_@@_tmp_tl
+                \skip_horizontal:n { -\scriptspace }
+              }
+          }
+        \dim_compare:nNnTF { \box_wd:N \l_@@_marker_box } >
+          { \box_wd:N \l_@@_unit_box }
+          {
+            \@@_comp_print_auxvi:NN
+              \l_@@_marker_box
+              \l_@@_unit_box
+          }
+          {
+            \@@_comp_print_auxvi:NN
+              \l_@@_unit_box
+              \l_@@_marker_box
+          }
+        \hbox_set_to_wd:Nnn \l_@@_marker_box
+          \l_@@_tmp_dim
+          {
+            \hbox_overlap_right:n
+              { \box_use_drop:N \l_@@_marker_box }
+            \hbox_overlap_right:n
+              { \box_use_drop:N \l_@@_unit_box }
+            \tex_hfil:D
+          }
+        \box_use:N \l_@@_marker_box
+        \tex_kern:D \scriptspace 
+        \siunitx_print_number:n {#1#2}
+      }
+  }
+\cs_new_protected:Npn \@@_comp_print_auxv:n #1
+  {
+    \bool_if:NTF \l_@@_tmp_bool
+      { \ensuremath }
+      { \use:n }
+        {#1}
+  }
+\cs_new_protected:Npn \@@_comp_print_auxvi:NN #1#2
+  {
+    \dim_set:Nn \l_@@_tmp_dim { \box_wd:N #1 }
+    \hbox_set_to_wd:Nnn #2
+      \l_@@_tmp_dim
+      {
+        \tex_hss:D
+        \hbox_unpack_drop:N #2
+        \tex_hss:D
+      }
+  }
+\cs_new_protected:Npn \@@_comp_print_auxvii:nw
+  #1#2 \q_nil #3 \q_nil #4 \q_nil #5 \q_nil #6 \q_nil #7 \q_stop
+  { \@@_comp_print_auxiix:nw {#1} {#2#3#4#5#6} #7 \q_stop }
+\cs_new_protected:Npn \@@_comp_print_auxiix:nw
+  #1#2#3 \q_nil #4 \q_nil #5 \q_nil #6 \q_nil #7 \q_nil #8 \q_stop
+  { \@@_comp_print_auxix:nn {#2#7#8} {#1} }
+\cs_new_protected:Npn \@@_comp_print_auxix:nn #1#2
+  {
+    \group_begin:
+      \siunitx_unit_options_apply:n {#2}
+      \siunitx_unit_format:nN {#2} \l_@@_tmp_tl
+      \siunitx_quantity_print:nV {#1} \l_@@_tmp_tl
+    \group_end:
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+%    \begin{macrocode}
+\msg_new:nnnn { siunitx } { sexagesimal-multi-sign }
+  { Multiple~signs~given~for~sexagesimal~components! }
+  {
+    A~sexagesimal~value~given~as~components~should~have~at~most~one~sign:~
+    only~the~first~sign~will~be~used.
+  }
+%    \end{macrocode}
+%
+% \subsection{Angles}
+%
+% Identify the internal prefix.
+%    \begin{macrocode}
+%<@@=siunitx_angle>
+%    \end{macrocode}
+%
+% \begin{variable}
+%   {
+%     \l_@@_symbol_degree_tl    ,
+%     \l_@@_symbol_minute_tl    ,
+%     \l_@@_symbol_second_tl    ,
+%     \l_@@_force_arc_bool      ,
+%     \l_@@_force_decimal_bool  ,
+%     \l_@@_astronomy_bool      ,
+%     \l_@@_separator_tl        ,
+%     \l_@@_fill_degrees_bool   ,
+%     \l_@@_fill_minutes_bool   ,
+%     \l_@@_fill_seconds_bool
+%    }
+%    \begin{macrocode}
+\keys_define:nn { siunitx }
+  {
+    angle-mode .choice: ,
+    angle-mode / arc .code:n =
+      {
+        \bool_set_true:N \l_@@_force_arc_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    angle-mode / decimal .code:n =
+      {
+        \bool_set_false:N \l_@@_force_arc_bool
+        \bool_set_true:N \l_@@_force_decimal_bool
+      } ,
+    angle-mode / input .code:n =
+      {
+        \bool_set_false:N \l_@@_force_arc_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    angle-symbol-degree .tl_set:N =
+      \l_@@_symbol_degree_tl ,
+    angle-symbol-minute .tl_set:N =
+      \l_@@_symbol_minute_tl ,
+    angle-symbol-second .tl_set:N =
+      \l_@@_symbol_second_tl ,
+    angle-symbol-over-decimal .bool_set:N =
+      \l_@@_astronomy_bool ,
+    angle-separator .tl_set:N =
+      \l_@@_separator_tl ,
+    fill-angle-degrees .bool_set:N =
+      \l_@@_fill_degrees_bool ,
+    fill-angle-minutes .bool_set:N =
+      \l_@@_fill_minutes_bool ,
+    fill-angle-seconds .bool_set:N =
+      \l_@@_fill_seconds_bool ,
+  }
+\bool_new:N \l_@@_force_arc_bool
+\bool_new:N \l_@@_force_decimal_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\siunitx_angle:n, \siunitx_angle:e}
+% \begin{macro}{\siunitx_angle:nnn, \siunitx_angle:eee}
+% \begin{macro}{\@@_aux:}
+%    \begin{macrocode}
+\cs_new_protected:Npn \siunitx_angle:n #1
+  {
+    \group_begin:
+      \@@_aux:
+      \siunitx_sexagesimal:n {#1}
+    \group_end:
+  }
+\cs_generate_variant:Nn \siunitx_angle:n { e , x }
+\cs_new_protected:Npn \siunitx_angle:nnn #1#2#3
+  {
+    \group_begin:
+      \@@_aux:
+      \siunitx_sexagesimal:nnn {#1} {#2} {#3}
+    \group_end:
+  }
+\cs_generate_variant:Nn \siunitx_angle:nnn { eee , xxx }
+\cs_new_protected:Npn \@@_aux:
+  {
+    \keys_set:ne { siunitx }
+      {
+        fill-sexagesimal-major =
+          \bool_if:NTF \l_@@_fill_degrees_bool { true } { false } ,
+        fill-sexagesimal-intermediate =
+          \bool_if:NTF \l_@@_fill_minutes_bool { true } { false } ,
+        fill-sexagesimal-minor =
+          \bool_if:NTF \l_@@_fill_seconds_bool { true } { false } ,
+        sexagesimal-mode =
+          \bool_if:NTF \l_@@_force_arc_bool
+            { component }
+            {
+              \bool_if:NTF \l_@@_force_decimal_bool
+                { decimal }
+                { input }
+            } ,
+        sexagesimal-unit-major =
+          { \exp_not:V \l_@@_symbol_degree_tl } ,
+        sexagesimal-unit-intermediate =
+          { \exp_not:V \l_@@_symbol_minute_tl } ,
+        sexagesimal-unit-minor =
+          { \exp_not:V \l_@@_symbol_second_tl } ,
+        sexagesimal-unit-over-decimal = 
+          \bool_if:NTF \l_@@_astronomy_bool { true } { false } ,
+        sexagesimal-separator =
+          { \exp_not:V \l_@@_separator_tl }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Durations}
+%
+% Identify the internal prefix.
+%    \begin{macrocode}
+%<@@=siunitx_duration>
+%    \end{macrocode}
+%
+% \begin{variable}
+%   {
+%     \l_@@_unit_hour_tl    ,
+%     \l_@@_unit_minute_tl    ,
+%     \l_@@_unit_second_tl    ,
+%     \l_@@_force_arc_bool      ,
+%     \l_@@_force_decimal_bool  ,
+%     \l_@@_separator_tl        ,
+%     \l_@@_fill_hours_bool   ,
+%     \l_@@_fill_minutes_bool   ,
+%     \l_@@_fill_seconds_bool
+%    }
+%    \begin{macrocode}
+\keys_define:nn { siunitx }
+  {
+    duration-mode .choice: ,
+    duration-mode / component .code:n =
+      {
+        \bool_set_true:N \l_@@_force_comp_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    duration-mode / decimal .code:n =
+      {
+        \bool_set_false:N \l_@@_force_comp_bool
+        \bool_set_true:N \l_@@_force_decimal_bool
+      } ,
+    duration-mode / input .code:n =
+      {
+        \bool_set_false:N \l_@@_force_comp_bool
+        \bool_set_false:N \l_@@_force_decimal_bool
+      } ,
+    duration-unit-hour .tl_set:N =
+      \l_@@_symbol_hour_tl ,
+    duration-unit-minute .tl_set:N =
+      \l_@@_symbol_minute_tl ,
+    duration-unit-second .tl_set:N =
+      \l_@@_symbol_second_tl ,
+    duration-separator .tl_set:N =
+      \l_@@_separator_tl ,
+    fill-duration-hours .bool_set:N =
+      \l_@@_fill_hours_bool ,
+    fill-duration-minutes .bool_set:N =
+      \l_@@_fill_minutes_bool ,
+    fill-duration-seconds .bool_set:N =
+      \l_@@_fill_seconds_bool ,
+  }
+\bool_new:N \l_@@_force_comp_bool
+\bool_new:N \l_@@_force_decimal_bool
+%    \end{macrocode}
+% \end{variable}
+%
+% \begin{macro}{\siunitx_duration:n, \siunitx_duration:e}
+% \begin{macro}{\siunitx_duration:nnn, \siunitx_duration:eee}
+% \begin{macro}{\@@_aux:}
+%    \begin{macrocode}
+\cs_new_protected:Npn \siunitx_duration:n #1
+  {
+    \group_begin:
+      \@@_aux:
+      \siunitx_sexagesimal:n {#1}
+    \group_end:
+  }
+\cs_generate_variant:Nn \siunitx_duration:n { e }
+\cs_new_protected:Npn \siunitx_duration:nnn #1#2#3
+  {
+    \group_begin:
+      \@@_aux:
+      \siunitx_sexagesimal:nnn {#1} {#2} {#3}
+    \group_end:
+  }
+\cs_generate_variant:Nn \siunitx_duration:nnn { eee }
+\cs_new_protected:Npn \@@_aux:
+  {
+    \keys_set:ne { siunitx }
+      {
+        fill-sexagesimal-major =
+          \bool_if:NTF \l_@@_fill_hours_bool { true } { false } ,
+        fill-sexagesimal-intermediate =
+          \bool_if:NTF \l_@@_fill_minutes_bool { true } { false } ,
+        fill-sexagesimal-minor =
+          \bool_if:NTF \l_@@_fill_seconds_bool { true } { false } ,
+        sexagesimal-mode =
+          \bool_if:NTF \l_@@_force_comp_bool
+            { component }
+            {
+              \bool_if:NTF \l_@@_force_decimal_bool
+                { decimal }
+                { input }
+            } ,
+        sexagesimal-unit-major =
+          { \exp_not:V \l_@@_symbol_hour_tl } ,
+        sexagesimal-unit-intermediate =
+          { \exp_not:V \l_@@_symbol_minute_tl } ,
+        sexagesimal-unit-minor =
+          { \exp_not:V \l_@@_symbol_second_tl } ,
+        sexagesimal-separator =
+          { \exp_not:V \l_@@_separator_tl }
+      }
+  }
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+%
+% \subsection{Deprecated options}
+% 
+%    \begin{macrocode}
+\msg_new:nnn { siunitx } { angle-option-deprecated }
+  {
+    Option~"#1"~has~been~deprecated~in~this~release.\\ \\
+    Set~the~"quantity-product"~option~for~the~units~
+    \token_to_str:N \arcminute,~\arcsecond\ and~\degree\ instead.
+  }
+\keys_define:nn { siunitx }
+  {
+    number-angle-product .code:n =
+      {
+        \msg_info:nnn { siunitx } { angle-option-deprecated }
+          { number-angle-product }
+        \siunitx_unit_options_declare:Nn \arcminute
+          { quantity-product = {#1} }
+        \siunitx_unit_options_declare:Nn \arcsecond
+          { quantity-product = {#1} }
+        \siunitx_unit_options_declare:Nn \degree
+          { quantity-product = {#1} }
+      }
+  }
+%    \end{macrocode}
+%
+% \subsection{Standard settings for module options}
+%
+%    \begin{macrocode}
+\keys_set:nn { siunitx }
+  {
+    angle-mode                    = input      ,
+    angle-symbol-degree           = \degree    ,
+    angle-symbol-minute           = \arcminute ,
+    angle-symbol-over-decimal     = false      ,
+    angle-symbol-second           = \arcsecond ,
+    angle-separator               =            ,
+    duration-mode                 = input      ,
+    duration-unit-hour            = \hour      ,
+    duration-unit-minute          = \minute    ,
+    duration-unit-second          = \second    ,
+    duration-separator            =
+      \TextOrMath { \space } { \  } ,
+    fill-angle-degrees            = false      ,
+    fill-angle-minutes            = false      ,
+    fill-angle-seconds            = false      ,
+    fill-duration-hours           = false      ,
+    fill-duration-minutes         = false      ,
+    fill-duration-seconds         = false      ,
+    fill-sexagesimal-major        = false      ,
+    fill-sexagesimal-intermediate = false      ,
+    fill-sexagesimal-minor        = false      ,
+    sexagesimal-mode              = input      ,
+    sexagesimal-unit-major        =            ,
+    sexagesimal-unit-intermediate =            ,
+    sexagesimal-unit-minor        =            ,
+    sexagesimal-unit-over-decimal = false      ,
+    sexagesimal-separator         =
+  }
+%    \end{macrocode}
+%
+%    \begin{macrocode}
+%</package>
+%    \end{macrocode}
+%
+% \end{implementation}
+%
+% \PrintIndex

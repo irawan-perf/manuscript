@@ -1,80 +1,80 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.20)  31 AUG 2026 14:36
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025/Debian) (preloaded format=pdflatex 2026.9.1)  1 SEP 2026 16:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**./draft-manuscript.tex
-(draft-manuscript.tex
-LaTeX2e <2026-06-01>
-L3 programming layer <2026-07-20>
-(/home/irawan/.miktex/texmfs/install/tex/latex/base/article.cls
+**draft-manuscript.tex
+(./draft-manuscript.tex
+LaTeX2e <2025-11-01>
+L3 programming layer <2026-01-19>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2025/01/22 v1.4n Standard LaTeX document class
-(/home/irawan/.miktex/texmfs/install/tex/latex/base/size10.clo
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2025/01/22 v1.4n Standard LaTeX file (size option)
 )
-\c@part=\count276
-\c@section=\count277
-\c@subsection=\count278
-\c@subsubsection=\count279
-\c@paragraph=\count280
-\c@subparagraph=\count281
-\c@figure=\count282
-\c@table=\count283
+\c@part=\count275
+\c@section=\count276
+\c@subsection=\count277
+\c@subsubsection=\count278
+\c@paragraph=\count279
+\c@subparagraph=\count280
+\c@figure=\count281
+\c@table=\count282
 \abovecaptionskip=\skip49
 \belowcaptionskip=\skip50
-\bibindent=\dimen150
+\bibindent=\dimen148
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/graphicx.sty
-Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2024/12/31 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/keyval.sty
-Package: keyval 2026-05-17 v1.15 key=value parser (DPC)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks17
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/graphics.sty
-Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/trig.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-cfg/graphics.cfg
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 106.
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-def/pdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
-\Gin@req@height=\dimen151
-\Gin@req@width=\dimen152
+\Gin@req@height=\dimen149
+\Gin@req@width=\dimen150
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsmath.sty
-Package: amsmath 2026/05/19 v2.18d AMS math features
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2025/07/09 v2.17z AMS math features
 \@mathmargin=\skip51
 
 For additional information on amsmath, use the `?' option.
-(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2024/11/17 v2.01 AMS text
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks18
-\ex@=\dimen153
+\ex@=\dimen151
 ))
-(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
-\pmbraise@=\dimen154
+\pmbraise@=\dimen152
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
-\inf@bad=\count284
+\inf@bad=\count283
 LaTeX Info: Redefining \frac on input line 233.
-\uproot@=\count285
-\leftroot@=\count286
+\uproot@=\count284
+\leftroot@=\count285
 LaTeX Info: Redefining \overline on input line 398.
 LaTeX Info: Redefining \colon on input line 409.
-\classnum@=\count287
-\DOTSCASE@=\count288
+\classnum@=\count286
+\DOTSCASE@=\count287
 LaTeX Info: Redefining \ldots on input line 495.
 LaTeX Info: Redefining \dots on input line 498.
 LaTeX Info: Redefining \cdots on input line 619.
@@ -84,489 +84,166 @@ LaTeX Info: Redefining \big on input line 721.
 LaTeX Info: Redefining \Big on input line 722.
 LaTeX Info: Redefining \bigg on input line 723.
 LaTeX Info: Redefining \Bigg on input line 724.
-\big@size=\dimen155
+\big@size=\dimen153
 LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
 LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
-\macc@depth=\count289
+\macc@depth=\count288
 LaTeX Info: Redefining \bmod on input line 904.
 LaTeX Info: Redefining \pmod on input line 909.
 LaTeX Info: Redefining \smash on input line 939.
 LaTeX Info: Redefining \relbar on input line 969.
 LaTeX Info: Redefining \Relbar on input line 970.
-\c@MaxMatrixCols=\count290
+\c@MaxMatrixCols=\count289
 \dotsspace@=\muskip17
-\c@parentequation=\count291
-\dspbrk@lvl=\count292
+\c@parentequation=\count290
+\dspbrk@lvl=\count291
 \tag@help=\toks19
-\row@=\count293
-\column@=\count294
-\maxfields@=\count295
+\row@=\count292
+\column@=\count293
+\maxfields@=\count294
 \andhelp@=\toks20
-\eqnshift@=\dimen156
-\alignsep@=\dimen157
-\tagshift@=\dimen158
-\tagwidth@=\dimen159
-\totwidth@=\dimen160
-\lineht@=\dimen161
+\eqnshift@=\dimen154
+\alignsep@=\dimen155
+\tagshift@=\dimen156
+\tagwidth@=\dimen157
+\totwidth@=\dimen158
+\lineht@=\dimen159
 \@envbody=\toks21
 \multlinegap=\skip52
 \multlinetaggap=\skip53
 \mathdisplay@stack=\toks22
-LaTeX Info: Redefining \[ on input line 2965.
-LaTeX Info: Redefining \] on input line 2966.
+LaTeX Info: Redefining \[ on input line 2950.
+LaTeX Info: Redefining \] on input line 2951.
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/booktabs/booktabs.sty
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen162
-\lightrulewidth=\dimen163
-\cmidrulewidth=\dimen164
-\belowrulesep=\dimen165
-\belowbottomsep=\dimen166
-\aboverulesep=\dimen167
-\abovetopsep=\dimen168
-\cmidrulesep=\dimen169
-\cmidrulekern=\dimen170
-\defaultaddspace=\dimen171
-\@cmidla=\count296
-\@cmidlb=\count297
-\@aboverulesep=\dimen172
-\@belowrulesep=\dimen173
-\@thisruleclass=\count298
-\@lastruleclass=\count299
-\@thisrulewidth=\dimen174
-)
-(/home/irawan/.miktex/texmfs/install/tex/latex/siunitx/siunitx.sty
-Package: siunitx 2026-05-15 v3.5.5 A comprehensive (SI) units package
-\l__siunitx_number_uncert_offset_int=\count300
-\l__siunitx_number_exponent_fixed_int=\count301
-\l__siunitx_number_min_decimal_int=\count302
-\l__siunitx_number_min_integer_int=\count303
-\l__siunitx_number_round_precision_int=\count304
-\l__siunitx_number_lower_threshold_int=\count305
-\l__siunitx_number_upper_threshold_int=\count306
-\l__siunitx_number_group_first_int=\count307
-\l__siunitx_number_group_size_int=\count308
-\l__siunitx_number_group_min_int=\count309
-\l__siunitx_number_group_minimum_int=\count310
-\l__siunitx_compound_count_int=\count311
+\heavyrulewidth=\dimen160
+\lightrulewidth=\dimen161
+\cmidrulewidth=\dimen162
+\belowrulesep=\dimen163
+\belowbottomsep=\dimen164
+\aboverulesep=\dimen165
+\abovetopsep=\dimen166
+\cmidrulesep=\dimen167
+\cmidrulekern=\dimen168
+\defaultaddspace=\dimen169
+\@cmidla=\count295
+\@cmidlb=\count296
+\@aboverulesep=\dimen170
+\@belowrulesep=\dimen171
+\@thisruleclass=\count297
+\@lastruleclass=\count298
+\@thisrulewidth=\dimen172
+) (./siunitx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2026-01-19 L3 programming layer (loader) 
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/translations/translations.sty
-Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
- (CN)
-
-(/home/irawan/.miktex/texmfs/install/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count312
-)
-(/home/irawan/.miktex/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
-Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
-)
-
-(/home/irawan/.miktex/texmfs/install/tex/generic/infwarerr/infwarerr.sty
-Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
-)
-(/home/irawan/.miktex/texmfs/install/tex/generic/iftex/iftex.sty
-Package: iftex 2024/12/12 v1.0g TeX engine tests
-)
-(/home/irawan/.miktex/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
-Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
-)
-Package pdftexcmds Info: \pdf@primitive is available.
-Package pdftexcmds Info: \pdf@ifprimitive is available.
-Package pdftexcmds Info: \pdfdraftmode found.
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count299
 ))
-\l__siunitx_table_tmp_box=\box55
-\l__siunitx_table_tmp_dim=\dimen175
-\l__siunitx_table_column_width_dim=\dimen176
-\l__siunitx_table_integer_box=\box56
-\l__siunitx_table_decimal_box=\box57
-\l__siunitx_table_uncert_box=\box58
-\l__siunitx_table_before_box=\box59
-\l__siunitx_table_after_box=\box60
-\l__siunitx_table_before_dim=\dimen177
-\l__siunitx_table_carry_dim=\dimen178
-\l__siunitx_unit_tmp_int=\count313
-\l__siunitx_unit_position_int=\count314
-\l__siunitx_unit_total_int=\count315
-\l__siunitx_sexagesimal_tmp_dim=\dimen179
-\l__siunitx_sexagesimal_marker_box=\box61
-\l__siunitx_sexagesimal_unit_box=\box62
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2025-10-09 L3 Experimental document command parser
+)
+Package: siunitx 2021-04-17 v2.8e A comprehensive (SI) units package
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/tools/array.sty
-Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
-\col@sep=\dimen180
-\ar@mcellbox=\box63
-\extrarowheight=\dimen181
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty
+Package: array 2025/09/25 v2.6n Tabular extension package (FMi)
+\col@sep=\dimen173
+\ar@mcellbox=\box55
+\extrarowheight=\dimen174
 \NC@list=\toks23
 \extratabsurround=\skip54
 \backup@length=\skip55
-\ar@cellbox=\box64
-))
-(/home/irawan/.miktex/texmfs/install/tex/latex/pdflscape/pdflscape.sty
-Package: pdflscape 2022-10-27 v0.13 Display of landscape pages in PDF
+\ar@cellbox=\box56
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2025-10-09 LaTeX2e option processing using LaTeX3 keys
+)
+\l__siunitx_tmp_box=\box57
+\l__siunitx_tmp_dim=\dimen175
+\l__siunitx_tmp_int=\count300
+\l__siunitx_number_mantissa_length_int=\count301
+\l__siunitx_number_uncert_length_int=\count302
+\l__siunitx_round_int=\count303
+\l__siunitx_process_decimal_int=\count304
+\l__siunitx_process_uncertainty_int=\count305
+\l__siunitx_process_fixed_int=\count306
+\l__siunitx_process_integer_min_int=\count307
+\l__siunitx_process_precision_int=\count308
+\l__siunitx_group_min_int=\count309
+\l__siunitx_angle_marker_box=\box58
+\l__siunitx_angle_unit_box=\box59
+\l__siunitx_angle_marker_dim=\dimen176
+\l__siunitx_angle_unit_dim=\dimen177
+\l__siunitx_unit_int=\count310
+\l__siunitx_unit_denominator_int=\count311
+\l__siunitx_unit_numerator_int=\count312
+\l__siunitx_unit_prefix_int=\count313
+\l__siunitx_unit_prefix_base_int=\count314
+\l__siunitx_unit_prefix_gram_int=\count315
+\l__siunitx_number_product_int=\count316
+\c__siunitx_one_fill_skip=\skip56
+\l__siunitx_table_unit_align_skip=\skip57
+\l__siunitx_table_exponent_dim=\dimen178
+\l__siunitx_table_integer_dim=\dimen179
+\l__siunitx_table_mantissa_dim=\dimen180
+\l__siunitx_table_marker_dim=\dimen181
+\l__siunitx_table_result_dim=\dimen182
+\l__siunitx_table_uncert_dim=\dimen183
+\l__siunitx_table_fill_pre_dim=\dimen184
+\l__siunitx_table_fill_post_dim=\dimen185
+\l__siunitx_table_fill_mid_dim=\dimen186
+\l__siunitx_table_pre_box=\box60
+\l__siunitx_table_post_box=\box61
+\l__siunitx_table_mantissa_box=\box62
+\l__siunitx_table_result_box=\box63
+\l__siunitx_table_number_align_skip=\skip58
+\l__siunitx_table_text_align_skip=\skip59
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/pdflscape/pdflscape-nometadata.s
-ty
-Package: pdflscape-nometadata 2022-10-28 v0.13 Display of landscape pages in PD
+(/usr/share/texlive/texmf-dist/tex/latex/translator/translator.sty
+Package: translator 2021-05-31 v1.12d Easy translation of strings in LaTeX
+))
+(/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+Package: pdflscape 2025-06-23 v0.14 Display of landscape pages in PDF
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape-nometadata.sty
+Package: pdflscape-nometadata 2025-06-23 v0.14 Display of landscape pages in PD
 F (HO)
- (/home/irawan/.miktex/texmfs/install/tex/latex/graphics/lscape.sty
+
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ))
-(/home/irawan/.miktex/texmfs/install/tex/latex/tools/enumerate.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/enumerate.sty
 Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
 \@enLab=\toks24
 )
-(/home/irawan/.miktex/texmfs/install/tex/latex/algorithms/algorithm.sty
-Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
-nment
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/float/float.sty
-Package: float 2001/11/08 v1.3d Float enhancements (AL)
-\c@float@type=\count316
-\float@exts=\toks25
-\float@box=\box65
-\@float@everytoks=\toks26
-\@floatcapt=\box66
-)
-(/home/irawan/.miktex/texmfs/install/tex/latex/base/ifthen.sty
-Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
-)
-\@float@every@algorithm=\toks27
-\c@algorithm=\count317
-)
-(/home/irawan/.miktex/texmfs/install/tex/latex/algorithms/algorithmic.sty
-Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
-\c@ALC@unique=\count318
-\c@ALC@line=\count319
-\c@ALC@rem=\count320
-\c@ALC@depth=\count321
-\ALC@tlm=\skip56
-\algorithmicindent=\skip57
-)
-(/home/irawan/.miktex/texmfs/install/tex/latex/comment/comment.sty
-\CommentStream=\write3
+! LaTeX Error: File `algorithm.sty' not found.
 
-Excluding comment 'comment')
-Package translations Info: No language package found. I am going to use `englis
-h' as default language. on input line 19.
+Type X to quit or <RETURN> to proceed,
+or enter new name. (Default extension: sty)
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/color.sty
-Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
+Enter file name: 
+! Emergency stop.
+<read *> 
+         
+l.9 \usepackage
+               {algorithmic}^^M
+*** (cannot \read from terminal in nonstop modes)
 
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
-File: color.cfg 2016/01/02 v1.6 sample color configuration
-)
-Package color Info: Driver file: pdftex.def on input line 149.
-
-(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/mathcolor.ltx))
-(/home/irawan/.miktex/texmfs/install/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2026-07-20 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count322
-)
-(draft-manuscript.aux)
-\openout1 = `draft-manuscript.aux'.
-
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 19.
-LaTeX Font Info:    ... okay on input line 19.
-
-(/home/irawan/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
-[Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count323
-\scratchdimen=\dimen182
-\scratchbox=\box67
-\nofMPsegments=\count324
-\nofMParguments=\count325
-\everyMPshowfont=\toks28
-\MPscratchCnt=\count326
-\MPscratchDim=\dimen183
-\MPnumerator=\count327
-\makeMPintoPDFobject=\count328
-\everyMPtoPDFconversion=\toks29
-) (/home/irawan/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
-Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
-Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
-85.
-(/home/irawan/.miktex/texmfs/install/tex/latex/00miktex/epstopdf-sys.cfg
-File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
-))
-(/home/irawan/.miktex/texmfs/install/tex/latex/translations/dicts/translations-
-basic-dictionary-english.trsl
-File: translations-basic-dictionary-english.trsl (english translation file `tra
-nslations-basic-dictionary')
-)
-Package translations Info: loading dictionary `translations-basic-dictionary' f
-or `english'. on input line 19.
-
-Overfull \hbox (4.13327pt too wide) in paragraph at lines 41--42
-[]\OT1/cmr/m/n/10 As $\OML/cmm/m/it/10 ^^Z \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 1
-$, $\OML/cmm/m/it/10 W[]$ \OT1/cmr/m/n/10 approaches infinity. This mathematica
-l phenomenon explains
- []
-
-
-Overfull \hbox (16.95773pt too wide) in paragraph at lines 41--42
-\OT1/cmr/m/n/10 the severe spikes observed in the empirical $\OML/cmm/m/it/10 p
-\OT1/cmr/m/n/10 99$ tail latencies; minor fluctuations
- []
-
-
-Overfull \hbox (1.75069pt too wide) in paragraph at lines 41--42
-\OT1/cmr/m/n/10 in arrival intervals at high utilization cause disproportionate
- queuing delays
- []
-
-
-Overfull \hbox (2.41739pt too wide) in paragraph at lines 45--46
-\OT1/cmr/m/n/10 queueing theory framework to anticipate degradation.Instead of 
-monitoring
- []
-
-[1
-
-{/home/irawan/.miktex/texmfs/data/fonts/map/pdftex/pdftex.map}]
-Overfull \hbox (9.33405pt too wide) in paragraph at lines 49--50
-[]\OT1/cmr/m/n/10 Upon triggering, the autonomic mechanism intervenes proactive
-ly|typically
- []
-
-
-Overfull \hbox (10.9996pt too wide) in paragraph at lines 49--50
-\OT1/cmr/m/n/10 exponential queuing delay before the physical system exhibits S
-LA violations. 
- []
-
-
-Overfull \hbox (4.7783pt too wide) in paragraph at lines 53--54
-[]\OT1/cmr/m/n/10 Traditional microservice architectures utilizing the Per-Conn
-ection-Request
- []
-
-
-Overfull \hbox (5.88948pt too wide) in paragraph at lines 53--54
-\OT1/cmr/m/n/10 the CPR-based autonomic controller proactively triggers as a di
-rect function
- []
-
-
-Overfull \hbox (1.47293pt too wide) in paragraph at lines 53--54
-\OT1/cmr/m/n/10 of impending queue degradation, rather than waiting for connect
-ion failure.
- []
-
-
-Overfull \hbox (8.08736pt too wide) in paragraph at lines 53--54
-\OT1/cmr/m/n/10 pooling allocation before the theoretical utilization limit ($\
-OML/cmm/m/it/10 ^^Z \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 1$) is breached,
- []
-
-
-Overfull \hbox (3.45692pt too wide) in paragraph at lines 57--58
-[]\OT1/cmr/m/n/10 In traditional Per-Connection-Request (PCR) architectures, $\
-OML/cmm/m/it/10 T[]$
- []
-
-
-Overfull \hbox (1.13022pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 connection pools force requests into extended waiting states. U
-nder normal
- []
-
-
-Overfull \hbox (8.44472pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 and queueing delay ($\OML/cmm/m/it/10 W[]$\OT1/cmr/m/n/10 ).How
-ever, our empirical analysis of the implemented
- []
-
-
-Overfull \hbox (6.58961pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 and the controller's triggered state ($\OML/cmm/m/it/10 r[] \OT
-1/cmr/m/n/10 = 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 8607$, $\OML/cmm/m/it/10 p < 
-\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 0001$). Furthermore,
- []
-
-
-Overfull \hbox (9.7228pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 logistic regression modeling established that the controller is
- acutely sensitive
- []
-
-
-Overfull \hbox (11.76921pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 the odds of an autonomic intervention increase by a factor of 1
-.89. Ultimately,
- []
-
-
-Overfull \hbox (19.24953pt too wide) in paragraph at lines 57--58
-\OT1/cmr/m/n/10 these mathematical findings prove that the CPR model proactivel
-y restructures
- []
-
-[2]
-Overfull \hbox (1.80624pt too wide) in paragraph at lines 72--73
-\OT1/cmr/m/n/10 leading to exponential latency degradation and eventual failure
- (the "Crash
- []
-
-
-Overfull \hbox (35.72562pt too wide) in paragraph at lines 74--75
-[]\OT1/cmr/m/it/10 Result: \OT1/cmr/m/n/10 @picodico: /pNum-gRPC/prime-ieee-pub
-\TS1/cmr/m/n/10 $ \OT1/cmr/m/n/10 kubectl logs -l app=autonomic-
- []
-
-
-Overfull \hbox (4.73248pt too wide) in paragraph at lines 80--81
-[]\OT1/cmr/bx/n/10 SATURATION THRESHOLD EXCEEDED! \OT1/cmr/m/n/10 Triggering si
-decar
- []
-
-[3]
-Overfull \hbox (11.09705pt too wide) in paragraph at lines 81--82
-[]\OT1/cmr/bx/n/10 Executing Mitigation: \OT1/cmr/m/n/10 Injecting Envoy Sideca
-r into prime-frontend... 
- []
-
-
-Overfull \hbox (14.07472pt too wide) in paragraph at lines 105--106
-\OT1/cmr/m/n/10 spike, receiving traffic at double its processing capacity. Wit
-hout intervention,
- []
-
-[4] [5
-
-]
-Overfull \hbox (21.5155pt too wide) in paragraph at lines 138--139
-\OT1/cmr/bx/n/10 Abstract| \OT1/cmr/m/n/10 This report evaluates the performanc
-e of a Kubernetes-based autonomic
- []
-
-<image/controller-arch.png, id=33, 1396.21625pt x 838.13126pt>
-File: image/controller-arch.png Graphic file (type png)
-<use image/controller-arch.png>
-Package pdftex.def Info: image/controller-arch.png  used on input line 142.
-(pdftex.def)             Requested size: 341.43306pt x 204.95389pt.
-
-Overfull \hbox (36.27472pt too wide) in paragraph at lines 150--151
-\OT1/cmr/m/n/10 requires careful state management. The datasets evaluated (4-cp
-r[]experiment[]results.csv
- []
-
-
-Overfull \hbox (5.17053pt too wide) in paragraph at lines 156--157
-\OT1/cmr/m/n/10 compute time ($\OML/cmm/m/it/10 T[]$\OT1/cmr/m/n/10 ), queueing
- overhead ($\OML/cmm/m/it/10 T[]$\OT1/cmr/m/n/10 ), and peak frontend
- []
-
-[6
-
- <./image/controller-arch.png>]
-Overfull \hbox (0.13957pt too wide) in paragraph at lines 158--159
-\OT1/cmr/m/n/10 variables calculated by the autonomic controller, including dyn
-amic trigger
- []
-
-
-LaTeX Warning: The counter will not be printed.
-             The label is: \Alph *. on input line 162.
-
-
-Overfull \hbox (1.94075pt too wide) in paragraph at lines 176--177
-[]\OT1/cmr/m/it/10 Crash vs. Trigger Points: \OT1/cmr/m/n/10 Based on the inter
-nal telemetry, the controller
- []
-
-
-Overfull \hbox (0.62187pt too wide) in paragraph at lines 177--178
-\OT1/cmr/m/n/10 325.61 RPS ($\OMS/cmsy/m/n/10 ^^X \OT1/cmr/m/n/10 80%$ of $\OML
-/cmm/m/it/10 ^^U[]$\OT1/cmr/m/n/10 ). Because the actual RPS in the experiments
-
- []
-
-<image/cutover-streess-controller.png, id=39, 949.5475pt x 717.68124pt>
-File: image/cutover-streess-controller.png Graphic file (type png)
-<use image/cutover-streess-controller.png>
-Package pdftex.def Info: image/cutover-streess-controller.png  used on input li
-ne 191.
-(pdftex.def)             Requested size: 312.9803pt x 236.55081pt.
-[7]
-<image/cpu-mem-streess-controller.png, id=44, 1034.86626pt x 717.68124pt>
-File: image/cpu-mem-streess-controller.png Graphic file (type png)
-<use image/cpu-mem-streess-controller.png>
-Package pdftex.def Info: image/cpu-mem-streess-controller.png  used on input li
-ne 211.
-(pdftex.def)             Requested size: 312.9803pt x 217.04723pt.
-<image/p50-p99-streess-controller.png, id=45, 969.6225pt x 717.68124pt>
-File: image/p50-p99-streess-controller.png Graphic file (type png)
-<use image/p50-p99-streess-controller.png>
-Package pdftex.def Info: image/p50-p99-streess-controller.png  used on input li
-ne 222.
-(pdftex.def)             Requested size: 312.9803pt x 231.65575pt.
- [8 <./image/cutover-streess-controller.png>] [9 <./image/cpu-mem-streess-contr
-oller.png> <./image/p50-p99-streess-controller.png>]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 2
-36.
-
-(/home/irawan/.miktex/texmfs/install/tex/latex/base/omscmr.fd
-File: omscmr.fd 2024/11/19 v2.5n Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 236.
-
-Excluding 'comment' comment.
-<image/eval-env.png, id=55, 633.36626pt x 691.58376pt>
-File: image/eval-env.png Graphic file (type png)
-<use image/eval-env.png>
-Package pdftex.def Info: image/eval-env.png  used on input line 355.
-(pdftex.def)             Requested size: 312.9803pt x 341.75989pt.
- [10] [11] [12 <./image/eval-env.png>]
-(draft-manuscript.aux)
- ***********
-LaTeX2e <2026-06-01>
-L3 programming layer <2026-07-20>
- ***********
- ) 
+ 
 Here is how much of TeX's memory you used:
- 7352 strings out of 469438
- 179751 string characters out of 5460503
- 564947 words of memory out of 5000000
- 36293 multiletter control sequences out of 15000+600000
- 633555 words of font info for 60 fonts, out of 8000000 for 9000
- 0 hyphenation exceptions out of 8191
- 73i,8n,80p,1559b,540s stack positions out of 10000i,1000n,20000p,200000b,200000s
- </home/irawan/.miktex/texmfs/data/fonts/pk/ljfour/jknappen/ec/dpi600/tcrm100
-0.pk></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx10
-.pfb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx12
-.pfb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmbx9.
-pfb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.
-pfb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi10.
-pfb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi5.p
-fb></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmmi7.pf
-b></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr10.pfb
-></home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr12.pfb>
-</home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr17.pfb><
-/home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr7.pfb></h
-ome/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr8.pfb></hom
-e/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmr9.pfb></home/
-irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy10.pfb></home/
-irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmsy7.pfb></home/i
-rawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on draft-manuscript.pdf (12 pages, 602664 bytes).
-PDF statistics:
- 138 PDF objects out of 1000 (max. 8388607)
- 0 named destinations out of 1000 (max. 500000)
- 26 words of extra memory for PDF output out of 10000 (max. 10000000)
-
+ 3930 strings out of 469514
+ 91503 string characters out of 5470073
+ 476007 words of memory out of 5000000
+ 32594 multiletter control sequences out of 15000+600000
+ 627721 words of font info for 40 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 64i,0n,65p,233b,36s stack positions out of 10000i,1000n,20000p,200000b,200000s
+!  ==> Fatal error occurred, no output PDF file produced!
