@@ -1,0 +1,49 @@
+Abstract: 
+Should contain the following aspects:
+1. Background of the problem --> 1 - 2 sentences.
+2. Correlated study --> 1 sentence.
+3. Proposed solution to the problem from your research --> 1 sentence.
+4. Methodology used in the research --> 1 sentence.
+5. Result and claims from experiment that compare to the correlated study --> 1 sentence
+
+Note:
+Results should be form as quantitative description.
+
+Introduction:
+1. Contains the background problem aim to be resolved and relevant references
+2. Related work that previously done by academic or research community
+3. Our proposed method against the related work
+4. Our contribution in the paper should be in point by point 
+5. The relevances of each paragraph inside this sections is defined by Main idea, 
+Evidence, Analisys, and Link back to the main Concepts.
+
+Proposed model concepts:
+1. Fundamental idea or theory relevant to proposed concepts
+2. Diagram of concept and descriptions 
+3. Include the fundamental references that related to our concept.
+
+Formulizing of fundamental concept: 
+1. Pseudocode or algorithm design and its description
+
+Methodology:
+1. Evaluation environment diagram for better undestanding how the research are conducted
+2. Environment specification, include: hardware and software used, specific setting and scenario
+3. Diagram flow of evaluation was conducted if any.
+
+Result and Discussion
+1. Table and graph of results if any. Shows a clear diagram and table 
+2. Explain the results that we claim against related works.
+3. If possible also include any other theory to support our result claims.
+
+Conclusion and Future Work
+1. Wrap-up what we describe in the section 1 (introduction) as problem we aim to solve and compare the 
+results we claims against comparable system defined in the Methodology sections.
+2. Future work a simple sentence of our next plan to the following proposed concepts
+
+Acknowledge:
+If your research is based on NEDO project, please put the following sentences into the paper:
+This work is based on results obtained from the project, "Research and Development Project of the Enhanced 
+infrastructures for Post-5G Information and Communication Systems" (JPNP20017), commissioned by the New Energy 
+and Industrial Technology Development Organization (NEDO).
+
+

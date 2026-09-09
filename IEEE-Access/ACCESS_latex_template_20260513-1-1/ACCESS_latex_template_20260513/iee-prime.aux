@@ -8,7 +8,6 @@
 \citation{DAuria2021AnMQA}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
 \newlabel{sec:introduction}{{I}{1}{}{section.1}{}}
-\citation{little2011or}
 \@writefile{toc}{\contentsline {section}{\numberline {II}Mathematical Modeling of gRPC Connection Management}{2}{}\protected@file@percent }
 \newlabel{sec2}{{II}{2}{}{section.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Paradigm 1: Connection-Per-Request (CPR)}{2}{}\protected@file@percent }
@@ -17,8 +16,9 @@
 \newlabel{sec2.2}{{\mbox  {II-B}}{2}{}{subsection.2.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Queueing Theory and Non-Linear Saturation}{2}{}\protected@file@percent }
 \newlabel{sec2.3}{{\mbox  {II-C}}{2}{}{subsection.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Proactive Autonomic Controller via $M/M/c$ Queueing}{2}{}\protected@file@percent }
-\newlabel{sec2.4}{{\mbox  {II-D}}{2}{}{subsection.2.4}{}}
+\citation{little2011or}
+\citation{tijms2003first}
+\citation{Banerjee2023MTDDHJSMTA}
 \newlabel{fig:seq1}{{1a}{3}{}{subfigure.1.1}{}}
 \newlabel{sub@fig:seq1}{{a}{3}{}{subfigure.1.1}{}}
 \newlabel{fig:seq2}{{1b}{3}{}{subfigure.1.2}{}}
@@ -26,49 +26,49 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Sequence process of synchronous vs asynchronous communication models of cloud-native application.}}{3}{}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
 \newlabel{fig:seq-model}{{1}{3}{}{figure.1}{}}
-\citation{gunicorn}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Kubernetes cluster environment.}}{4}{}\protected@file@percent }
-\newlabel{fig2}{{2}{4}{}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Proactive Autonomic Controller via $M/M/c$ Queueing}{3}{}\protected@file@percent }
+\newlabel{sec2.4}{{\mbox  {II-D}}{3}{}{subsection.2.4}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {III}Algorithmic Formalization}{4}{}\protected@file@percent }
 \newlabel{sec3}{{III}{4}{}{section.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {IV}Methodology}{4}{}\protected@file@percent }
 \newlabel{sec4}{{IV}{4}{}{section.4}{}}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces API Gateway Request Handler: CPR vs. PCR Paradigm}}{4}{}\protected@file@percent }
-\newlabel{alg1}{{1}{4}{}{algorithm.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Experimental Environment and Architecture}{4}{}\protected@file@percent }
-\newlabel{sec4.1}{{\mbox  {IV-A}}{4}{}{subsection.4.1}{}}
-\citation{wrk2}
-\citation{ghz}
+\citation{gunicorn}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces API Gateway Request Handler: CPR vs. PCR Paradigm}}{5}{}\protected@file@percent }
+\newlabel{alg1}{{1}{5}{}{algorithm.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Kubernetes cluster environment.}}{5}{}\protected@file@percent }
+\newlabel{fig2}{{2}{5}{}{figure.2}{}}
 \@writefile{loa}{\contentsline {algorithm}{\numberline {2}{\ignorespaces Adaptive Autonomic Controller (Phase 2: Dynamic Cutover)}}{5}{}\protected@file@percent }
 \newlabel{alg:autonomic_controller}{{2}{5}{}{algorithm.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Workload Generation and Component Isolation}{5}{}\protected@file@percent }
-\newlabel{4.2}{{\mbox  {IV-B}}{5}{}{subsection.4.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Evaluation mechanism to accurately examine the frontend ($HTTP$) and backend ($gRPC$) latency utilizing different benchmark tools.}}{5}{}\protected@file@percent }
-\newlabel{fig3}{{3}{5}{}{figure.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Discussion}{5}{}\protected@file@percent }
-\newlabel{sec5}{{V}{5}{}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Baseline: Backend gRPC Performance}{5}{}\protected@file@percent }
-\newlabel{sec5.1}{{\mbox  {V-A}}{5}{}{subsection.5.1}{}}
+\citation{wrk2}
+\citation{ghz}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {3}{\ignorespaces Autonomic Controller with Math-based Predictive \& SLA-Aware Dynamic Cutover}}{6}{}\protected@file@percent }
+\newlabel{alg:ctr}{{3}{6}{}{algorithm.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The proactive autonomic controller framework.}}{6}{}\protected@file@percent }
+\newlabel{ctr-frame}{{3}{6}{}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Experimental Environment and Architecture}{6}{}\protected@file@percent }
+\newlabel{sec4.1}{{\mbox  {IV-A}}{6}{}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Workload Generation and Component Isolation}{6}{}\protected@file@percent }
+\newlabel{4.2}{{\mbox  {IV-B}}{6}{}{subsection.4.2}{}}
 \citation{wsgi-pep}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces gRPC backend latency evaluation using ghz benchmark tool.}}{6}{}\protected@file@percent }
-\newlabel{fig4}{{4}{6}{}{figure.4}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces End-to-end frontend latency evaluation using wrk2 as workload generator. (A) Connection-Per-Request paradigm - {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}efore} optimized, (B) Persistent Channel Reuse paradigm - {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}fter} optimized}}{6}{}\protected@file@percent }
-\newlabel{fig5}{{5}{6}{}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Unoptimized System: The CPR Bottleneck}{6}{}\protected@file@percent }
-\newlabel{sec5.2}{{\mbox  {V-B}}{6}{}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Optimized System: PCR Implementation}{6}{}\protected@file@percent }
-\newlabel{sec5.3}{{\mbox  {V-C}}{6}{}{subsection.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Quantifying the Inherent Proxy Latency Gap}{6}{}\protected@file@percent }
-\newlabel{sec5.4}{{\mbox  {V-D}}{6}{}{subsection.5.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative Latency Overhead at Optimal Saturation Point (400 RPS)}}}{6}{}\protected@file@percent }
-\newlabel{table1}{{1}{6}{}{table.1}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Discussion}{7}{}\protected@file@percent }
+\newlabel{sec5}{{V}{7}{}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Baseline: Backend gRPC Performance}{7}{}\protected@file@percent }
+\newlabel{sec5.1}{{\mbox  {V-A}}{7}{}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Unoptimized System: The CPR Bottleneck}{7}{}\protected@file@percent }
+\newlabel{sec5.2}{{\mbox  {V-B}}{7}{}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Optimized System: PCR Implementation}{7}{}\protected@file@percent }
+\newlabel{sec5.3}{{\mbox  {V-C}}{7}{}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Quantifying the Inherent Proxy Latency Gap}{7}{}\protected@file@percent }
+\newlabel{sec5.4}{{\mbox  {V-D}}{7}{}{subsection.5.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative Latency Overhead at Optimal Saturation Point (400 RPS)}}}{7}{}\protected@file@percent }
+\newlabel{table1}{{1}{7}{}{table.1}{}}
 \citation{little2011or}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Empirical Validation of the Queueing Model}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{7}{}\protected@file@percent }
-\newlabel{sec6}{{VI}{7}{}{section.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}\break  Submitting Your Paper for Review}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Final Stage}{7}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Review Stage Using IEEE Author Portal}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Empirical Validation of the Queueing Model}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{8}{}\protected@file@percent }
+\newlabel{sec6}{{VI}{8}{}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}\break  Submitting Your Paper for Review}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-A}}Final Stage}{8}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-B}}Review Stage Using IEEE Author Portal}{8}{}\protected@file@percent }
 \citation{b1,b2}
 \citation{b3}
 \citation{b5}
@@ -76,15 +76,15 @@
 \citation{b8,b9}
 \citation{b10}
 \citation{b13}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Final Stage Using IEEE Author Portal}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}Copyright Form}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}\break  IEEE Publishing Policy}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {IX}\break  Publication Principles}{8}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {X}\break  Reference Examples}{8}{}\protected@file@percent }
 \citation{b14}
 \citation{b16}
 \citation{b17}
 \citation{b18,b19}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-C}}Final Stage Using IEEE Author Portal}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VII-D}}Copyright Form}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}\break  IEEE Publishing Policy}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {IX}\break  Publication Principles}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {X}\break  Reference Examples}{9}{}\protected@file@percent }
 \citation{b20}
 \citation{b21}
 \citation{b22}
@@ -107,42 +107,44 @@
 \bibcite{wsgi-pep}{9}
 \bibcite{wrk2}{10}
 \bibcite{ghz}{11}
-\bibcite{b1}{12}
-\bibcite{b2}{13}
-\bibcite{b3}{14}
-\bibcite{b4}{15}
-\bibcite{b5}{16}
-\@writefile{toc}{\contentsline {section}{REFERENCES}{9}{}\protected@file@percent }
-\bibcite{b6}{17}
-\bibcite{b7}{18}
-\bibcite{b8}{19}
-\bibcite{b9}{20}
-\bibcite{b10}{21}
-\bibcite{b11}{22}
-\bibcite{b12}{23}
-\bibcite{b13}{24}
-\bibcite{b14}{25}
-\bibcite{b15}{26}
-\bibcite{b16}{27}
-\bibcite{b17}{28}
-\bibcite{b18}{29}
-\bibcite{b19}{30}
-\bibcite{b20}{31}
-\bibcite{b21}{32}
-\bibcite{b22}{33}
-\bibcite{b23}{34}
-\bibcite{b24}{35}
-\bibcite{b25}{36}
-\bibcite{b26}{37}
-\bibcite{b27}{38}
-\bibcite{b28}{39}
-\bibcite{b29}{40}
-\bibcite{b30}{41}
-\bibcite{b31}{42}
-\bibcite{b32}{43}
-\bibcite{b33}{44}
-\bibcite{b34}{45}
-\@writefile{toc}{\contentsline {subsection}{First A. Author}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Second B. Author}{10}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{11}{}\protected@file@percent }
-\gdef \@abspage@last{11}
+\bibcite{tijms2003first}{12}
+\bibcite{Banerjee2023MTDDHJSMTA}{13}
+\bibcite{b1}{14}
+\bibcite{b2}{15}
+\bibcite{b3}{16}
+\bibcite{b4}{17}
+\bibcite{b5}{18}
+\bibcite{b6}{19}
+\bibcite{b7}{20}
+\bibcite{b8}{21}
+\bibcite{b9}{22}
+\bibcite{b10}{23}
+\@writefile{toc}{\contentsline {section}{REFERENCES}{10}{}\protected@file@percent }
+\bibcite{b11}{24}
+\bibcite{b12}{25}
+\bibcite{b13}{26}
+\bibcite{b14}{27}
+\bibcite{b15}{28}
+\bibcite{b16}{29}
+\bibcite{b17}{30}
+\bibcite{b18}{31}
+\bibcite{b19}{32}
+\bibcite{b20}{33}
+\bibcite{b21}{34}
+\bibcite{b22}{35}
+\bibcite{b23}{36}
+\bibcite{b24}{37}
+\bibcite{b25}{38}
+\bibcite{b26}{39}
+\bibcite{b27}{40}
+\bibcite{b28}{41}
+\bibcite{b29}{42}
+\bibcite{b30}{43}
+\bibcite{b31}{44}
+\bibcite{b32}{45}
+\bibcite{b33}{46}
+\bibcite{b34}{47}
+\@writefile{toc}{\contentsline {subsection}{First A. Author}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Second B. Author}{11}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{12}{}\protected@file@percent }
+\gdef \@abspage@last{12}

@@ -141,7 +141,7 @@ The critical variable in our study is $S_{gateway}$. We model this under two dis
 \subsection{Paradigm 1: Connection-Per-Request (CPR)}
 \label{sec2.1}
 
-In the CPR anti-pattern, as shown in the Fig. \ref{fig1} at the CPR sections, the gateway initializes a new gRPC channel for every incoming request. The service time $S_{cpr}$ is defined as:
+In the CPR anti-pattern, as shown in the Fig. \ref{fig:seq-model} at the CPR sections, the gateway initializes a new gRPC channel for every incoming request. The service time $S_{cpr}$ is defined as:
 
 \begin{equation}
     S_{cpr} = t_{tcp} + t_{http2} + t_{rpc} + t_{teardown}
@@ -149,15 +149,22 @@ In the CPR anti-pattern, as shown in the Fig. \ref{fig1} at the CPR sections, th
 
 Where $t_{tcp}$ is the TCP 3-way handshake, $t_{http2}$ is the HTTP/2 SETTINGS frame negotiation, $t_{rpc}$ is the actual payload serialization/transmission, and $t_{teardown}$ is the TCP teardown (FIN/ACK). Because $t_{tcp}$ and $t_{http2}$ require multiple network round-trip times (RTTs) and significant CPU context switching, $S_{cpr} \gg t_{rpc}$.
 
+In decentralized cloud-native architectures, the Client-side Proxy Routing (CPR) model dictates that the primary application container natively executes its own network routing and load balancing (e.g., utilizing native gRPC load balancing). This proxyless architecture minimizes intermediate network hops, optimizing baseline latency and reducing steady-state resource consumption. However, previous studies on proxyless service meshes demonstrate a critical vulnerability: the CPR model tightly couples the computational domain with the networking domain.
+
+From a queueing theory perspective, the CPR model operates as a rigid $M/M/c$ queue. Under acute traffic surges, the network routing logic aggressively competes with the core application logic for limited CPU cycles and thread pools. When the system arrival rate approaches or exceeds the mathematical processing capacity ($\lambda \ge  \lambda_{sat}$), the application’s internal queue saturates rapidly, inevitably leading to dropped connections, unbounded tail latency, and catastrophic node failure.
+
 \subsection{Paradigm 2: Persistent Channel Reuse (PCR)}
 \label{sec2.2}
 
-In the optimized PCR pattern, as shown in Fig. \ref{fig1} at PCR sections, the gateway initializes a single, thread-safe gRPC channel during application startup. All incoming requests are multiplexed over this channel. The setup costs are amortized over millions of requests, approaching zero per request. Thus, the service time $S_{pcr}$ simplifies to:
+In the optimized PCR pattern, as shown in Fig. \ref{fig:seq-model} at PCR sections, the gateway initializes a single, thread-safe gRPC channel during application startup. All incoming requests are multiplexed over this channel. The setup costs are amortized over millions of requests, approaching zero per request. Thus, the service time $S_{pcr}$ simplifies to:
 
 \begin{equation}
     S_{pcr} = t_{rpc}
 \end{equation}
 
+Conversely, the PCR model completely decouples the data plane from the application by offloading routing, load balancing, and telemetry to a dedicated, out-of-process sidecar proxy (such as Envoy).
+
+While conventional research often criticizes the PCR model for introducing a continuous ``service mesh tax''—permanent CPU, memory, and latency overheads during normal operations—its architectural strength lies in robust queue management. In the PCR model, the sidecar acts as a highly optimized, asynchronous buffer. It is capable of absorbing massive traffic spikes, managing connection backlogs, and applying intelligent backpressure, thereby protecting the underlying application container from localized saturation.
 
 \subsection{Queueing Theory and Non-Linear Saturation}
 \label{sec2.3}
@@ -173,10 +180,14 @@ According to Little's Law \cite{little2011or} and standard queueing theory, the 
 
 Because $S_{cpr}$ is significantly larger than $S_{pcr}$, the service rate $\mu_{cpr}$ is artificially low. Therefore, under the CPR paradigm, the system reaches critical utilization ($\rho \to 1$) at a much lower arrival rate $\lambda$ (e.g., 400 RPS). When $\lambda$ exceeds this threshold (e.g., 600 RPS), $W_{queue}$ approaches infinity, resulting in the massive latency spikes and connection timeouts observed in our baseline data.
 
+To fully contextualize the performance disparity between these (CPR and PCR) approaches, it is necessary to distinguish the roles of the TCP session, the HTTP/2 stream, and the application-layer channel management. A \textbf{TCP session} represents the underlying Layer-4 network socket, which incurs significant latency overhead to establish (e.g., 3-way handshakes). An \textbf{HTTP/2 stream} is a lightweight, logical sequence of frames operating within that single TCP session; this is the native mechanism gRPC uses to multiplex thousands of concurrent requests over one connection. 
+
+The essential flaw of the CPR anti-pattern is that it actively circumvents this multiplexing capability. By instantiating and tearing down a gRPC channel within the local request handler, CPR forces the underlying HTTP/2 library to establish and destroy a unique TCP session for every single request, effectively limiting multiplexing to a single stream per connection. Conversely, the Persistent Channel Reuse (PCR) approach does not rebuild HTTP/2 features in the application layer; rather, it is a structural design pattern that initializes a single, global TCP session at startup. This application-layer refactoring is strictly an enabler, keeping the L4 connection persistent so that the native L7 HTTP/2 stream multiplexing can function as originally intended.
+
 \subsection{Proactive Autonomic Controller via $M/M/c$ Queueing}
 \label{sec2.4}
 
-To mathematically formalize the system's performance under increasing target rates, the system architecture can be modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / T_{compute}$), and $c$ parallel computing resources.
+To mathematically formalize the system's performance under increasing target rates, the system architecture can be modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / T_{compute}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{Banerjee2023MTDDHJSMTA}.
 
 For the system to remain stable, $\rho < 1$. As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula, the probability that an arriving request must wait in the queue ($P_Q$) is:
 
@@ -200,11 +211,23 @@ Consequently, the average expected wait time in the queue ($W_q$) grows non-line
 	
 	\item \textbf{Mitigation of Connection Bottlenecks via the PCR Autonomic Controller}
 	
-	In traditional Connection Per Request (CPR) architectures, $T_{net\_and\_queue\_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_{queue}$). However, our empirical analysis of the implemented PCR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410$, $p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the PCR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic CPR-style queuing can occur.
+	In traditional Connection Per Request (CPR) architectures, $T_{net\_and\_queue\_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_{queue}$). However, our empirical analysis of the implemented PCR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410, p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the PCR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic CPR-style queuing can occur.
 	
 \end{enumerate}
 
+%Recent literature predominantly treats CPR and PCR as mutually exclusive, static deployment strategies[cite][cite]. System architects are typically forced to choose between the high-performance, low-overhead proxyless approach (CPR) and the highly resilient, resource-intensive sidecar approach (PCR).
 
+%Existing solutions fail to address the necessity for dynamic architectural elasticity. Static CPR deployments remain fundamentally fragile under catastrophic load, while static PCR deployments waste critical compute resources during periods of low traffic. The autonomic control framework proposed in this paper bridges this gap by introducing a real-time topology transition. By continuously monitoring the $M/M/c$ queue boundaries, the system mathematically predicts failure and mechanically pivots from CPR to PCR only when intervention is strictly required, dynamically balancing steady-state efficiency with transient survivability.
+
+Our current autonomic control framework directly solves the lacked architectural elasticity by bridging the two states dynamically. Rather than waiting for system utilization to fail ($\rho \ge 1.0$), the controller continuously polls real-time telemetry to compute the empirical service time ($S_{cpr}$) and calculates the mathematical saturation limit ($\lambda_{sat}$) based on the application's thread concurrency ($c$):
+
+$$\lambda_{sat} = \frac{c}{S_{cpr}}$$
+
+To guarantee survivability, the controller does not wait for absolute saturation. Instead, it defines a predictive intervention boundary ($\lambda_{trigger}$) using a configurable safety threshold ratio ($T_{ratio}$):
+
+$$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
+
+By continuously monitoring this mathematical boundary, the system can autonomously pivot the Kubernetes architecture from the low-overhead CPR topology to the highly resilient PCR topology in real-time. It executes the Envoy injection exclusively when the incoming traffic ($\lambda$) breaches the predictive trigger ($\lambda \ge \lambda_{trigger}$), successfully balancing steady-state efficiency with transient survivability.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithmic Formalization}
@@ -294,7 +317,7 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\IF{$cutover\_triggered = \text{True}$}
 		\STATE \textbf{continue} \COMMENT{Idling post-actuation}
 		\ENDIF
-		
+
 		\STATE \COMMENT{Fetch Real-time Telemetry}
 		\STATE $\lambda \gets \text{QueryPrometheus}(\text{Rate of Requests (RPS)})$
 		\STATE $S_{cpr} \gets \text{QueryPrometheus}(\text{Average Latency (s)})$
@@ -303,7 +326,7 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\IF{$\lambda < \lambda_{min}$ \textbf{or} Telemetry is Null}
 		\STATE \textbf{continue} \COMMENT{Wait for stable load}
 		\ENDIF
-		
+
 		\STATE \COMMENT{Framework Auto-Detection \& Recalibration}
 		\IF{$n_{threads} > 50$}
 		\STATE $mode \gets \text{SYNC (Flask)}$
@@ -311,14 +334,14 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\STATE $\tau_{ratio} \gets 0.80$
 		\ELSE
 		\STATE $mode \gets \text{ASYNC (FastAPI)}$
-		\STATE $c \gets 1000$ \COMMENT{Estimated concurrent event loop tasks}
+		\STATE $c \gets 3$ \COMMENT{Estimated concurrent event loop tasks}
 		\STATE $\tau_{ratio} \gets 0.75$ \COMMENT{Aggressive trigger to prevent starvation}
 		\ENDIF
-		
+
 		\STATE \COMMENT{Calculate Saturation Thresholds}
 		\STATE $\lambda_{sat} \gets \frac{c}{S_{cpr}}$
 		\STATE $\lambda_{trigger} \gets \lambda_{sat} \times \tau_{ratio}$
-		
+
 		\STATE \COMMENT{Evaluate and Actuate}
 		\IF{$\lambda \geq \lambda_{trigger}$}
 		\STATE $t_{start} \gets \text{CurrentTime}()$
@@ -339,6 +362,58 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
   \label{fig2}
 \end{figure}
 
+\begin{algorithm}
+	\caption{Autonomic Controller with Math-based Predictive \& SLA-Aware Dynamic Cutover}
+	\label{alg:ctr}
+	\begin{algorithmic}[1]
+		\STATE \textbf{Inputs:} Poll interval $t_{poll}$, Minimum traffic threshold $\lambda_{min} = 10$, Latency SLA $L_{SLA} = 50$ ms
+		\STATE \textbf{Initialize:} $cutover\_triggered \gets \text{False}$
+		\WHILE{\textbf{true}}
+		\STATE Sleep for $t_{poll}$ seconds
+		\IF{$cutover\_triggered = \text{True}$}
+		\STATE \textbf{continue} \COMMENT{Idling post-actuation}
+		\ENDIF
+		\vspace{2mm}
+		\STATE \COMMENT{Fetch Real-time Telemetry}
+		\STATE $\lambda \gets \text{QueryPrometheus}(\text{Rate of Requests (RPS)})$
+		\STATE $S_{cpr} \gets \text{QueryPrometheus}(\text{Average Service Time (s)})$
+		\STATE $L_{p95} \gets \text{QueryPrometheus}(\text{App P95 Latency (ms)})$
+		\STATE $n_{threads} \gets \text{QueryPrometheus}(\text{Active Threads})$
+		
+		\IF{$\lambda < \lambda_{min}$ \textbf{or} Telemetry is Null}
+		\STATE \textbf{continue} \COMMENT{Wait for stable load}
+		\ENDIF
+		\vspace{2mm}
+		\STATE \COMMENT{Framework Auto-Detection \& Recalibration}
+		\IF{$n_{threads} > 50$}
+		\STATE $mode \gets \text{SYNC (Flask)}$
+		\STATE $c \gets n_{threads}$ \COMMENT{Capacity bounded by OS threads}
+		\STATE $\tau_{ratio} $
+		\ELSE
+		\STATE $mode \gets \text{ASYNC (FastAPI)}$
+		\STATE $c \gets n_{async\_event\_loop}$ \COMMENT{Estimated concurrent event loop tasks}
+		\STATE $\tau_{ratio} $
+		\ENDIF
+		\STATE $c \gets 1.0$ \COMMENT{Normalized parallel compute capacity}
+		\STATE $\tau_{ratio} \gets 0.80$ \COMMENT{Target utilization threshold}
+		\vspace{2mm}
+		\STATE \COMMENT{Calculate Queueing Saturation Threshold}
+		\STATE $\lambda_{sat} \gets \frac{c}{S_{cpr}}$
+		\STATE $\lambda_{trigger} \gets \lambda_{sat} \times \tau_{ratio}$
+		\vspace{2mm}
+		\STATE \COMMENT{Dual-Condition Evaluation}
+		\IF{$\lambda \geq \lambda_{trigger}$ \textbf{and} $L_{p95} \geq L_{SLA}$}
+		\STATE $t_{start} \gets \text{CurrentTime}()$
+		\STATE $\text{PatchDeployment}(\text{sidecar.istio.io/inject="true"})$
+		\STATE $\text{WaitUntilReady}(\text{Deployment Replicas})$
+		\STATE $\Delta t_{rollout} \gets \text{CurrentTime}() - t_{start}$
+		\STATE $\text{LogActuationMetrics}(\Delta t_{rollout})$
+		\STATE $cutover\_triggered \gets \text{True}$
+		\ENDIF
+		\ENDWHILE
+	\end{algorithmic}
+\end{algorithm}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methodology}
 \label{sec4}
@@ -347,6 +422,14 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 To validate the proposed mathematical model and pinpoint accurately where latency overhead originates, we conducted controlled experiments in a containerized distributed setting. Our evaluation follows a strict component isolation strategy: we first measure end-to-end performance across the full system and then benchmark the backend service alone in order to distinguish computation time from communication-related delays. This was achieved by deploying a stateless, deterministic backend and enforcing Kubernetes Guaranteed QoS (matching CPU/memory requests to limits) to eliminate resource throttling and "noisy neighbor" interference. 
 
 Our testbed uses a Python WSGI stack (Flask/Gunicorn \cite{gunicorn}) as a standard API gateway. We aim to check how gRPC connection churn impacts performance, not to compare frameworks. Synchronous threads are sensitive to blocking network inputs, highlighting queueing issues.
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\columnwidth,height=0.25\textheight,keepaspectratio]{fig/ctr-framework.png} % or \linewidth
+	\caption{The proactive autonomic controller framework.}
+	\label{ctr-frame}
+\end{figure}
+
 
 \subsection{Experimental Environment and Architecture}
 \label{sec4.1}
@@ -362,12 +445,6 @@ The experiment was conducted on a Kubernetes cluster composed of multiple worker
 \subsection{Workload Generation and Component Isolation}
 \label{4.2}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\columnwidth,height=0.25\textheight,keepaspectratio]{fig/method.png} % or \linewidth
-  \caption{Evaluation mechanism to accurately examine the frontend ($HTTP$) and backend ($gRPC$) latency utilizing different benchmark tools.}
-  \label{fig3}
-\end{figure}
 
 To precisely calculate the application-layer gateway overhead, we utilized two specialized, open-source load-testing tools (\textit{wrk2} \cite{wrk2} and \textit{ghz} \cite{ghz}), as shown in the Fig. \ref{fig3}:
 
@@ -389,19 +466,19 @@ The empirical results have successfully proven that the predicted Asymptotic lat
 \subsection{Baseline: Backend gRPC Performance}
 \label{sec5.1}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\columnwidth,height=0.23\textheight,keepaspectratio]{fig/result2.png} % or \linewidth
-  \caption{gRPC backend latency evaluation using ghz benchmark tool.}
-  \label{fig4}
-\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\columnwidth,height=0.23\textheight,keepaspectratio]{fig/result2.png} % or \linewidth
+%  \caption{gRPC backend latency evaluation using ghz benchmark tool.}
+%  \label{fig4}
+%\end{figure}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=\columnwidth,height=0.35\textheight,keepaspectratio]{fig/result1.png} % or \linewidth
-  \caption{End-to-end frontend latency evaluation using wrk2 as workload generator. (A) Connection-Per-Request paradigm - \textbf{Before} optimized, (B) Persistent Channel Reuse paradigm - \textbf{After} optimized}
-  \label{fig5}
-\end{figure}
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\columnwidth,height=0.35\textheight,keepaspectratio]{fig/result1.png} % or \linewidth
+%  \caption{End-to-end frontend latency evaluation using wrk2 as workload generator. (A) Connection-Per-Request paradigm - \textbf{Before} optimized, (B) Persistent Channel Reuse paradigm - \textbf{After} optimized}
+%  \label{fig5}
+%\end{figure}
 
 The ghz test results established an exceptional and highly stable baseline. Across the entire load spectrum (100 to 1000 RPS), the 10 prime-server backend pods consistently delivered a median (p50) latency of $\sim 2.5 \text{ ms} \text{ to } 3.6 \text{ ms}$, with p90 latencies remaining firmly under 10 ms. 
 
@@ -709,6 +786,11 @@ unnumbered footnote on the first page, not here.
 \bibitem{wrk2} G. Tene, ``A HTTP benchmarking tool based mostly on wrk,'' Jun. 28, 2016. [Online]. Available: https://github.com/giltene/wrk2. [Accessed: May 14, 2026].
 
 \bibitem{ghz} B. Djurkovic, ``gRPC benchmarking and load testing tool,'' Dec. 7, 2025. [Online]. Available: https://github.com/bojand/ghz. [Accessed: May 14, 2026].
+
+\bibitem{tijms2003first} H. C. Tijms, \textit{A first course in stochastic models}, vol. 2, Wiley New York, 2003.
+
+\bibitem{Banerjee2023MTDDHJSMTA} P. Banerjee, S. Roy, A. Sinha, M. Hassan, S. Burje, A. Agrawal, A. K. Bairagi, S. Alshathri, and W. El-shafai, "MTD-DHJS: Makespan-Optimized Task Scheduling Algorithm for Cloud Computing With Dynamic Computational Time Prediction," \textit{IEEE Access}, vol. 11, pp. 105578--105618, 2023.
+
 
 
 

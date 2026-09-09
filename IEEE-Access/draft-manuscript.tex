@@ -50,11 +50,11 @@ Upon triggering, the autonomic mechanism intervenes proactively—typically by s
 
 \item \textbf{Overcoming Connection Bottlenecks: CPR vs. PCR Models} 
 
-Traditional microservice architectures utilizing the Per-Connection-Request (PCR) model frequently suffer from connection exhaustion under high concurrency. Mathematically, this is evidenced in our dataset by the strong positive Pearson correlation ($r =$ [Insert Pearson r], $p < 0.05$) between the $target_rate$ ($\lambda$) and the $T_{net_and_queue_ms}$ ($W_q$). In a standard PCR model, as $\lambda$ increases, the exponential growth of $W_q$ dictates a severe connection bottleneck, forcing the system into saturation.To resolve this, our system employs an autonomic controller leveraging the CPR model. The effectiveness of this approach is validated by the point-biserial correlation ($r_{pb} =$ [Insert Point-Biserial r]) and logistic regression analysis. The regression yields a coefficient of $\beta =$ [Insert Beta], establishing that the CPR-based autonomic controller proactively triggers as a direct function of impending queue degradation, rather than waiting for connection failure. By intervening dynamically, the CPR model restructures the connection pooling allocation before the theoretical utilization limit ($\rho \to 1$) is breached, successfully capping $T_{net\_and\_queue}$ and averting the cascading bottlenecks inherent to PCR.
+Traditional microservice architectures utilizing the Connection Per-Request (CPR) model frequently suffer from connection exhaustion under high concurrency. Mathematically, this is evidenced in our dataset by the strong positive Pearson correlation ($r =$ [Insert Pearson r], $p < 0.05$) between the $target_{rate}$ ($\lambda$) and the $T_{net\_and\_queue\_ms}$ ($W_q$). In a standard CPR model, as $\lambda$ increases, the exponential growth of $W_q$ dictates a severe connection bottleneck, forcing the system into saturation. To resolve this, our system employs an autonomic controller leveraging the PCR model. The effectiveness of this approach is validated by the point-biserial correlation ($r_{pb} =$ [Insert Point-Biserial r]) and logistic regression analysis. The regression yields a coefficient of $\beta =$ [Insert Beta], establishing that the PCR-based autonomic controller proactively triggers as a direct function of impending queue degradation, rather than waiting for connection failure. By intervening dynamically, the PCR model restructures the connection pooling allocation before the theoretical utilization limit ($\rho \to 1$) is breached, successfully capping $T_{net\_and\_queue}$ and averting the cascading bottlenecks inherent to CPR.
 
-\item \textbf{Mitigation of Connection Bottlenecks via the CPR Autonomic Controller}
+\item \textbf{Mitigation of Connection Bottlenecks via the PCR Autonomic Controller}
 
-In traditional Per-Connection-Request (PCR) architectures, $T_{net_and_queue_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_q$).However, our empirical analysis of the implemented CPR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410$, $p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the CPR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic PCR-style queuing can occur.
+In traditional Connection Per-Request (CPR) architectures, $T_{net\_and\_queue\_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_q$).However, our empirical analysis of the implemented PCR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410$, $p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the PCR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic CPR-style queuing can occur.
 
 \item \textbf{Theoretical Framework: The M/M/c Queue}
 
@@ -358,5 +358,47 @@ The datasets confirm that the autonomic loop behaves exactly as designed. The pr
 	\caption{Evaluation environment.}
 	\label{eval-env}
 \end{figure}
+
+\section{Shifting to comparable Queuing Methods: Sync and Async}
+
+In your Flask architecture, capacity $c$ was strictly bounded by physical CPU worker threads ($c = \text{workers} \times \text{threads}$). In FastAPI (grpc.aio), non-blocking gRPC calls yield control back to the event loop during network I/O. A single thread is no longer blocked waiting for $S_{cpr}$.
+
+However, CPR still degrades async systems due to connection handshake overhead, socket allocation limits, and event loop task queue backpressure. The system transitions from a thread-bounded $M/M/c$ queue to an event-loop bounded model, where capacity is governed by effective concurrent task capacity ($c_{eff}$) rather than OS thread limits.
+
+\begin{enumerate}
+	\item \textbf{Recalibrated Saturation Mathematics}
+	
+	To prevent event loop exhaustion under asynchronous CPR, the controller's predictive equations must be updated:
+	\begin{itemize}
+		\item Effective Concurrency ($c_{eff}$):
+		
+		$$c_{eff} = w \times C_{async}$$
+		
+		where $w$ is the Uvicorn worker count (e.g., 10) and $C_{async}$ represents the threshold of concurrent active coroutines an event loop can maintain before task-switching overhead degrades latency.
+		\item Asynchronous Saturation Rate ($\lambda_{sat}$):
+		
+		$$\lambda_{sat} = \frac{c_{eff}}{S_{cpr}}$$
+		\item Predictive Trigger ($\lambda_{trigger}$):
+		
+		$$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
+	\end{itemize}
+	
+	Because event loops experience sharp, non-linear degradation once task queues overflow, the safety ratio $T_{ratio}$ should be adjusted from $0.80$ (80\%) down to $0.70$–$0.75$ (70\%–75\%) to provide adequate headroom for the sidecar rollout.
+	
+	\item \textbf{Required Controller Modifications (controller.py)}
+	
+	\begin{itemize}
+		\item Framework Auto-Detection: Add an environment variable (e.g., FRAME-WORK\_TYPE = "FASTAPI") to allow the controller to toggle between strict thread-bound $c$ math and async $c_{eff}$ math.
+		
+		\item Telemetry Polling: Update Prometheus queries to monitor process\_open\_fds (file descriptors) and event loop delay alongside raw throughput ($\lambda$).
+		
+		\item Adaptive Capacity Scaling: Implement logic in the controller loop to dynamically calculate $S_{cpr}$ using moving window averages, recalculating $\lambda_{sat}$ on every 5-second polling cycle.
+	\end{itemize}
+\end{enumerate}
+
+\subsection{Asynchronous Method}
+
+$$\lambda_{sat} = \frac{c}{S}$$
+
 
 \end{document}

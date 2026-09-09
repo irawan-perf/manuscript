@@ -1,0 +1,27 @@
+User (HTTP/1.1 client)  Gateway (Flask/Gunicorn)   Backend (prime-server gRPC)
+          |                     |                     |
+          |       HandleRequest |                     |
+[1] HTTP/1.1 POST /check/JSON ->|                     |
+          |                     |                     |
+          |                     |   [---MODE: CPR ONLY-------------------]
+          |                     |      (Lines 11-13 of Alg 1)
+          |                     |==> Establish TCP Conn. (3-Way Handshake)
+          |                     |==> Negotiate HTTP/2 SETTINGS
+          |                     |   [---CATASTROPHIC DELAY (Queueing)----]
+          |                     |                     |
+          |     (Alg Lines 16)  |                     |
+          | Parse JSON -> Protobuf |                     |
+          |                     |---gRPC stub.Check()-->|
+          |                     | (HTTP/2 POST /prime)  |
+          |                     |                     | [2] Backend Logic
+          |                     |                     | (2.8 ms execution)
+          |                     |                     |
+          |                     |<--gRPC prime.result---|
+          |                     |                     |
+          |     (Alg Lines 16)  |                     |
+          | Parse Protobuf -> JSON |                     |
+          |                     |                     |
+<---[3] HTTP/1.1 Response ------|                     |
+          |      (~7100ms CPR)  |                     |
+          |      (~150ms PCR)   |                     |
+          |                     |                     |
