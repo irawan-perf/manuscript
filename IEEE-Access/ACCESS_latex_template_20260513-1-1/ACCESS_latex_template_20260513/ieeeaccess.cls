@@ -458,6 +458,26 @@
 }
 %%%%%%%%%%%%
 
+%%%% SUBFIGURE MACRO (Add to ieeeaccess.cls after the \Figure definition)
+\newsavebox\subfigbox
+\def\SubFigure{\@ifnextchar[{\@SubFigure}{\@SubFigure[t!]}}
+\def\@SubFigure[#1]{\@ifnextchar({\@@SubFigure[#1]}{\@@SubFigure[#1](topskip=0pt)}}
+\def\@@SubFigure[#1](#2){\@ifnextchar[{\@@@SubFigure[#1](#2)}{\@@@SubFigure[#1](#2)[scale=0.1]}}
+%%%%%%%%%%%%
+\def\@@@SubFigure[#1](#2)[#3]#4#5{%
+	\setkeys{figkeys}{#2}% Set new keys
+	\setbox\subfigbox\hbox{\includegraphics[#3]{#4}}%
+	\xdef\xsubfigwd{\the\wd\subfigbox}%
+	\centering%
+	\vspace*{\fig@topskip}%
+	\includegraphics[#3]{#4}%
+	\vspace*{\fig@midskip}%
+	\caption{#5}%
+	\vspace*{\fig@botskip}%
+}
+%%%%%%%%%%%%
+
+
 \define@key{tabkeys}{topskip}{\def\tab@topskip{#1}} % skip above table
 \define@key{tabkeys}{botskip}{\def\tab@botskip{#1}} % skip below table
 \define@key{tabkeys}{width}{\def\tab@width{#1}} % width of the table
