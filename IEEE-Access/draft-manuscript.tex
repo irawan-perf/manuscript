@@ -380,7 +380,7 @@ However, CPR still degrades async systems due to connection handshake overhead, 
 		$$\lambda_{sat} = \frac{c_{eff}}{S_{cpr}}$$
 		\item Predictive Trigger ($\lambda_{trigger}$):
 		
-		$$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
+		$$\lambda_{trigger} = \lambda_{sat} \times \tau_{ratio}$$
 	\end{itemize}
 	
 	Because event loops experience sharp, non-linear degradation once task queues overflow, the safety ratio $T_{ratio}$ should be adjusted from $0.80$ (80\%) down to $0.70$–$0.75$ (70\%–75\%) to provide adequate headroom for the sidecar rollout.
@@ -400,5 +400,14 @@ However, CPR still degrades async systems due to connection handshake overhead, 
 
 $$\lambda_{sat} = \frac{c}{S}$$
 
+$$S = \frac{\Delta lat\_sum_{\Delta_t}}{\Delta current\_rps_{\Delta_t}}$$
+
+%$$S_{cpr} = \frac{\Delta \text{grpc\_client\_roundtrip\_latency\_seconds\_sum}_{\Delta t}}{\Delta \text{grpc\_client\_roundtrip\_latency\_seconds\_count}_{\Delta t}}$$
+
+% $\lambda_{trigger} = \lambda_{sat} \times \tau_{ratio}$
+
+$$L_{p95} \geq L_{SLA}$$
+
+$$\text{Actuation} = (\lambda \geq \lambda_{trigger}) \land (L_{p95} \geq L_{SLA})$$
 
 \end{document}

@@ -11,6 +11,7 @@
 %\usepackage{algpseudocode}
 \usepackage{enumerate}
 \usepackage{siunitx}
+\usepackage{comment}
 
 \usepackage{bm}
 \makeatletter
@@ -27,6 +28,7 @@
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
 
 %Your document starts from here ___________________________________________________
 \begin{document}
@@ -184,6 +186,28 @@ To fully contextualize the performance disparity between these (CPR and PCR) app
 
 The essential flaw of the CPR anti-pattern is that it actively circumvents this multiplexing capability. By instantiating and tearing down a gRPC channel within the local request handler, CPR forces the underlying HTTP/2 library to establish and destroy a unique TCP session for every single request, effectively limiting multiplexing to a single stream per connection. Conversely, the Persistent Channel Reuse (PCR) approach does not rebuild HTTP/2 features in the application layer; rather, it is a structural design pattern that initializes a single, global TCP session at startup. This application-layer refactoring is strictly an enabler, keeping the L4 connection persistent so that the native L7 HTTP/2 stream multiplexing can function as originally intended.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Autonomic controller}
+\label{sec3}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{comment}
+	content...
+The primary objective of Algorithm~\ref{alg1} is to map the abstract queueing variables from Section \ref{sec2} directly to their application-layer implementations. It illustrates exactly where gateway service time ($S_{gateway}$) is consumed by contrasting both configurations.
+
+Under the Connection-Per-Request (CPR) paradigm, channel initialization and teardown occur locally within the request handler (Lines 10-12, 17-19). This imposes an $O(N)$ computational penalty, manifesting as the "connection churn" that degrades the service rate ($\mu$). Conversely, the Persistent Channel Reuse (PCR) paradigm shifts this network state management to a global, one-time execution at startup (Lines 2-5). By referencing a thread-safe, multiplexed channel ($O(1)$ overhead), the structural refactoring averts queue saturation without altering the core RPC business logic.
+\end{comment}
+
+The average service time, represented as $S_{cpr}$, serves as the fundamental calculation component in establishing the mathematical saturation limit of the autonomic controller. The controller relies on two complementary Prometheus telemetry metrics to accurately calculate the $S_{cpr}$ variable in a distributed environment (e.g, RKE cluster). The controller continuously evaluates both metrics for further analysis. Both Prometheus telemetry metrics are \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum} and \textit{grpc\_client\_roundtrip\_latency\_seconds\_count}.
+On the one hand, \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum} metric serves as a continuous accumulator, gradually increasing over time. It tracks the absolute total seconds spent processing and responding to incoming remote procedure calls within the application.
+
+On the other hand, the \textit{grpc\_client\_roundtrip\_latency\_\break seconds\_count} metric conversely acts as a straightforward digital counter. It will register the exact volume of discrete requests that have successfully completed their lifecycle. To derive the real-time average service time for the control plane, the autonomic controller calculates the quotient of the rates of change of these two metrics over a sliding observation window. Mathematically, this relationship is expressed as the ratio of their respective variations over a specific time delta $\Delta t$:
+
+$$S_{cpr} = \frac{\Delta \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum}_{\Delta t}}{\Delta \textit{grpc\_client\_roundtrip\_latency\_seconds\_count}_{\Delta t}}$$
+
+In the field of classical queuing theory, service time ($S$) is commonly used to represent the duration a physical or virtual server is actively engaged in a single unit of work, measured in precise time units. Native gRPC roundtrip metrics are the primary metric that is used by the controller to capture highly accurate, comprehensive processing measurements instead of using isolated internal application timers. This duration inherently includes data serialization, framework event-loop overhead, and the core CPU execution required for the prime number calculations.    
+
 \subsection{Proactive Autonomic Controller via $M/M/c$ Queueing}
 \label{sec2.4}
 
@@ -202,10 +226,10 @@ Consequently, the average expected wait time in the queue ($W_q$) grows non-line
 	
 	A reactive controller waits for the total end-to-end latency ($W = W_q + \frac{1}{\mu}$) to breach a Service Level Agreement (SLA) before intervening. In contrast, the implemented proactive autonomic controller leverages this queueing theory framework to anticipate degradation. Instead of monitoring absolute latency thresholds, the proactive controller monitors the rate of change of the queueing delay with respect to the incoming load ($\frac{\partial W_q}{\partial \lambda}$), or establishes a critical utilization threshold ($\rho_{crit} < 1$).The trigger condition is mathematically defined to activate when the predicted waiting time approaches the upper bound of the acceptable SLA variance:
 	
-
+	
 	$$Trigger \rightarrow True \quad \text{if} \quad \rho \ge \rho_{crit} \quad$$ 
 	$$\text{or} \quad W_q(\lambda_{t+1}) > SLA_{threshold}$$
-
+	
 	
 	Upon triggering, the autonomic mechanism intervenes proactively—typically by scaling the number of resources ($c \to c'$) or applying backpressure to throttle incoming requests ($\lambda \to \lambda'$). By dynamically increasing the denominator ($c'\mu$) or capping the numerator ($\lambda'$), the controller artificially forces $\rho$ back to a stable state ($\rho < \rho_{crit}$), effectively neutralizing the exponential queuing delay before the physical system exhibits SLA violations.
 	
@@ -229,47 +253,38 @@ $$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
 
 By continuously monitoring this mathematical boundary, the system can autonomously pivot the Kubernetes architecture from the low-overhead CPR topology to the highly resilient PCR topology in real-time. It executes the Envoy injection exclusively when the incoming traffic ($\lambda$) breaches the predictive trigger ($\lambda \ge \lambda_{trigger}$), successfully balancing steady-state efficiency with transient survivability.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Algorithmic Formalization}
-\label{sec3}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-The primary objective of Algorithm~\ref{alg1} is to map the abstract queueing variables from Section \ref{sec2} directly to their application-layer implementations. It illustrates exactly where gateway service time ($S_{gateway}$) is consumed by contrasting both configurations.
-
-Under the Connection-Per-Request (CPR) paradigm, channel initialization and teardown occur locally within the request handler (Lines 10-12, 17-19). This imposes an $O(N)$ computational penalty, manifesting as the "connection churn" that degrades the service rate ($\mu$). Conversely, the Persistent Channel Reuse (PCR) paradigm shifts this network state management to a global, one-time execution at startup (Lines 2-5). By referencing a thread-safe, multiplexed channel ($O(1)$ overhead), the structural refactoring averts queue saturation without altering the core RPC business logic.
-
-\begin{algorithm}
-\caption{API Gateway Request Handler: CPR vs. PCR Paradigm}
-\label{alg1}
-\begin{algorithmic}[1]
-\REQUIRE $req\_number$: Integer, $mode$: \{CPR, PCR\}
-\ENSURE $is\_prime\_result$: Boolean
-\vspace{1mm}
-\STATE \textit{// PCR Global Initialization (Executed Once at Startup, $O(1)$)}
-\IF{$mode == \text{PCR}$}
-    \STATE $global\_channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
-    \STATE $global\_stub \gets \text{PrimeCheckerStub}(global\_channel)$
-\ENDIF
-\vspace{2mm}
-\STATE \textbf{function} HandleRequest($req\_number$, $mode$)
-    \IF{$mode == \text{CPR}$}
-        \STATE \textit{// CPR Local Initialization (Executed per request, $O(N)$)}
-        \STATE $channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
-        \STATE $stub \gets \text{PrimeCheckerStub}(channel)$
-    \ELSE
-        \STATE $stub \gets global\_stub$ \textit{// $O(1)$ Memory Reference}
-    \ENDIF
-    \vspace{1mm}
-    \STATE $payload \gets \text{IsPrimeRequest}(\text{number}=req\_number)$
-    \STATE $response \gets stub.\text{Check}(payload)$ \textit{// Network I/O}
-    \vspace{1mm}
-    \IF{$mode == \text{CPR}$}
-        \STATE $channel.\text{close}()$ \textit{// Teardown overhead}
-    \ENDIF
-    \STATE \textbf{return} $response.is\_prime$
-\STATE \textbf{end function}
-\end{algorithmic}[1]
-\end{algorithm}
+%\begin{algorithm}
+%\caption{API Gateway Request Handler: CPR vs. PCR Paradigm}
+%\label{alg1}
+%\begin{algorithmic}[1]
+%\REQUIRE $req\_number$: Integer, $mode$: \{CPR, PCR\}
+%\ENSURE $is\_prime\_result$: Boolean
+%\vspace{1mm}
+%\STATE \textit{// PCR Global Initialization (Executed Once at Startup, $O(1)$)}
+%\IF{$mode == \text{PCR}$}
+%    \STATE $global\_channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
+%    \STATE $global\_stub \gets \text{PrimeCheckerStub}(global\_channel)$
+%\ENDIF
+%\vspace{2mm}
+%\STATE \textbf{function} HandleRequest($req\_number$, $mode$)
+%    \IF{$mode == \text{CPR}$}
+%        \STATE \textit{// CPR Local Initialization (Executed per request, $O(N)$)}
+%        \STATE $channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
+%        \STATE $stub \gets \text{PrimeCheckerStub}(channel)$
+%    \ELSE
+%        \STATE $stub \gets global\_stub$ \textit{// $O(1)$ Memory Reference}
+%    \ENDIF
+%    \vspace{1mm}
+%    \STATE $payload \gets \text{IsPrimeRequest}(\text{number}=req\_number)$
+%    \STATE $response \gets stub.\text{Check}(payload)$ \textit{// Network I/O}
+%    \vspace{1mm}
+%    \IF{$mode == \text{CPR}$}
+%        \STATE $channel.\text{close}()$ \textit{// Teardown overhead}
+%    \ENDIF
+%    \STATE \textbf{return} $response.is\_prime$
+%\STATE \textbf{end function}
+%\end{algorithmic}[1]
+%\end{algorithm}
 
 
 %\begin{algorithm}
@@ -306,6 +321,7 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 %	\end{algorithmic}
 %\end{algorithm}
 
+\begin{comment}
 \begin{algorithm}
 	\caption{Adaptive Autonomic Controller (Phase 2: Dynamic Cutover)}
 	\label{alg:autonomic_controller}
@@ -354,10 +370,11 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\ENDWHILE
 	\end{algorithmic}
 \end{algorithm}
+\end{comment}
 
-\begin{figure}
+\begin{figure}[t]
   \centering
-  \includegraphics[width=\columnwidth,height=0.3\textheight,keepaspectratio]{fig/topology.png} % or \linewidth
+  \includegraphics[width=\columnwidth,height=0.2\textheight,keepaspectratio]{fig/topology.png} % or \linewidth
   \caption{Kubernetes cluster environment.}
   \label{fig2}
 \end{figure}
@@ -374,7 +391,7 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\STATE \textbf{continue} \COMMENT{Idling post-actuation}
 		\ENDIF
 		\vspace{2mm}
-		\STATE \COMMENT{Fetch Real-time Telemetry}
+		\STATE \textit{Fetch Real-time Telemetry}
 		\STATE $\lambda \gets \text{QueryPrometheus}(\text{Rate of Requests (RPS)})$
 		\STATE $S_{cpr} \gets \text{QueryPrometheus}(\text{Average Service Time (s)})$
 		\STATE $L_{p95} \gets \text{QueryPrometheus}(\text{App P95 Latency (ms)})$
@@ -384,24 +401,24 @@ Under the Connection-Per-Request (CPR) paradigm, channel initialization and tear
 		\STATE \textbf{continue} \COMMENT{Wait for stable load}
 		\ENDIF
 		\vspace{2mm}
-		\STATE \COMMENT{Framework Auto-Detection \& Recalibration}
+		\STATE \textit{Framework Auto-Detection \& Recalibration}
 		\IF{$n_{threads} > 50$}
 		\STATE $mode \gets \text{SYNC (Flask)}$
-		\STATE $c \gets n_{threads}$ \COMMENT{Capacity bounded by OS threads}
-		\STATE $\tau_{ratio} $
+		%\STATE $c \gets n_{threads}$ \COMMENT{Capacity bounded by OS threads}
+		%\STATE $\tau_{ratio} $
 		\ELSE
 		\STATE $mode \gets \text{ASYNC (FastAPI)}$
-		\STATE $c \gets n_{async\_event\_loop}$ \COMMENT{Estimated concurrent event loop tasks}
-		\STATE $\tau_{ratio} $
+		%\STATE $c \gets n_{async\_event\_loop}$ \COMMENT{Estimated concurrent event loop tasks}
+		%\STATE $\tau_{ratio} $
 		\ENDIF
 		\STATE $c \gets 1.0$ \COMMENT{Normalized parallel compute capacity}
 		\STATE $\tau_{ratio} \gets 0.80$ \COMMENT{Target utilization threshold}
 		\vspace{2mm}
-		\STATE \COMMENT{Calculate Queueing Saturation Threshold}
+		\STATE \textit{Calculate Queueing Saturation Threshold}
 		\STATE $\lambda_{sat} \gets \frac{c}{S_{cpr}}$
 		\STATE $\lambda_{trigger} \gets \lambda_{sat} \times \tau_{ratio}$
 		\vspace{2mm}
-		\STATE \COMMENT{Dual-Condition Evaluation}
+		\STATE \textit{Dual-Condition Evaluation}
 		\IF{$\lambda \geq \lambda_{trigger}$ \textbf{and} $L_{p95} \geq L_{SLA}$}
 		\STATE $t_{start} \gets \text{CurrentTime}()$
 		\STATE $\text{PatchDeployment}(\text{sidecar.istio.io/inject="true"})$
@@ -423,13 +440,28 @@ To validate the proposed mathematical model and pinpoint accurately where latenc
 
 Our testbed uses a Python WSGI stack (Flask/Gunicorn \cite{gunicorn}) as a standard API gateway. We aim to check how gRPC connection churn impacts performance, not to compare frameworks. Synchronous threads are sensitive to blocking network inputs, highlighting queueing issues.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\columnwidth,height=0.25\textheight,keepaspectratio]{fig/ctr-framework.png} % or \linewidth
-	\caption{The proactive autonomic controller framework.}
-	\label{ctr-frame}
-\end{figure}
+%\begin{figure}
+%	\centering
+%	%\includegraphics[width=\textwidth,height=0.25\textheight,keepaspectratio]{fig/ctr-arc.png} % or \linewidth
+%	\includegraphics[width=0.45\textwidth]{fig/ctr-arc.png} % or \linewidth
+%	\caption{\textbf{The proactive autonomic controller architectures.}}
+%	\label{ctr-frame}
+%\end{figure}
 
+%\begin{figure}[t!]
+%	\centering
+%	\begin{minipage}{0.6\textwidth}
+%		\includegraphics[width=\textwidth]{fig/ctr-arc.png}
+%		\caption{\textbf{The proactive autonomic controller architectures.}}
+%		\label{fig1}
+%	\end{minipage}
+%\end{figure}
+
+\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){fig/ctr-arc.png}
+{ 
+	\textbf{The proactive autonomic controller architectures.}
+	\label{fig1}
+}
 
 \subsection{Experimental Environment and Architecture}
 \label{sec4.1}

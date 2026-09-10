@@ -52,11 +52,31 @@ Commerce under Grant BS123456.''}
 
 
 \begin{abstract}
-Current development of microservice architectures heavily relies on API gateways and high-performance RPC frameworks like gRPC, the implementation details of the inter-service communication layer are often abstracted away in system design. Our paper empirically investigates the performance degradation caused by application-layer communication bottlenecks, with particular focus on gRPC connection management. We present a mathematical queueing model and algorithmic formalization to quantify the overhead of the connection-per-request (CPR) compared to a persistent channel reuse (PCR). Our evaluation results in Kubernetes environment tests show that converting CPR to PCR models can significantly reduce median latency by 97\%—from over 7,000 ms to 150 ms under peak load. This change significantly eliminates the performance bottleneck that caused an increase in end-to-end user experience latency time.
+These instructions give you guidelines for preparing papers for
+IEEE Access. Use this document as a template if you are
+using \LaTeX. Otherwise, use this document as an
+instruction set. The electronic file of your paper will be formatted further
+at IEEE. Paper titles should be written in uppercase and lowercase letters,
+not all uppercase. Avoid writing long formulas with subscripts in the title;
+short formulas that identify the elements are fine (e.g., "Nd--Fe--B"). Do
+not write ``(Invited)'' in the title. Full names of authors are preferred in
+the author field, but are not required. Put a space between authors'
+initials. The abstract must be a concise yet comprehensive reflection of
+what is in your article. In particular, the abstract must be self-contained,
+without abbreviations, footnotes, or references. It should be a microcosm of
+the full article. The abstract must be between 150--250 words. Be sure that
+you adhere to these limits; otherwise, you will need to edit your abstract
+accordingly. The abstract must be written as one paragraph, and should not
+contain displayed mathematical equations or tabular material. The abstract
+should include three or four different keywords or phrases, as this will
+help readers to find it. It is important to avoid over-repetition of such
+phrases as this can result in a page being rejected by search engines.
+Ensure that your abstract reads well and is grammatically correct.
 \end{abstract}
 
 \begin{keywords}
-Cloud-Native, Connection Per Request, gRPC API, High Performance Computing, Kubernetes, Microservices, Persistent Channel Reuse 
+Enter key words or phrases in alphabetical
+order, separated by commas. Autocorrelation, beamforming, communications technology, dictionary learning, feedback, fMRI, mmWave, multipath, system design, multipath, slight fault, underlubrication fault.
 \end{keywords}
 
 \titlepgskip=-21pt
@@ -65,30 +85,7 @@ Cloud-Native, Connection Per Request, gRPC API, High Performance Computing, Kube
 
 \section{Introduction}
 \label{sec:introduction}
-\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC is specifically designed to multiplex many requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As study by \cite{zhu2023dissecting}, have exposed significant infrastructural overheads hidden within service mesh sidecars, we observe that analogous, undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
-
-The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020StatefulTCPANAA}. However, the direct application of legacy REST-based connection management to gRPC environments remains a pervasive flaw. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and Gunicorn) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
-
-While the research community has modeled microservice performance extensively, the specific intersection of application-layer connection churn and queueing network saturation remains empirically unquantified. Recent academic works, such as those by Pinheiro et al. \cite{pinheiro2024performance}, utilize stochastic Petri Nets to evaluate microservice resilience; however, evaluating latency under load requires a shift toward queueing theory. We argue that bottlenecks at the implementation level, particularly the phenomenon of gRPC connection churn, lead to a dynamic increase in the service time ($S$) of the system. In queueing theory \cite{DAuria2021AnMQA}, an inflated service time severely degrades the theoretical service rate ($\mu$). This churn converts what should be a constant-time RPC execution into a highly variable, load-dependent event. Previous research has not addressed how this specific application-layer mismanagement forces premature queue saturation long before physical CPU or memory limits are reached.
-
-Therefore, this paper demonstrates how converting the original CPR approach into a Persistent Channel Reuse (PCR) approach, as shown in the Fig. \ref{fig1}—by refactoring the gateway code to initialize a global, thread-safe gRPC channel at startup—eliminates this bottleneck. To validate this, the specific contributions of this paper are as follows:
-
-\begin{itemize}
-    \item We model the request patterns and application-layer logic based on both the CPR and the refactored PCR approaches.
-    
-    \item We introduce a queueing-theoretic model to explain the non-linear latency spikes observed under high load, linking application-layer connection churn to queue saturation.
-    
-    \item We benchmark these models within an actual Kubernetes environment using controlled isolation environment—ensuring the gateway is evaluated independently of backend database or business logic variance—to validate the correctness of the theoretical model against empirical runs.
-\end{itemize}
-
-%\begin{figure}
-%  \centering
-%  \includegraphics[width=\columnwidth,height=0.3\textheight,keepaspectratio]{fig/PCRvsCPR-SeqDiagram.png} % or \linewidth
-%  \caption{The framework models of gRPC connections mechanism. Connection-Per-Request (CPR) vs Persistent Connection Reuse (PCR).}
-%  \label{fig1}
-%\end{figure}
-
-document is a template for \LaTeX. If you are reading a paper or PDF version of this document, please download the LaTeX template or the MS Word
+\PARstart{T}{his} document is a template for \LaTeX. If you are reading a paper or PDF version of this document, please download the LaTeX template or the MS Word
 template of your preferred publication from the IEEE Website at \underline
 {https://template-selector.ieee.org/secure/templateSelec}\break\underline{tor/publicationType} so you can use it to prepare your manuscript. 
 If you would prefer to use LaTeX, download IEEE's LaTeX style and sample files
@@ -669,30 +666,6 @@ unnumbered footnote on the first page, not here.
 
 
 \begin{thebibliography}{00}
-
-\bibitem{martin2022online} A. Martin-Lopez, S. Segura, and A. Ruiz-Cortés, ``Online testing of RESTful APIs: Promises and challenges,'' in Proc. 30th ACM Joint Eur. Softw. Eng. Conf. Symp. Found. Softw. Eng., 2022, pp. 408--420.
-
-\bibitem{Ventre2018SDNAAA} P. L. Ventre, M. M. Tajiki, S. Salsano, and C. Filsfils, ``SDN architecture and southbound APIs for IPv6 segment routing enabled wide area networks,'' IEEE Trans. Netw. Service Manag., vol. 15, pp. 1378--1392, 2018.
-
-\bibitem{zhu2023dissecting} X. Zhu, G. She, B. Xue, Y. Zhang, Y. Zhang, X. K. Zou, X. Duan, P. He, A. Krishnamurthy, and M. Lentz, ``Dissecting overheads of service mesh sidecars,'' in Proc. 2023 ACM Symp. Cloud Comput., 2023, pp. 142--157.
-
-\bibitem{Guo2020StatefulTCPANAA} L. Guo and J. Y. B. Lee, ``Stateful-TCP—a new approach to accelerate TCP slow-start,'' IEEE Access, vol. 8, pp. 195955--195970, 2020.
-
-\bibitem{pinheiro2024performance} T. Pinheiro, M. Mialaret, P. Pereira, L. Lins, D. Silva, J. Dantas, and P. Maciel, ``Performance modeling of microservices with circuit breakers using stochastic Petri nets,'' in Proc. 2024 IEEE Int. Syst. Conf. (SysCon), 2024, pp. 1--8.
-
-\bibitem{DAuria2021AnMQA} B. D'Auria, I. Adan, R. Bekker, and V. Kulkarni, ``An M/M/c queue with queueing-time dependent service rates,'' Eur. J. Oper. Res., vol. 299, pp. 566--579, 2021.
-
-\bibitem{little2011or} J. D. C. Little, ``OR forum—Little's law as viewed on its 50th anniversary,'' Oper. Res., vol. 59, no. 3, pp. 536--549, 2011.
-
-\bibitem{gunicorn} Gunicorn, ``Gunicorn: Serve Python on the Web.'' [Online]. Available: https://gunicorn.org/. [Accessed: May 14, 2026].
-
-\bibitem{wsgi-pep} P. J. Eby, ``PEP 333 – Python Web Server Gateway Interface v1.0,'' Sep. 27, 2010. [Online]. Available: https://peps.python.org/pep-0333/. [Accessed: Apr. 23, 2026].
-
-\bibitem{wrk2} G. Tene, ``A HTTP benchmarking tool based mostly on wrk,'' Jun. 28, 2016. [Online]. Available: https://github.com/giltene/wrk2. [Accessed: May 14, 2026].
-
-\bibitem{ghz} B. Djurkovic, ``gRPC benchmarking and load testing tool,'' Dec. 7, 2025. [Online]. Available: https://github.com/bojand/ghz. [Accessed: May 14, 2026].
-
-
 
 \bibitem{b1} G. O. Young, ``Synthetic structure of industrial plastics,'' in \emph{Plastics,} 2\textsuperscript{nd} ed., vol. 3, J. Peters, Ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15--64.
 
