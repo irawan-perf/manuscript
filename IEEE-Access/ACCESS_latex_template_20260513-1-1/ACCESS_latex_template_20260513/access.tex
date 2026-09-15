@@ -156,22 +156,21 @@ Therefore, this paper demonstrates how converting the original CPR approach into
 	
 	\begin{minipage}{0.45\textwidth}
 		\vspace*{0pt}
-		\includegraphics[scale=0.27]{fig/seq-diagram-1-sync.png}
-		\vspace*{4pt}
-		\centering{\small\textbf{(a) Synchronous CPR/PCR (Flask/Gunicorn).}}
+		\includegraphics[scale=0.26]{fig/seq-diagram-1-sync.png}
+		%\vspace*{4pt}
+		\centering{\small(a)}
 		\label{fig:sync}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.45\textwidth}
 		\vspace*{0pt}
-		\includegraphics[scale=0.26]{fig/seq-diagram-2-async.png}
-		\vspace*{4pt}
-		\centering{\small\textbf{(b) Asynchronous CPR/PCR (Flask/Uvicorn).}}
+		\includegraphics[scale=0.25]{fig/seq-diagram-2-async.png}
+		%\vspace*{4pt}
+		\centering{\small(b)}
 		\label{fig:async}
 	\end{minipage}
-	
-	\vspace{10pt}
-	\caption{\textbf{Sequence process of synchronous vs asynchronous communication models of cloud-native application.}}
+	%\vspace{10pt}
+	\caption{\textbf{Sequence process of synchronous vs asynchronous communication models of cloud-native application on Connection Per Use (CPR) and Persistant Connections Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}
 	\label{fig:seq-model}
 \end{figure*}
 
@@ -481,7 +480,7 @@ By continuously monitoring this mathematical boundary, the system can autonomous
 
 \Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){fig/ctr-arc.png}
 { 
-	\textbf{The proactive autonomic controller architectures.}
+	\textbf{The autonomic controller architectures.}
 	\label{fig:ctr-arc}
 }
 
@@ -681,12 +680,36 @@ To precisely calculate the application-layer gateway overhead, we utilized two s
 
 Both tools executed 30 iterations for each target throughput level (ranging from 100 to 1000 Requests Per Second, or RPS), sustaining the load for 60 seconds per iteration to allow queueing buffers to stabilize.
 
+%\begin{figure}[t!]
+%	\centering
+%	\includegraphics[width=\textheight,keepaspectratio]{fig/eval-stg.png} % or \linewidth
+%	\caption{Evaluation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}
+%	\label{eval}
+%\end{figure}
+
+\begin{figure*}[t!]
+	\centering
+	
+	\begin{minipage}{0.9\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.22]{fig/eval-stg.png}
+		%\vspace*{4pt}
+		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
+		%\label{eval-stg}
+	\end{minipage}
+	%\vspace{10pt}
+	\caption{\textbf{Evaluation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}
+	\label{eval}
+\end{figure*}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Discussion}
 \label{sec5}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The empirical results have successfully proven that the predicted Asymptotic latency degradation is caused by the $M/M/c$ queuing model in the Connection-Per-Request (CPR) paradigm and have clearly demonstrated the transformational impact of Persistent Channel Reuse (PCR). 
+
 
 \subsection{Baseline: Backend gRPC Performance}
 \label{sec5.1}
@@ -711,6 +734,13 @@ This flat latency curve definitively proved that the backend architecture was no
 
 \textbf{Concurrency Configuration and Multiplexing:}
 During empirical testing, both \textit{ghz} and \textit{wrk2} were configured to simulate high concurrency using a fixed pool of 50 simultaneous client connections across all target throughput levels ($\lambda$). It is critical to note how these concurrent accesses are handled internally by the optimized gateway. Under the PCR paradigm, the concurrent requests arriving at the gateway are not queued sequentially over the network; instead, the underlying gRPC framework maps these concurrent application-level accesses into discrete, parallel HTTP/2 streams over a \textit{single} shared TCP connection. This mechanism prevents connection exhaustion and directly validates our mathematical assumption that $S_{pcr}$ approaches pure RPC execution time without queuing at the network socket layer.
+
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/baseline_latency.png} % or \linewidth
+	\caption{Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{baseline-perf}
+\end{figure}
 
 \subsection{Unoptimized System: The CPR Bottleneck}
 \label{sec5.2}
@@ -774,7 +804,46 @@ This empirical gap directly connects our theoretical approach to the user experi
 
 This reveals a fundamental "Performance-Abstraction Paradox." While developers utilize API gateways to seamlessly bridge RESTful clients (HTTP/1.1) with high-performance microservices (gRPC), this protocol translation introduces a structural latency tax that dwarfs the business logic itself. Consequently, while our PCR optimization resolves protocol-level queue saturation, the absolute lower bound of system latency remains strictly dictated by the gateway's HTTP-to-gRPC transcoding efficiency.
 
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/baseline_backend.png} % or \linewidth
+	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}
+	\label{baseline-backend}
+\end{figure}
+
 \subsection{Empirical Validation of the Queueing Model}
+
+\begin{figure*}[t!]
+	\centering
+	
+	\begin{minipage}{1\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.4]{fig/async-controller-perf.png}
+		%\vspace*{4pt}
+		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
+		%\label{eval-stg}
+	\end{minipage}
+	%\vspace{10pt}
+	\caption{\textbf{Autonomic controller performance evaluation in asynchronous mode (FastAPI/Uvicorn): (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}
+	\label{eval-ctr-async}
+\end{figure*}
+
+\begin{figure*}[t!]
+	\centering
+	
+	\begin{minipage}{1\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.4]{fig/sync-controller-perf.png}
+		%\vspace*{4pt}
+		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
+		%\label{eval-stg}
+	\end{minipage}
+	%\vspace{10pt}
+	\caption{\textbf{Autonomic controller performance evaluation in synchronous mode (Flask/Gunicorn): (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}
+	\label{eval-ctr-sync}
+\end{figure*}
 
 To rigorously evaluate the mathematical framework proposed in Section \ref{sec2}, we mapped our empirical throughput and latency data to the $M/M/c$ queueing model. Our objective was to prove that the catastrophic latency spikes observed were not random system failures, but rather predictable queuing saturation events driven by connection churn.
 
@@ -802,6 +871,12 @@ To clarify the protocol dynamics, the Persistent Channel Reuse (PCR) approach do
 
 Consequently, the queueing delay $W_{queue}$ collapsed. The empirical result—a drop in latency from $> 7,100 \text{ ms}$ to exactly $150 \text{ ms}$ at 600 RPS—serves as a direct physical validation of the $M/M/c$ model. It proves that correcting the $O(N)$ connection anti-pattern artificially scales the service rate $\mu$, averting queue saturation without provisioning any additional hardware capacity ($c$).
 
+%\Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){fig/sync-controller-perf.png}
+%{ 
+%	\textbf{The controller performance evaluation under 30 runs with dynamic load rate.}
+%	\label{fig:res-sync-ctr-perf}
+%}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future Work}
 \label{sec6}
@@ -811,86 +886,9 @@ In this paper, we investigated the hidden performance costs of application-layer
 
 Future work will expand this steady-state benchmarking methodology into the domain of Chaos Engineering. By introducing controlled faults (e.g., node resource starvation, sudden pod termination) under a persistent load. 
 
-\section{\break Submitting Your Paper for Review}
-
-\subsection{Final Stage}
-When your article is accepted, you can submit the final files, including figures, tables, and photos, per the journal's guidelines through the submission system used to submit the articlle.
- You may use \emph{Zip} for large files, or compress files using \emph{Compress, Pkzip, Stuffit,} or \emph{Gzip.}
-
-In addition, designate one author as the ``corresponding author.'' This is the author to
-whom proofs of the paper will be sent. Proofs are sent to the corresponding
-author only.
-
-\subsection{Review Stage Using IEEE Author Portal}
-Article contributions to IEEE Access should be submitted electronically on the IEEE Author Portal. For more information, please visit
-\underline{https://ieeeaccess.ieee.org/}.
-
-Along with other information, you will be asked to select the subject from a
-pull-down list. There are various steps to the
-submission process; you must complete all steps for a complete submission.
-At the end of each step you must click ``Save and Continue''; just uploading
-the paper is not sufficient. After the last step, you should see a
-confirmation that the submission is complete. You should also receive an
-e-mail confirmation. For inquiries regarding the submission of your article, please contact ieeeaccess@ieee.org.
-
-The manuscript should be prepared in a double column, single-spaced format using a required IEEE Access template.
-A Word or LaTeX file and a PDF file are both required upon submission in the IEEE Author Portal.
-
-\subsection{Final Stage Using IEEE Author Portal}
-Upon acceptance, you will receive an email with specific instructions
-
-Designate the author who submitted the manuscript on
-IEEE Author Portal as the ``corresponding author.'' This is the only
-author to whom proofs of the paper will be sent.
-
-\subsection{Copyright Form}
-Authors must submit an electronic IEEE Copyright Form (eCF) upon submitting
-their final manuscript files. You can access the eCF system through your
-manuscript submission system or through the Author Gateway. You are
-responsible for obtaining any necessary approvals and/or security
-clearances. For additional information on intellectual property rights,
-visit the IEEE Intellectual Property Rights department web page at
-\underline{http://www.ieee.org/publications\_standards/publications/}\break\underline{rights/index.html}.
-
-\section{\break IEEE Publishing Policy}
-The general IEEE policy requires that authors should only submit original
-work that has neither appeared elsewhere for publication, nor is under
-review for another refereed publication. The submitting author must disclose
-all prior publication(s) and current submissions when submitting a
-manuscript. Do not publish ``preliminary'' data or results. To avoid any delays in
-publication, please be sure to follow these instructions.  Final
-submissions should include source files of your accepted manuscript, high
-quality graphic files, and a formatted pdf file. If you have any questions
-regarding the final submission process, please contact the administrative
-contact for the journal.
-author is responsible for obtaining agreement of all coauthors and any
-consent required from employers or sponsors before submitting an article.
-
-The IEEE Access Editorial Office does not publish conference
-records or proceedings, but can publish articles related to conferences that
-have undergone rigorous peer review. Minimally, two reviews are required for
-every article submitted for peer review.
-
-\section{\break Publication Principles}
-Authors should consider the following points:
-
-\begin{enumerate}
-\item Technical papers submitted for publication must advance the state of knowledge and must cite relevant prior work.
-\item The length of a submitted paper should be commensurate with the importance, or appropriate to the complexity, of the work. For example, an obvious extension of previously published work might not be appropriate for publication or might be adequately treated in just a few pages.
-\item Authors must convince both peer reviewers and the editors of the scientific and technical merit of a paper; the standards of proof are higher when extraordinary or unexpected results are reported.
-\item Because replication is required for scientific progress, papers submitted for publication must provide sufficient information to allow readers to perform similar experiments or calculations and
-use the reported results. Although not everything need be disclosed, a paper
-must contain new, useable, and fully described information. For example, a
-specimen's chemical composition need not be reported if the main purpose of
-a paper is to introduce a new measurement technique. Authors should expect
-to be challenged by reviewers if the results are not supported by adequate
-data and critical details.
-\item Papers that describe ongoing work or announce the latest technical achievement, which are suitable for presentation at a professional conference, may not be appropriate for publication.
-\end{enumerate}
 
 
-
-\section{\break Reference Examples}
+\section{Reference Examples}
 
 \begin{itemize}
 

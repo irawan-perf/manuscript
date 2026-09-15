@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.20)  10 SEP 2026 17:22
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.20)  15 SEP 2026 17:54
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -694,9 +694,9 @@ Excluding 'comment' comment.
 File: fig/seq-diagram-1-sync.png Graphic file (type png)
 <use fig/seq-diagram-1-sync.png>
 Package pdftex.def Info: fig/seq-diagram-1-sync.png  used on input line 159.
-(pdftex.def)             Requested size: 266.40884pt x 283.21184pt.
+(pdftex.def)             Requested size: 256.53236pt x 272.71243pt.
 
-Overfull \hbox (39.1056pt too wide) in paragraph at lines 159--163
+Overfull \hbox (29.22913pt too wide) in paragraph at lines 159--163
  [][] 
  []
 
@@ -704,113 +704,113 @@ Overfull \hbox (39.1056pt too wide) in paragraph at lines 159--163
 File: fig/seq-diagram-2-async.png Graphic file (type png)
 <use fig/seq-diagram-2-async.png>
 Package pdftex.def Info: fig/seq-diagram-2-async.png  used on input line 167.
-(pdftex.def)             Requested size: 256.53236pt x 284.97798pt.
+(pdftex.def)             Requested size: 246.67096pt x 274.02307pt.
 
-Overfull \hbox (29.22913pt too wide) in paragraph at lines 167--171
+Overfull \hbox (19.36772pt too wide) in paragraph at lines 167--171
  [][] 
  []
 
 
-Underfull \hbox (badness 3690) in paragraph at lines 217--218
+Underfull \hbox (badness 3690) in paragraph at lines 216--217
 \T1/times/n/n/10 this variable under two distinct operational paradigms,
  []
 
 
-Underfull \hbox (badness 2229) in paragraph at lines 222--223
+Underfull \hbox (badness 2229) in paragraph at lines 221--222
 \T1/times/n/n/10 in the CPR section of Fig. 1[], the application gateway
  []
 
 
-Underfull \hbox (badness 1521) in paragraph at lines 228--229
+Underfull \hbox (badness 1521) in paragraph at lines 227--228
 []\T1/times/n/n/10 Where $\T1/times/n/it/10 t[]$ \T1/times/n/n/10 is the TCP 3-
 way handshake, $\T1/times/n/it/10 t[]$ \T1/times/n/n/10 is the
  []
 
 
-Underfull \hbox (badness 1478) in paragraph at lines 230--231
+Underfull \hbox (badness 1478) in paragraph at lines 229--230
 []\T1/times/n/n/10 In decentralized cloud-native architectures, the Client-
  []
 
 
-Underfull \hbox (badness 2181) in paragraph at lines 230--231
+Underfull \hbox (badness 2181) in paragraph at lines 229--230
 \T1/times/n/n/10 application container natively executes its own network
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 230--231
+Underfull \hbox (badness 2111) in paragraph at lines 229--230
 \T1/times/n/n/10 routing and load balancing (e.g., utilizing native gRPC
  []
 
 
-Underfull \hbox (badness 5147) in paragraph at lines 230--231
+Underfull \hbox (badness 5147) in paragraph at lines 229--230
 \T1/times/n/n/10 load balancing). This proxyless architecture minimizes
  []
 
 
-Underfull \hbox (badness 3942) in paragraph at lines 230--231
+Underfull \hbox (badness 3942) in paragraph at lines 229--230
 \T1/times/n/n/10 intermediate network hops, optimizing baseline latency
  []
 
 
-Underfull \hbox (badness 1831) in paragraph at lines 232--233
+Underfull \hbox (badness 1831) in paragraph at lines 231--232
 []\T1/times/n/n/10 From a queueing theory perspective, the CPR model
  []
 
 
-Underfull \hbox (badness 2165) in paragraph at lines 232--233
+Underfull \hbox (badness 2165) in paragraph at lines 231--232
 \T1/times/n/n/10 operates as a rigid $\T1/times/n/it/10 M\OML/cmm/m/it/10 =\T1/
 times/n/it/10 M\OML/cmm/m/it/10 =\T1/times/n/it/10 c$ \T1/times/n/n/10 queue. U
 nder acute traffic
  []
 
 
-Underfull \hbox (badness 1540) in paragraph at lines 232--233
+Underfull \hbox (badness 1540) in paragraph at lines 231--232
 \T1/times/n/n/10 surges, the network routing logic aggressively competes
  []
 
 Excluding 'comment' comment.
-Underfull \hbox (badness 2205) in paragraph at lines 252--253
+Underfull \hbox (badness 2205) in paragraph at lines 251--252
 []\T1/times/n/n/10 While conventional research often criticizes the PCR
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 252--253
+Underfull \hbox (badness 10000) in paragraph at lines 251--252
 \T1/times/n/n/10 model for introducing a continuous ``service mesh
  []
 
 
-Underfull \hbox (badness 2932) in paragraph at lines 252--253
+Underfull \hbox (badness 2932) in paragraph at lines 251--252
 \T1/times/n/n/10 tax''^^Vpermanent CPU, memory, and latency overheads
  []
 
 
-Underfull \hbox (badness 2600) in paragraph at lines 252--253
+Underfull \hbox (badness 2600) in paragraph at lines 251--252
 \T1/times/n/n/10 during normal operations^^Vits architectural strength lies
  []
 
 
-Underfull \hbox (badness 3735) in paragraph at lines 252--253
+Underfull \hbox (badness 3735) in paragraph at lines 251--252
 \T1/times/n/n/10 in robust queue management. In the PCR model, the
  []
 
 
-Underfull \hbox (badness 5726) in paragraph at lines 252--253
+Underfull \hbox (badness 5726) in paragraph at lines 251--252
 \T1/times/n/n/10 backlogs, and applies intelligent backpressure, thereby
  []
 
 
-Underfull \hbox (badness 1968) in paragraph at lines 252--253
+Underfull \hbox (badness 1968) in paragraph at lines 251--252
 \T1/times/n/n/10 protecting the underlying application container (whether
  []
 
 <notaglinelogo.png, id=21, 169.38281pt x 42.91031pt>
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 253.
+Package pdftex.def Info: notaglinelogo.png  used on input line 252.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 253.
+(Font)              using `T1/formata/m/it' instead on input line 252.
 
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -828,35 +828,35 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [2 <./notaglinelogo.png>]
-Underfull \hbox (badness 1783) in paragraph at lines 259--260
+Underfull \hbox (badness 1783) in paragraph at lines 258--259
 []\T1/times/n/n/10 The utilization of the gateway system is $\OML/cmm/m/it/10 ^
 ^Z \OT1/cmr/m/n/10 = []$\T1/times/n/n/10 .
  []
 
 
-Underfull \hbox (badness 2828) in paragraph at lines 265--266
+Underfull \hbox (badness 2828) in paragraph at lines 264--265
 \T1/times/n/n/10 rate $\OML/cmm/m/it/10 ^^V[]$ \T1/times/n/n/10 is artificially
  low. Therefore, under the CPR
  []
 
 
-Underfull \hbox (badness 1824) in paragraph at lines 267--268
+Underfull \hbox (badness 1824) in paragraph at lines 266--267
 \T1/times/n/n/10 the roles of the TCP session, the HTTP/2 stream, and
  []
 
 
-Underfull \hbox (badness 3815) in paragraph at lines 267--268
+Underfull \hbox (badness 3815) in paragraph at lines 266--267
 \T1/times/n/n/10 application-layer channel management. A \T1/times/b/n/10 TCP s
 ession
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 269--270
+Underfull \hbox (badness 1694) in paragraph at lines 268--269
 \T1/times/n/n/10 destroy a unique TCP session for every single request,
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 275--276
+Underfull \hbox (badness 10000) in paragraph at lines 274--275
 \T1/times/n/n/10 diverges fundamentally depending on the application
  []
 
@@ -884,22 +884,22 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [3 <./fig/seq-diagram-1-sync.png> <./fig/seq-diagram-2-async.png>]
-Underfull \hbox (badness 4479) in paragraph at lines 284--285
+Underfull \hbox (badness 4479) in paragraph at lines 283--284
 []\T1/times/n/n/10 When the arrival rate exceeds the aggregate thread
  []
 
 
-Underfull \hbox (badness 7397) in paragraph at lines 287--288
+Underfull \hbox (badness 7397) in paragraph at lines 286--287
 \T1/times/n/n/10 executes over an event loop using non-blocking I/O
  []
 
 
-Underfull \hbox (badness 1412) in paragraph at lines 295--296
+Underfull \hbox (badness 1412) in paragraph at lines 294--295
 \T1/times/n/n/10 enables the asynchronous gateway to hold thousands of
  []
 
 
-Underfull \hbox (badness 2772) in paragraph at lines 295--296
+Underfull \hbox (badness 2772) in paragraph at lines 294--295
 \T1/times/n/n/10 catastrophic packet drops far beyond the limits of the
  []
 
@@ -907,31 +907,31 @@ Excluding 'comment' comment.
 <fig/ctr-arc.png, id=36, 1543.7675pt x 992.70876pt>
 File: fig/ctr-arc.png Graphic file (type png)
 <use fig/ctr-arc.png>
-Package pdftex.def Info: fig/ctr-arc.png  used on input line 486.
+Package pdftex.def Info: fig/ctr-arc.png  used on input line 485.
 (pdftex.def)             Requested size: 385.94093pt x 248.17657pt.
 File: fig/ctr-arc.png Graphic file (type png)
 <use fig/ctr-arc.png>
-Package pdftex.def Info: fig/ctr-arc.png  used on input line 486.
+Package pdftex.def Info: fig/ctr-arc.png  used on input line 485.
 (pdftex.def)             Requested size: 385.94093pt x 248.17657pt.
 
-Underfull \hbox (badness 1424) in paragraph at lines 498--499
+Underfull \hbox (badness 1424) in paragraph at lines 497--498
 \T1/times/n/n/10 continuously evaluates both metrics for further analysis:
  []
 
 
-Underfull \hbox (badness 1694) in paragraph at lines 500--501
+Underfull \hbox (badness 1694) in paragraph at lines 499--500
 \T1/times/n/n/10 digital counter, registering the exact volume of discrete
  []
 
 
-Underfull \hbox (badness 8151) in paragraph at lines 528--529
+Underfull \hbox (badness 8151) in paragraph at lines 527--528
 []\T1/times/n/n/10 As $\OML/cmm/m/it/10 ^^Z \OMS/cmsy/m/n/10 ! \OT1/cmr/m/n/10 
 1$\T1/times/n/n/10 , $\T1/times/m/it/10 W[]$ \T1/times/n/n/10 approaches infini
 ty. This
  []
 
 
-Underfull \hbox (badness 8000) in paragraph at lines 528--529
+Underfull \hbox (badness 8000) in paragraph at lines 527--528
 \T1/times/n/n/10 waiting for system utilization to completely fail
  []
 
@@ -959,104 +959,100 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [4]
-Underfull \hbox (badness 2573) in paragraph at lines 532--533
+Underfull \hbox (badness 2573) in paragraph at lines 531--532
 []\T1/times/n/n/10 To guarantee survivability, the controller defines a
  []
 
 
-Underfull \hbox (badness 6876) in paragraph at lines 532--533
+Underfull \hbox (badness 6876) in paragraph at lines 531--532
 \T1/times/n/n/10 predictive intervention boundary ($\OML/cmm/m/it/10 ^^U[]$\T1/
 times/n/n/10 ) using a
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 []\T1/times/n/n/10 While the predictive trigger anticipates resource
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 \T1/times/n/n/10 exhaustion based on theoretical capacity, actual
  []
 
 
-Underfull \hbox (badness 1796) in paragraph at lines 538--539
+Underfull \hbox (badness 1796) in paragraph at lines 537--538
 \T1/times/n/n/10 system degradation must be empirically verified to
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 \T1/times/n/n/10 this through real-time Service Level Agreement
  []
 
 
-Underfull \hbox (badness 7362) in paragraph at lines 538--539
+Underfull \hbox (badness 7362) in paragraph at lines 537--538
 \T1/times/n/n/10 (SLA) monitoring, specifically targeting the 95th
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 \T1/times/n/n/10 percentile application latency ($\T1/times/m/it/10 L[]$\T1/tim
 es/n/n/10 ). To acquire
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 538--539
+Underfull \hbox (badness 10000) in paragraph at lines 537--538
 \T1/times/n/n/10 this metric accurately, the control plane queries
  []
 
 
-Underfull \hbox (badness 1496) in paragraph at lines 538--539
+Underfull \hbox (badness 1496) in paragraph at lines 537--538
 \T1/times/n/n/10 across these distribution buckets over a one-minute
  []
 
 
-Underfull \hbox (badness 2111) in paragraph at lines 538--539
+Underfull \hbox (badness 2111) in paragraph at lines 537--538
 \T1/times/n/n/10 network timers is a critical architectural choice; it
  []
 
 
-Underfull \hbox (badness 2564) in paragraph at lines 538--539
+Underfull \hbox (badness 2564) in paragraph at lines 537--538
 \T1/times/n/n/10 strictly isolates the application's true compute and
  []
 
 
-Underfull \hbox (badness 1466) in paragraph at lines 538--539
+Underfull \hbox (badness 1466) in paragraph at lines 537--538
 \T1/times/n/n/10 event-loop processing delays from external network
  []
 
 
-Underfull \hbox (badness 2012) in paragraph at lines 538--539
+Underfull \hbox (badness 2012) in paragraph at lines 537--538
 \T1/times/n/n/10 mesh queuing.Targeting the 95th percentile ensures
  []
 
 
-Underfull \hbox (badness 3568) in paragraph at lines 538--539
+Underfull \hbox (badness 3568) in paragraph at lines 537--538
 \T1/times/n/n/10 the controller focuses on the degraded experience
  []
 
 
-Overfull \hbox (3.99614pt too wide) in paragraph at lines 546--547
+Overfull \hbox (3.99614pt too wide) in paragraph at lines 545--546
 \T1/times/n/n/10 The control framework directly solves architectural inelastici
 ty
  []
 
 
-Underfull \hbox (badness 2837) in paragraph at lines 546--547
+Underfull \hbox (badness 2837) in paragraph at lines 545--546
 \T1/times/n/n/10 by bridging the CPR and PCR states dynamically. To
  []
 
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 548.
+(Font)              using `T1/formata/m/it' instead on input line 550.
 
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 548.
+Package pdftex.def Info: notaglinelogo.png  used on input line 550.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1074,79 +1070,78 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [5 <./fig/ctr-arc.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 555--555
+Underfull \hbox (badness 10000) in paragraph at lines 554--554
 []\T1/times/b/n/10 Algorithm 1 \T1/times/n/n/10 Autonomic Controller with Math-
 based
  []
 
 
-Overfull \hbox (11.45413pt too wide) in paragraph at lines 637--650
+Underfull \vbox (badness 1668) has occurred while \output is active []
+
+
+Overfull \hbox (11.45413pt too wide) in paragraph at lines 636--649
  [][] 
  []
 
 <fig/topology.png, id=50, 633.36626pt x 691.58376pt>
 File: fig/topology.png Graphic file (type png)
 <use fig/topology.png>
-Package pdftex.def Info: fig/topology.png  used on input line 654.
+Package pdftex.def Info: fig/topology.png  used on input line 653.
 (pdftex.def)             Requested size: 123.07585pt x 134.38869pt.
 
-Underfull \hbox (badness 1533) in paragraph at lines 662--663
+Underfull \hbox (badness 1533) in paragraph at lines 661--662
 \T1/times/n/n/10 The experiment was conducted on a Kubernetes cluster
  []
 
 
-Underfull \hbox (badness 2351) in paragraph at lines 662--663
+Underfull \hbox (badness 2351) in paragraph at lines 661--662
 \T1/times/n/n/10 3[]. The system under test (SUT) consists of two main
  []
 
 
-Underfull \hbox (badness 5175) in paragraph at lines 665--666
+Underfull \hbox (badness 5175) in paragraph at lines 664--665
 []\T1/times/b/n/10 gRPC Backend Service (prime-server)\T1/times/n/n/10 : A high
 -
  []
 
 
-Underfull \hbox (badness 6016) in paragraph at lines 665--666
+Underfull \hbox (badness 6016) in paragraph at lines 664--665
 \T1/times/n/n/10 intensive prime number verification. To eliminate
  []
 
 
-Underfull \hbox (badness 5652) in paragraph at lines 665--666
+Underfull \hbox (badness 5652) in paragraph at lines 664--665
 \T1/times/n/n/10 backend capacity as a confounding variable, this
  []
 
 
-Underfull \hbox (badness 3417) in paragraph at lines 665--666
+Underfull \hbox (badness 3417) in paragraph at lines 664--665
 \T1/times/n/n/10 component was over-provisioned with 10 identical
  []
 
 
-Underfull \hbox (badness 4660) in paragraph at lines 667--668
+Underfull \hbox (badness 4660) in paragraph at lines 666--667
 []\T1/times/b/n/10 API Gateway (prime-frontend)\T1/times/n/n/10 : A Python Flas
 k
  []
 
 
-Underfull \hbox (badness 2762) in paragraph at lines 667--668
+Underfull \hbox (badness 2762) in paragraph at lines 666--667
 \T1/times/n/n/10 application running within Gunicorn workers. This
  []
 
 
-Underfull \hbox (badness 4913) in paragraph at lines 667--668
+Underfull \hbox (badness 4913) in paragraph at lines 666--667
 \T1/times/n/n/10 force saturation and observe gateway-tier queuing
  []
 
-
-Underfull \vbox (badness 1067) has occurred while \output is active []
-
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 668.
+Package pdftex.def Info: notaglinelogo.png  used on input line 667.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
-
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 668.
+(Font)              using `T1/formata/m/it' instead on input line 667.
 
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1165,145 +1160,160 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 
 [6 <./fig/topology.png>]
 
-LaTeX Warning: Reference `fig3' on page 7 undefined on input line 674.
+LaTeX Warning: Reference `fig3' on page 7 undefined on input line 673.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 674--675
+Underfull \hbox (badness 10000) in paragraph at lines 673--674
 \T1/times/n/n/10 To precisely calculate the application-layer gateway
  []
 
 
+LaTeX Warning: Reference `alg1' on page 7 undefined on input line 676.
+
+
 LaTeX Warning: Reference `alg1' on page 7 undefined on input line 677.
 
+<fig/eval-stg.png, id=55, 2027.575pt x 542.025pt>
+File: fig/eval-stg.png Graphic file (type png)
+<use fig/eval-stg.png>
+Package pdftex.def Info: fig/eval-stg.png  used on input line 696.
+(pdftex.def)             Requested size: 446.06789pt x 119.24586pt.
 
-LaTeX Warning: Reference `alg1' on page 7 undefined on input line 678.
-
-
-Underfull \hbox (badness 1917) in paragraph at lines 689--690
+Underfull \hbox (badness 1917) in paragraph at lines 711--712
 \T1/times/n/n/10 The empirical results have successfully proven that the
  []
 
 
-Underfull \hbox (badness 3323) in paragraph at lines 689--690
+Underfull \hbox (badness 3323) in paragraph at lines 711--712
 \T1/times/n/n/10 predicted Asymptotic latency degradation is caused by
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 689--690
+Underfull \hbox (badness 10000) in paragraph at lines 711--712
 \T1/times/n/n/10 (CPR) paradigm and have clearly demonstrated the
  []
 
 
-LaTeX Warning: Reference `fig4' on page 7 undefined on input line 710.
+LaTeX Warning: Reference `fig4' on page 7 undefined on input line 733.
 
 
-Underfull \hbox (badness 5288) in paragraph at lines 710--711
+Underfull \hbox (badness 5288) in paragraph at lines 733--734
 []\T1/times/n/n/10 This flat latency curve definitively proved that the
  []
 
 
-Underfull \hbox (badness 2065) in paragraph at lines 710--711
+Underfull \hbox (badness 2065) in paragraph at lines 733--734
 \T1/times/n/n/10 backend architecture was not the system bottleneck, as
  []
 
 
-Underfull \hbox (badness 3780) in paragraph at lines 712--714
+Underfull \hbox (badness 3780) in paragraph at lines 735--737
 \T1/times/n/n/10 empirical testing, both \T1/times/m/it/10 ghz \T1/times/n/n/10
  and \T1/times/m/it/10 wrk2 \T1/times/n/n/10 were configured
  []
 
 
-Underfull \hbox (badness 1681) in paragraph at lines 712--714
+Underfull \hbox (badness 1681) in paragraph at lines 735--737
 \T1/times/n/n/10 to simulate high concurrency using a fixed pool of 50
  []
 
 
-Underfull \hbox (badness 3386) in paragraph at lines 712--714
+Underfull \hbox (badness 3386) in paragraph at lines 735--737
 \T1/times/n/n/10 levels ($\OML/cmm/m/it/10 ^^U$\T1/times/n/n/10 ). It is critic
 al to note how these concurrent
  []
 
 
-Underfull \hbox (badness 5667) in paragraph at lines 712--714
+Underfull \hbox (badness 5667) in paragraph at lines 735--737
 \T1/times/n/n/10 at the gateway are not queued sequentially over the
  []
 
 
-Underfull \hbox (badness 2393) in paragraph at lines 712--714
+Underfull \hbox (badness 2393) in paragraph at lines 735--737
 \T1/times/n/n/10 HTTP/2 streams over a \T1/times/m/it/10 single \T1/times/n/n/1
 0 shared TCP connection.
  []
 
+<fig/baseline_latency.png, id=56, 502.5174pt x 383.2719pt>
+File: fig/baseline_latency.png Graphic file (type png)
+<use fig/baseline_latency.png>
+Package pdftex.def Info: fig/baseline_latency.png  used on input line 740.
+(pdftex.def)             Requested size: 242.67015pt x 185.08543pt.
 
-LaTeX Warning: Reference `fig5' on page 7 undefined on input line 718.
+LaTeX Warning: Reference `fig5' on page 7 undefined on input line 748.
 
 
-Underfull \hbox (badness 3302) in paragraph at lines 720--721
+Underfull \hbox (badness 3302) in paragraph at lines 750--751
 []\T1/times/n/n/10 Median latency exploded to $\OML/cmm/m/it/10 > \OT1/cmr/m/n/
 10 7\OML/cmm/m/it/10 ; \OT1/cmr/m/n/10 100[]$\T1/times/n/n/10 , and p99
  []
 
 
-Underfull \hbox (badness 2088) in paragraph at lines 720--721
+Underfull \hbox (badness 2088) in paragraph at lines 750--751
 \T1/times/n/n/10 perfectly aligns with the queueing theory model where
  []
 
 
-Underfull \hbox (badness 4156) in paragraph at lines 720--721
+Underfull \hbox (badness 4156) in paragraph at lines 750--751
 \T1/times/n/n/10 service time ($\T1/times/m/it/10 S[]$\T1/times/n/n/10 ) is art
 ificially inflated by excessive
  []
 
 
-LaTeX Warning: Reference `alg1' on page 7 undefined on input line 725.
+LaTeX Warning: Reference `alg1' on page 7 undefined on input line 755.
 
 
-LaTeX Warning: Reference `fig5' on page 7 undefined on input line 727.
+LaTeX Warning: Reference `fig5' on page 7 undefined on input line 757.
 
 
-Underfull \hbox (badness 1648) in paragraph at lines 727--728
+Underfull \hbox (badness 1648) in paragraph at lines 757--758
 \T1/times/n/n/10 side). This represents a $\OMS/cmsy/m/n/10 ^^X \OT1/cmr/m/n/10
  97\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 9%$ \T1/times/n/n/10 reduction in end-to-
  []
 
 
-Underfull \hbox (badness 1540) in paragraph at lines 727--728
+Underfull \hbox (badness 1540) in paragraph at lines 757--758
 \T1/times/n/n/10 the system successfully sustained loads up to 800 RPS
  []
 
 
-Underfull \hbox (badness 7722) in paragraph at lines 732--733
+Underfull \hbox (badness 7722) in paragraph at lines 762--763
 \T1/times/n/n/10 By subtracting the baseline backend network latency
  []
 
 
-Underfull \hbox (badness 2980) in paragraph at lines 732--733
+Underfull \hbox (badness 2980) in paragraph at lines 762--763
 \T1/times/n/n/10 latency ($\T1/times/m/it/10 T[]$\T1/times/n/n/10 ) measured vi
 a \T1/times/m/it/10 wrk2\T1/times/n/n/10 , we can isolate the
  []
 
 
-Underfull \hbox (badness 3724) in paragraph at lines 732--733
+Underfull \hbox (badness 3724) in paragraph at lines 762--763
 \T1/times/n/n/10 latency strictly attributable to the framework's internal
  []
 
 
-Overfull \hbox (27.71805pt too wide) in paragraph at lines 757--769
+Overfull \hbox (27.71805pt too wide) in paragraph at lines 787--799
  [][] 
  []
 
 
-Underfull \hbox (badness 2005) in paragraph at lines 771--772
+Underfull \hbox (badness 2005) in paragraph at lines 801--802
 \T1/times/n/n/10 paradox in the optimized PCR paradigm. Although the
  []
 
 
+Underfull \hbox (badness 4479) in paragraph at lines 803--804
+[]\T1/times/n/n/10 This empirical gap directly connects our theoretical
+ []
+
+
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 772.
+(Font)              using `T1/formata/m/it' instead on input line 804.
 
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 772.
+Package pdftex.def Info: notaglinelogo.png  used on input line 804.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1321,219 +1331,199 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [7]
-Underfull \hbox (badness 4479) in paragraph at lines 773--774
-[]\T1/times/n/n/10 This empirical gap directly connects our theoretical
- []
-
-
-Underfull \hbox (badness 4193) in paragraph at lines 775--776
+Underfull \hbox (badness 4193) in paragraph at lines 805--806
 []\T1/times/n/n/10 This reveals a fundamental "Performance-Abstraction
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 775--776
+Underfull \hbox (badness 10000) in paragraph at lines 805--806
 \T1/times/n/n/10 Paradox." While developers utilize API gateways to
  []
 
 
-Underfull \hbox (badness 3000) in paragraph at lines 775--776
+Underfull \hbox (badness 3000) in paragraph at lines 805--806
 \T1/times/n/n/10 logic itself. Consequently, while our PCR optimization
  []
 
+<fig/baseline_backend.png, id=64, 503.2401pt x 383.2719pt>
+File: fig/baseline_backend.png Graphic file (type png)
+<use fig/baseline_backend.png>
+Package pdftex.def Info: fig/baseline_backend.png  used on input line 809.
+(pdftex.def)             Requested size: 242.6736pt x 184.82225pt.
+<fig/async-controller-perf.png, id=65, 1286.6469pt x 708.4869pt>
+File: fig/async-controller-perf.png Graphic file (type png)
+<use fig/async-controller-perf.png>
+Package pdftex.def Info: fig/async-controller-perf.png  used on input line 822.
 
-Underfull \hbox (badness 1565) in paragraph at lines 779--780
+(pdftex.def)             Requested size: 514.64964pt x 283.38972pt.
+
+Overfull \hbox (9.52788pt too wide) in paragraph at lines 822--826
+ [][] 
+ []
+
+<fig/sync-controller-perf.png, id=66, 1286.6469pt x 708.4869pt>
+File: fig/sync-controller-perf.png Graphic file (type png)
+<use fig/sync-controller-perf.png>
+Package pdftex.def Info: fig/sync-controller-perf.png  used on input line 838.
+(pdftex.def)             Requested size: 514.64964pt x 283.38972pt.
+
+Overfull \hbox (9.52788pt too wide) in paragraph at lines 838--842
+ [][] 
+ []
+
+
+Underfull \hbox (badness 1565) in paragraph at lines 848--849
 \T1/times/n/n/10 were not random system failures, but rather predictable
  []
 
 
-Underfull \hbox (badness 3302) in paragraph at lines 795--797
+Underfull \vbox (badness 5652) has occurred while \output is active []
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 862.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 862.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[8 <./fig/eval-stg.png> <./fig/baseline_latency.png> <./fig/baseline_backend.pn
+g>]
+
+LaTeX Warning: Text page 9 contains only floats.
+
+
+Overfull \vbox (4.482pt too high) has occurred while \output is active []
+
+
+
+LaTeX Warning: Text page 9 contains only floats.
+
+
+Overfull \vbox (4.482pt too high) has occurred while \output is active []
+
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 862.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 862.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[9 <./fig/async-controller-perf.png> <./fig/sync-controller-perf.png>]
+Underfull \hbox (badness 3302) in paragraph at lines 864--866
 []\T1/times/b/n/10 Evaluating the CPR Saturation Point: \T1/times/n/n/10 During
  our
  []
 
 
-Underfull \hbox (badness 4441) in paragraph at lines 801--802
+Underfull \hbox (badness 4441) in paragraph at lines 870--871
 \T1/times/n/n/10 Reuse (PCR) approach does not reimplement HTTP/2
  []
 
 
-Underfull \hbox (badness 3525) in paragraph at lines 810--811
+Underfull \hbox (badness 3525) in paragraph at lines 885--886
 \T1/times/n/n/10 In this paper, we investigated the hidden performance
  []
 
 
-Underfull \hbox (badness 2600) in paragraph at lines 810--811
+Underfull \hbox (badness 2600) in paragraph at lines 885--886
 \T1/times/n/n/10 costs of application-layer communication bottlenecks in
  []
 
 
-Underfull \hbox (badness 3713) in paragraph at lines 810--811
+Underfull \hbox (badness 3713) in paragraph at lines 885--886
 \T1/times/n/n/10 and contrasted it with a refactored Persistent Channel
  []
 
 
-Underfull \hbox (badness 2229) in paragraph at lines 810--811
+Underfull \hbox (badness 2229) in paragraph at lines 885--886
 \T1/times/n/n/10 Reuse (PCR) approach. The observation of actual runs
  []
 
 
-Underfull \hbox (badness 3514) in paragraph at lines 810--811
+Underfull \hbox (badness 3514) in paragraph at lines 885--886
 \T1/times/n/n/10 system latency^^Vdropping from over 7,100 ms to 150
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 810--811
+Underfull \hbox (badness 1881) in paragraph at lines 885--886
 \T1/times/n/n/10 ms under a peak load of 600 RPS. This study proves
  []
 
 
-Underfull \hbox (badness 1490) in paragraph at lines 810--811
+Underfull \hbox (badness 1490) in paragraph at lines 885--886
 \T1/times/n/n/10 the infrastructure gateway and to the compute backend,
  []
 
-File: notaglinelogo.png Graphic file (type png)
-<use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 823.
-(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
-LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 823.
-
-
-Overfull \hbox (505.12177pt too wide) has occurred while \output is active
-[]
- []
-
-
-Overfull \hbox (505.12177pt too wide) has occurred while \output is active
-[]
- []
-
-
-Underfull \hbox (badness 10000) has occurred while \output is active
-[]
- []
-
-[8]
-Underfull \hbox (badness 8094) in paragraph at lines 825--827
-\T1/times/n/n/10 electronically on the IEEE Author Portal. For more
- []
-
-
-Underfull \hbox (badness 1609) in paragraph at lines 847--854
-\T1/times/n/n/10 (eCF) upon submitting their final manuscript files. You
- []
-
-
-Underfull \hbox (badness 6510) in paragraph at lines 847--854
-\T1/times/n/n/10 can access the eCF system through your manuscript
- []
-
-
-Overfull \hbox (79.79279pt too wide) in paragraph at lines 847--854
-\T1/times/n/n/10 department web page at $[]$
- []
-
-
-Underfull \hbox (badness 3557) in paragraph at lines 869--873
-[]\T1/times/n/n/10 The IEEE Access Editorial Office does not publish
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 878--879
-[]\T1/times/n/n/10 Technical papers submitted for publication must
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 881--888
-\T1/times/n/n/10 information to allow readers to perform similar
- []
-
-
-Underfull \hbox (badness 1472) in paragraph at lines 888--889
-\T1/times/n/n/10 latest technical achievement, which are suitable for
- []
-
-
-Underfull \hbox (badness 3396) in paragraph at lines 901--904
+Underfull \hbox (badness 3396) in paragraph at lines 899--902
 \T1/times/n/n/10 J. K. Author, ``Name of paper,'' \T1/times/m/it/10 Abbrev. Tit
 le of
  []
 
 
-LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 912.
-
-File: notaglinelogo.png Graphic file (type png)
-<use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 912.
-(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
-
-Overfull \hbox (505.12177pt too wide) has occurred while \output is active
-[]
- []
-
-
-Overfull \hbox (505.12177pt too wide) has occurred while \output is active
-[]
- []
-
-
-Underfull \hbox (badness 10000) has occurred while \output is active
-[]
- []
-
-[9]
-Underfull \hbox (badness 3396) in paragraph at lines 920--923
+Underfull \hbox (badness 3396) in paragraph at lines 918--921
 \T1/times/n/n/10 J. K. Author, ``Name of paper,'' \T1/times/m/it/10 Abbrev. Tit
 le of
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 920--923
+Underfull \hbox (badness 10000) in paragraph at lines 918--921
 \T1/times/m/it/10 Periodical\T1/times/n/n/10 , vol. $\T1/times/m/it/10 x$\T1/ti
 mes/n/n/10 , no. $\T1/times/m/it/10 x$\T1/times/n/n/10 , pp. \T1/times/m/it/10 
 xxx--xxx\T1/times/n/n/10 , Abbrev.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 924--927
+Underfull \hbox (badness 10000) in paragraph at lines 922--925
 \T1/times/n/n/10 J.K. Author. (year, month). Title. presented at
  []
 
 
-Underfull \hbox (badness 1622) in paragraph at lines 936--939
+Underfull \hbox (badness 1622) in paragraph at lines 934--937
 \T1/times/n/n/10 day). Patent Number [Type of medium]. Available:
- []
-
-
-Overfull \hbox (13.7635pt too wide) in paragraph at lines 944--946
-[]\T1/times/m/it/10 Example for papers presented at conferences (unpublished): 
-
- []
-
-
-Overfull \hbox (3.64017pt too wide) in paragraph at lines 954--955
-[]\T1/times/n/n/10 J. K. Author, ``Title of dissertation,'' Ph.D. dissertation,
-
- []
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Underfull \hbox (badness 2351) in paragraph at lines 995--996
-\T1/times/n/n/7.61 and southbound APIs for IPv6 segment routing enabled wide ar
-ea
  []
 
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 1016.
+Package pdftex.def Info: notaglinelogo.png  used on input line 937.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 1016.
+(Font)              using `T1/formata/m/it' instead on input line 937.
 
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
@@ -1551,128 +1541,169 @@ Underfull \hbox (badness 10000) has occurred while \output is active
  []
 
 [10]
-Underfull \hbox (badness 3989) in paragraph at lines 1017--1018
+Overfull \hbox (13.7635pt too wide) in paragraph at lines 942--944
+[]\T1/times/m/it/10 Example for papers presented at conferences (unpublished): 
+
+ []
+
+
+Overfull \hbox (3.64017pt too wide) in paragraph at lines 952--953
+[]\T1/times/n/n/10 J. K. Author, ``Title of dissertation,'' Ph.D. dissertation,
+
+ []
+
+
+Underfull \hbox (badness 2351) in paragraph at lines 993--994
+\T1/times/n/n/7.61 and southbound APIs for IPv6 segment routing enabled wide ar
+ea
+ []
+
+
+Underfull \hbox (badness 3989) in paragraph at lines 1015--1016
 \T1/times/m/n/7.61 Optimized Task Scheduling Algorithm for Cloud Computing With
 
  []
 
-LaTeX Font Info:    Calculating math sizes for size <7.61> on input line 1022.
+LaTeX Font Info:    Calculating math sizes for size <7.61> on input line 1020.
 
-Underfull \hbox (badness 5578) in paragraph at lines 1024--1025
+Underfull \hbox (badness 5578) in paragraph at lines 1022--1023
 []\T1/times/m/n/7.61 W.-K. Chen, \T1/times/n/it/7.61 Linear Networks and System
 s. \T1/times/m/n/7.61 Belmont, CA, USA:
  []
 
 
-Underfull \hbox (badness 4582) in paragraph at lines 1026--1027
+Underfull \hbox (badness 4582) in paragraph at lines 1024--1025
 []\T1/times/m/n/7.61 J. U. Duncombe, ``Infrared navigation---Part I: An assessm
 ent of
  []
 
 
-Underfull \hbox (badness 2310) in paragraph at lines 1030--1031
+Underfull \hbox (badness 2310) in paragraph at lines 1028--1029
 []\T1/times/m/n/7.61 E. H. Miller, ``A note on reflector arrays,'' \T1/times/n/
 it/7.61 IEEE Trans. Antennas
  []
 
 
-Underfull \hbox (badness 5490) in paragraph at lines 1040--1045
+Underfull \hbox (badness 5490) in paragraph at lines 1038--1043
 \T1/times/m/n/7.61 vol. 3, Polymers of Hexadromicon, J. Peters, Ed., 2[]  ed. N
 ew
  []
 
 
-Underfull \hbox (badness 1968) in paragraph at lines 1046--1049
+Underfull \hbox (badness 1968) in paragraph at lines 1044--1047
 \T1/times/m/n/7.61 Chicago, IL, USA: Univ. Chicago Press, 1987. [Online]. Avail
 able:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1050--1053
+Underfull \hbox (badness 10000) in paragraph at lines 1048--1051
 \T1/times/m/n/7.61 Available: $[]$.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1065--1069
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 1063.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 1063.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[11]
+Underfull \hbox (badness 10000) in paragraph at lines 1063--1067
 []\T1/times/m/n/7.61 PROCESS Corporation, Boston, MA, USA. Intranets: Internet
  []
 
 
-Underfull \hbox (badness 1371) in paragraph at lines 1065--1069
+Underfull \hbox (badness 1371) in paragraph at lines 1063--1067
 \T1/times/m/n/7.61 technologies deployed behind the firewall for corporate prod
 uctivity.
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1065--1069
+Underfull \hbox (badness 10000) in paragraph at lines 1063--1067
 \T1/times/m/n/7.61 Presented at INET96 Annual Meeting. [Online]. Available:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1075
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1073
 []\T1/times/m/n/7.61 Teralyzer. Lytera UG, Kirchhain, Germany [Online]. Availab
 le:
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1072--1075
+Underfull \hbox (badness 10000) in paragraph at lines 1070--1073
 []$\T1/times/m/n/7.61 ,
  []
 
 
-Underfull \hbox (badness 4108) in paragraph at lines 1082--1083
+Underfull \hbox (badness 4108) in paragraph at lines 1080--1081
 []\T1/times/m/n/7.61 D. Ebehard and E. Voges, ``Digital single sideband detecti
 on for
  []
 
-<author1.png, id=71, 225.84375pt x 282.30469pt>
+<author1.png, id=84, 225.84375pt x 282.30469pt>
 File: author1.png Graphic file (type png)
 <use author1.png>
-Package pdftex.def Info: author1.png  used on input line 1108.
+Package pdftex.def Info: author1.png  used on input line 1106.
 (pdftex.def)             Requested size: 72.27147pt x 90.33934pt.
 File: author1.png Graphic file (type png)
 <use author1.png>
-Package pdftex.def Info: author1.png  used on input line 1108.
+Package pdftex.def Info: author1.png  used on input line 1106.
 (pdftex.def)             Requested size: 72.27147pt x 90.33934pt.
 
-Underfull \hbox (badness 6157) in paragraph at lines 1108--1125
+Underfull \hbox (badness 6157) in paragraph at lines 1106--1123
 []\T1/formata/m/n/8 FIRST A. AUTHOR \T1/times/n/n/8 received the B.S. and
  []
 
 
-Underfull \hbox (badness 2753) in paragraph at lines 1108--1125
+Underfull \hbox (badness 2753) in paragraph at lines 1106--1123
 \T1/times/n/n/8 with the Mechanical Engineering Department,
  []
 
 
-Underfull \hbox (badness 7722) in paragraph at lines 1108--1125
+Underfull \hbox (badness 7722) in paragraph at lines 1106--1123
 []\T1/times/n/n/8 Dr. Author was a recipient of the International Association o
 f
  []
 
-<author2.png, id=74, 225.84375pt x 282.30469pt>
+<author2.png, id=87, 225.84375pt x 282.30469pt>
 File: author2.png Graphic file (type png)
 <use author2.png>
-Package pdftex.def Info: author2.png  used on input line 1128.
+Package pdftex.def Info: author2.png  used on input line 1126.
 (pdftex.def)             Requested size: 72.27147pt x 90.33934pt.
 File: author2.png Graphic file (type png)
 <use author2.png>
-Package pdftex.def Info: author2.png  used on input line 1128.
+Package pdftex.def Info: author2.png  used on input line 1126.
 (pdftex.def)             Requested size: 72.27147pt x 90.33934pt.
 
-Underfull \hbox (badness 6944) in paragraph at lines 1128--1154
+Underfull \hbox (badness 6944) in paragraph at lines 1126--1152
 \T1/times/n/n/8 are often not included in conference-related
  []
-
-
-LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 1154.
 
 File: notaglinelogo.png Graphic file (type png)
 <use notaglinelogo.png>
 Package pdftex.def Info: notaglinelogo.png  used on input line 1154.
 (pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 1154.
+
+
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
 []
  []
@@ -1687,20 +1718,20 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[11 <./author1.png>]
+[12 <./author1.png> <./author2.png>]
 File: bullet.png Graphic file (type png)
 <use bullet.png>
-Package pdftex.def Info: bullet.png  used on input line 1179.
+Package pdftex.def Info: bullet.png  used on input line 1177.
 (pdftex.def)             Requested size: 5.0pt x 14.6871pt.
-File: notaglinelogo.png Graphic file (type png)
-<use notaglinelogo.png>
-Package pdftex.def Info: notaglinelogo.png  used on input line 1181.
-(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 
 LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
-(Font)              using `T1/formata/m/it' instead on input line 1181.
+(Font)              using `T1/formata/m/it' instead on input line 1179.
 
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 1179.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
 
 Overfull \hbox (505.12177pt too wide) has occurred while \output is active
 []
@@ -1716,7 +1747,9 @@ Underfull \hbox (badness 10000) has occurred while \output is active
 []
  []
 
-[12 <./author2.png>] (access.aux)
+[13
+
+] (access.aux)
  ***********
 LaTeX2e <2026-06-01>
 L3 programming layer <2026-07-20>
@@ -1730,11 +1763,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 9621 strings out of 469438
- 215330 string characters out of 5460503
- 610256 words of memory out of 5000000
- 38484 multiletter control sequences out of 15000+600000
- 727620 words of font info for 207 fonts, out of 8000000 for 9000
+ 9662 strings out of 469438
+ 216506 string characters out of 5460503
+ 611401 words of memory out of 5000000
+ 38525 multiletter control sequences out of 15000+600000
+ 728447 words of font info for 208 fonts, out of 8000000 for 9000
  0 hyphenation exceptions out of 8191
  73i,13n,80p,2018b,541s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </home/irawan/.miktex/texmfs/install/fonts/type1/public/amsfonts/cm/cmex10.pf
@@ -1755,9 +1788,9 @@ ata-bold.pfb><./t1-formata-condmedium.pfb><./t1-formata-italic.pfb><./t1-format
 a-medium.pfb><./t1-formata-mediumitalic.pfb><./t1-formata-regular.pfb><./t1-gio
 vannistd-bookitalic.pfb><./t1-times-bold.pfb><./t1-times-italic.pfb><./t1-times
 .pfb>
-Output written on access.pdf (12 pages, 1076841 bytes).
+Output written on access.pdf (13 pages, 3483797 bytes).
 PDF statistics:
- 185 PDF objects out of 1000 (max. 8388607)
+ 199 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 78 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
