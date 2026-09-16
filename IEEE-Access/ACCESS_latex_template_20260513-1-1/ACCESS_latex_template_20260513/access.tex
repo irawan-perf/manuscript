@@ -162,7 +162,7 @@ Therefore, this paper demonstrates how converting the original CPR approach into
 		\label{fig:sync}
 	\end{minipage}
 	\hfill
-	\begin{minipage}{0.45\textwidth}
+	\begin{minipage}{0.48\textwidth}
 		\vspace*{0pt}
 		\includegraphics[scale=0.25]{fig/seq-diagram-2-async.png}
 		%\vspace*{4pt}
@@ -658,6 +658,22 @@ Our testbed uses a Python WSGI stack (Flask/Gunicorn \cite{gunicorn}) as a stand
 \subsection{Experimental Environment and Architecture}
 \label{sec4.1}
 
+\begin{figure*}[t!]
+	\centering
+	
+	\begin{minipage}{0.9\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.22]{fig/eval-stg.png}
+		%\vspace*{4pt}
+		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
+		%\label{eval-stg}
+	\end{minipage}
+	%\vspace{10pt}
+	\caption{\textbf{Evaluation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}
+	\label{eval}
+\end{figure*}
+
 The experiment was conducted on a Kubernetes cluster composed of multiple worker nodes as shown in the Fig. \ref{fig2}. The system under test (SUT) consists of two main microservice components:
 
 \begin{itemize}
@@ -689,18 +705,15 @@ Both tools executed 30 iterations for each target throughput level (ranging from
 
 \begin{figure*}[t!]
 	\centering
-	
 	\begin{minipage}{0.9\textwidth}
 		\centering
 		\vspace*{0pt}
-		\includegraphics[scale=0.22]{fig/eval-stg.png}
-		%\vspace*{4pt}
-		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
-		%\label{eval-stg}
+		\includegraphics[scale=0.9]{fig/baseline_latency.png} % or \linewidth
 	\end{minipage}
-	%\vspace{10pt}
-	\caption{\textbf{Evaluation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}
-	\label{eval}
+	\hfill
+	\vspace*{5pt}
+	\caption{Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{baseline-perf}
 \end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -735,12 +748,8 @@ This flat latency curve definitively proved that the backend architecture was no
 \textbf{Concurrency Configuration and Multiplexing:}
 During empirical testing, both \textit{ghz} and \textit{wrk2} were configured to simulate high concurrency using a fixed pool of 50 simultaneous client connections across all target throughput levels ($\lambda$). It is critical to note how these concurrent accesses are handled internally by the optimized gateway. Under the PCR paradigm, the concurrent requests arriving at the gateway are not queued sequentially over the network; instead, the underlying gRPC framework maps these concurrent application-level accesses into discrete, parallel HTTP/2 streams over a \textit{single} shared TCP connection. This mechanism prevents connection exhaustion and directly validates our mathematical assumption that $S_{pcr}$ approaches pure RPC execution time without queuing at the network socket layer.
 
-\begin{figure}[t!]
-	\centering
-	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/baseline_latency.png} % or \linewidth
-	\caption{Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}
-	\label{baseline-perf}
-\end{figure}
+
+
 
 \subsection{Unoptimized System: The CPR Bottleneck}
 \label{sec5.2}
@@ -751,6 +760,19 @@ Median latency exploded to $> 7,100 \text{ ms}$, and p99 latency spiked past $14
 
 \subsection{Optimized System: PCR Implementation}
 \label{sec5.3}
+
+
+\begin{figure*}[t!]
+	\centering
+	\begin{minipage}{1\textwidth}
+		\centering
+		\includegraphics[scale=0.9]{fig/baseline_backend.png} % or \linewidth
+		%\vspace{5pt}
+	\end{minipage}
+	
+	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}
+	\label{baseline-backend}
+\end{figure*}
 
 By deploying the algorithmic optimization detailed in Section \ref{sec3} (establishing a persistent, multiplexed gRPC channel at application startup - Algorithm \ref{alg1}), the performance profile of the system was qualitatively transformed.
 
@@ -804,12 +826,48 @@ This empirical gap directly connects our theoretical approach to the user experi
 
 This reveals a fundamental "Performance-Abstraction Paradox." While developers utilize API gateways to seamlessly bridge RESTful clients (HTTP/1.1) with high-performance microservices (gRPC), this protocol translation introduces a structural latency tax that dwarfs the business logic itself. Consequently, while our PCR optimization resolves protocol-level queue saturation, the absolute lower bound of system latency remains strictly dictated by the gateway's HTTP-to-gRPC transcoding efficiency.
 
+\begin{comment}
+	content...
 \begin{figure}[t!]
 	\centering
-	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/baseline_backend.png} % or \linewidth
-	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}
-	\label{baseline-backend}
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/base_vs_ctr_cpr.png} % or \linewidth
+	\caption{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within Connection Per-Request (CPR) mode: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{base_vs_ctr_cpr}
 \end{figure}
+
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/base_vs_ctr_pcr.png} % or \linewidth
+	\caption{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within Persistent Connection Reuse (PCR) mode: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{base_vs_ctr_pcr}
+\end{figure}
+\end{comment}
+
+\begin{figure*}[t!]
+	\centering
+	\begin{minipage}{0.45\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.5]{fig/base_vs_ctr_cpr.png}
+		\vspace*{4pt}
+		\centering{\small(A)}
+		%\label{eval-stg}
+	\end{minipage}
+	\hfill
+	%\vspace{4pt}
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.5]{fig/base_vs_ctr_pcr.png}
+		\vspace*{4pt}
+		\centering{\small(B)}
+		%\label{eval-stg}
+	\end{minipage}
+	
+	\caption{\textbf{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}
+	\label{base-vs-ctr}
+\end{figure*}
+
 
 \subsection{Empirical Validation of the Queueing Model}
 
@@ -819,31 +877,16 @@ This reveals a fundamental "Performance-Abstraction Paradox." While developers u
 	\begin{minipage}{1\textwidth}
 		\centering
 		\vspace*{0pt}
-		\includegraphics[scale=0.4]{fig/async-controller-perf.png}
+		\includegraphics[scale=0.3]{fig/ctr-perf.png}
 		%\vspace*{4pt}
 		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
 		%\label{eval-stg}
 	\end{minipage}
 	%\vspace{10pt}
-	\caption{\textbf{Autonomic controller performance evaluation in asynchronous mode (FastAPI/Uvicorn): (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}
-	\label{eval-ctr-async}
+	\caption{\textbf{Autonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}
+	\label{eval-ctr}
 \end{figure*}
 
-\begin{figure*}[t!]
-	\centering
-	
-	\begin{minipage}{1\textwidth}
-		\centering
-		\vspace*{0pt}
-		\includegraphics[scale=0.4]{fig/sync-controller-perf.png}
-		%\vspace*{4pt}
-		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
-		%\label{eval-stg}
-	\end{minipage}
-	%\vspace{10pt}
-	\caption{\textbf{Autonomic controller performance evaluation in synchronous mode (Flask/Gunicorn): (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}
-	\label{eval-ctr-sync}
-\end{figure*}
 
 To rigorously evaluate the mathematical framework proposed in Section \ref{sec2}, we mapped our empirical throughput and latency data to the $M/M/c$ queueing model. Our objective was to prove that the catastrophic latency spikes observed were not random system failures, but rather predictable queuing saturation events driven by connection churn.
 

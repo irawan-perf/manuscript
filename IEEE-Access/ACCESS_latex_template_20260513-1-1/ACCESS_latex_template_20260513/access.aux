@@ -50,7 +50,8 @@
 \newlabel{sec4.1}{{\mbox  {IV-A}}{6}{}{subsection.4.1}{}}
 \citation{wrk2}
 \citation{ghz}
-\citation{wsgi-pep}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}valuation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}}{7}{}\protected@file@percent }
+\newlabel{eval}{{4}{7}{}{figure.4}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Workload Generation and Component Isolation}{7}{}\protected@file@percent }
 \newlabel{4.2}{{\mbox  {IV-B}}{7}{}{subsection.4.2}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Results and Discussion}{7}{}\protected@file@percent }
@@ -61,22 +62,21 @@
 \newlabel{sec5.2}{{\mbox  {V-B}}{7}{}{subsection.5.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Optimized System: PCR Implementation}{7}{}\protected@file@percent }
 \newlabel{sec5.3}{{\mbox  {V-C}}{7}{}{subsection.5.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Quantifying the Inherent Proxy Latency Gap}{7}{}\protected@file@percent }
-\newlabel{sec5.4}{{\mbox  {V-D}}{7}{}{subsection.5.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative Latency Overhead at Optimal Saturation Point (400 RPS)}}}{7}{}\protected@file@percent }
-\newlabel{table1}{{2}{7}{}{table.2}{}}
-\citation{little2011or}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}valuation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}}{8}{}\protected@file@percent }
-\newlabel{eval}{{4}{8}{}{figure.4}{}}
+\citation{wsgi-pep}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}}{8}{}\protected@file@percent }
 \newlabel{baseline-perf}{{5}{8}{}{figure.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}}{8}{}\protected@file@percent }
-\newlabel{baseline-backend}{{6}{8}{}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Empirical Validation of the Queueing Model}{8}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in asynchronous mode (FastAPI/Uvicorn): (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}}{9}{}\protected@file@percent }
-\newlabel{eval-ctr-async}{{7}{9}{}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in synchronous mode (Flask/Gunicorn): (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods; (d) controller cpu utilization; (e) controller memory utilization; (f) controllers throughput.}}}{9}{}\protected@file@percent }
-\newlabel{eval-ctr-sync}{{8}{9}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Quantifying the Inherent Proxy Latency Gap}{8}{}\protected@file@percent }
+\newlabel{sec5.4}{{\mbox  {V-D}}{8}{}{subsection.5.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative Latency Overhead at Optimal Saturation Point (400 RPS)}}}{8}{}\protected@file@percent }
+\newlabel{table1}{{2}{8}{}{table.2}{}}
+\citation{little2011or}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}}{9}{}\protected@file@percent }
+\newlabel{baseline-backend}{{6}{9}{}{figure.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Empirical Validation of the Queueing Model}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}}{10}{}\protected@file@percent }
+\newlabel{base-vs-ctr}{{7}{10}{}{figure.7}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}}{10}{}\protected@file@percent }
+\newlabel{eval-ctr}{{8}{10}{}{figure.8}{}}
 \citation{b1,b2}
 \citation{b3}
 \citation{b5}
@@ -90,9 +90,6 @@
 \citation{b18,b19}
 \citation{b20}
 \citation{b21}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{10}{}\protected@file@percent }
-\newlabel{sec6}{{VI}{10}{}{section.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Reference Examples}{10}{}\protected@file@percent }
 \citation{b22}
 \citation{b23}
 \citation{b24}
@@ -102,6 +99,9 @@
 \citation{b30,b31}
 \citation{b32,b33}
 \citation{b34}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{11}{}\protected@file@percent }
+\newlabel{sec6}{{VI}{11}{}{section.6}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Reference Examples}{11}{}\protected@file@percent }
 \bibcite{martin2022online}{1}
 \bibcite{Ventre2018SDNAAA}{2}
 \bibcite{zhu2023dissecting}{3}
@@ -131,7 +131,6 @@
 \bibcite{b14}{27}
 \bibcite{b15}{28}
 \bibcite{b16}{29}
-\@writefile{toc}{\contentsline {section}{REFERENCES}{11}{}\protected@file@percent }
 \bibcite{b17}{30}
 \bibcite{b18}{31}
 \bibcite{b19}{32}
@@ -150,7 +149,8 @@
 \bibcite{b32}{45}
 \bibcite{b33}{46}
 \bibcite{b34}{47}
-\@writefile{toc}{\contentsline {subsection}{First A. Author}{12}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Second B. Author}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{REFERENCES}{12}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{First A. Author}{13}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Second B. Author}{13}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{13}{}\protected@file@percent }
 \gdef \@abspage@last{13}
