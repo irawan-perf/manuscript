@@ -3,84 +3,101 @@
 \citation{Ventre2018SDNAAA}
 \citation{zhu2023dissecting}
 \citation{Guo2020StatefulTCPANAA}
+\citation{sampson2026simplicity}
 \citation{wsgi-pep}
 \citation{pinheiro2024performance}
+\citation{carnevali2025compositional}
 \citation{DAuria2021AnMQA}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
-\newlabel{sec:introduction}{{I}{1}{}{section.1}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {II}Mathematical Modeling of gRPC Connection Management}{2}{}\protected@file@percent }
-\newlabel{sec2}{{II}{2}{}{section.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Paradigm 1: Connection-Per-Request (CPR)}{2}{}\protected@file@percent }
-\newlabel{sec2.1}{{\mbox  {II-A}}{2}{}{subsection.2.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Paradigm 2: Persistent Channel Reuse (PCR)}{2}{}\protected@file@percent }
-\newlabel{sec2.2}{{\mbox  {II-B}}{2}{}{subsection.2.2}{}}
-\citation{little2011or}
+\newlabel{sec:intro}{{I}{1}{}{section.1}{}}
+\citation{alzahrani2026scalable}
+\citation{taha2024proactive}
+\citation{biondani2026mate}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Related Work}{2}{}\protected@file@percent }
+\newlabel{sec:related-work}{{II}{2}{}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-A}}Transport Protocols and Communication Overhead in Microservices}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Autonomic Control Loops and Traffic Management}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Positioning and Novel Contributions}{2}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {III}Mathematical Modeling of gRPC Connection Management}{2}{}\protected@file@percent }
+\newlabel{sec:math-model}{{III}{2}{}{section.3}{}}
 \newlabel{fig:sync}{{I}{3}{}{section.1}{}}
 \newlabel{fig:async}{{I}{3}{}{section.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {S}equence process of synchronous vs asynchronous communication models of cloud-native application on Connection Per Use (CPR) and Persistant Connections Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {S}equence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection-Per-Request (CPR) and Persistent Connection Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}}{3}{}\protected@file@percent }
 \newlabel{fig:seq-model}{{1}{3}{}{figure.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Queueing Theory and Non-Linear Saturation}{3}{}\protected@file@percent }
-\newlabel{sec2.3}{{\mbox  {II-C}}{3}{}{subsection.2.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-D}}Framework-Specific Queueing Dynamics}{3}{}\protected@file@percent }
-\newlabel{sec2.4}{{\mbox  {II-D}}{3}{}{subsection.2.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Paradigm 1: Connection-Per-Request (CPR)}{3}{}\protected@file@percent }
+\newlabel{sec2.1}{{\mbox  {III-A}}{3}{}{subsection.3.1}{}}
+\citation{little2011or}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Paradigm 2: Persistent Channel Reuse (PCR)}{4}{}\protected@file@percent }
+\newlabel{sec2.2}{{\mbox  {III-B}}{4}{}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Queueing Theory and Non-Linear Saturation}{4}{}\protected@file@percent }
+\newlabel{sec2.3}{{\mbox  {III-C}}{4}{}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-D}}Framework-Specific Queueing Dynamics}{4}{}\protected@file@percent }
+\newlabel{sec2.4}{{\mbox  {III-D}}{4}{}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}1}Synchronous Thread-Pool Model ($M/M/c$)}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {III-D}2}Asynchronous Event-Loop Model ($M/G/1-PS$)}{4}{}\protected@file@percent }
 \citation{tijms2003first}
 \citation{Banerjee2023MTDDHJSMTA}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-D}1}Synchronous Thread-Pool Model ($M/M/c$)}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {II-D}2}Asynchronous Event-Loop Model ($M/G/1-PS$)}{4}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {III}Autonomic controller}{4}{}\protected@file@percent }
-\newlabel{sec3}{{III}{4}{}{section.3}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-A}}Sensing Mechanism and Telemetry Acquisition}{4}{}\protected@file@percent }
-\newlabel{sec3.1}{{\mbox  {III-A}}{4}{}{subsection.3.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-B}}Calculation and Analysis}{4}{}\protected@file@percent }
-\newlabel{sec3.2}{{\mbox  {III-B}}{4}{}{subsection.3.2}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\fontencoding  {T1}\fontseries  {b}\selectfont  {T}he autonomic controller architectures.}  }}{5}{}\protected@file@percent }
-\newlabel{fig:ctr-arc}{{2}{5}{}{figure.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {III-C}}Actuation and Dynamic Cutover}{5}{}\protected@file@percent }
-\newlabel{sec3.3}{{\mbox  {III-C}}{5}{}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Autonomic Controller Architecture}{5}{}\protected@file@percent }
+\newlabel{sec:auto-ctr}{{IV}{5}{}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Sensing Mechanism and Telemetry Acquisition}{5}{}\protected@file@percent }
+\newlabel{sec3.1}{{\mbox  {IV-A}}{5}{}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Calculation and Analysis}{5}{}\protected@file@percent }
+\newlabel{sec3.2}{{\mbox  {IV-B}}{5}{}{subsection.4.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Predictive Mathematical Formulation}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}SLA Evaluation and Bottleneck Verification}{5}{}\protected@file@percent }
 \citation{gunicorn}
-\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Autonomic Controller with Math-based Predictive \& SLA-Aware Dynamic Cutover}}{6}{}\protected@file@percent }
-\newlabel{alg:ctr}{{1}{6}{}{algorithm.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Kubernetes cluster environment.}}{6}{}\protected@file@percent }
-\newlabel{fig2}{{3}{6}{}{figure.3}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Experiment}{6}{}\protected@file@percent }
-\newlabel{sec4}{{IV}{6}{}{section.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\fontencoding  {T1}\fontseries  {b}\selectfont  {T}he autonomic controller architectures.}  }}{6}{}\protected@file@percent }
+\newlabel{fig:ctr-arc}{{2}{6}{}{figure.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Actuation and Dynamic Cutover}{6}{}\protected@file@percent }
+\newlabel{sec3.3}{{\mbox  {IV-C}}{6}{}{subsection.4.3}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Experimental Setup and Evaluation Scenario}{6}{}\protected@file@percent }
+\newlabel{sec:experiment}{{V}{6}{}{section.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {I}nfrastructure specification}}}{6}{}\protected@file@percent }
 \newlabel{table1}{{1}{6}{}{table.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-A}}Experimental Environment and Architecture}{6}{}\protected@file@percent }
-\newlabel{sec4.1}{{\mbox  {IV-A}}{6}{}{subsection.4.1}{}}
 \citation{wrk2}
 \citation{ghz}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}valuation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}}{7}{}\protected@file@percent }
-\newlabel{eval}{{4}{7}{}{figure.4}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-B}}Workload Generation and Component Isolation}{7}{}\protected@file@percent }
-\newlabel{4.2}{{\mbox  {IV-B}}{7}{}{subsection.4.2}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {V}Results and Discussion}{7}{}\protected@file@percent }
-\newlabel{sec5}{{V}{7}{}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Baseline: Backend gRPC Performance}{7}{}\protected@file@percent }
-\newlabel{sec5.1}{{\mbox  {V-A}}{7}{}{subsection.5.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Unoptimized System: The CPR Bottleneck}{7}{}\protected@file@percent }
-\newlabel{sec5.2}{{\mbox  {V-B}}{7}{}{subsection.5.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-C}}Optimized System: PCR Implementation}{7}{}\protected@file@percent }
-\newlabel{sec5.3}{{\mbox  {V-C}}{7}{}{subsection.5.3}{}}
-\citation{wsgi-pep}
+\@writefile{loa}{\contentsline {algorithm}{\numberline {1}{\ignorespaces Autonomic Controller with Math-based Predictive \& SLA-Aware Dynamic Cutover}}{7}{}\protected@file@percent }
+\newlabel{alg:ctr}{{1}{7}{}{algorithm.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Experimental Environment and Architecture}{7}{}\protected@file@percent }
+\newlabel{sec4.1}{{\mbox  {V-A}}{7}{}{subsection.5.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Kubernetes cluster environment.}}{7}{}\protected@file@percent }
+\newlabel{fig2}{{3}{7}{}{figure.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Workload Generation and Component Isolation}{7}{}\protected@file@percent }
+\newlabel{4.2}{{\mbox  {V-B}}{7}{}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Results and Performance Analysis}{7}{}\protected@file@percent }
+\newlabel{sec:results}{{VI}{7}{}{section.6}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Baseline: Backend gRPC Performance}{7}{}\protected@file@percent }
+\newlabel{sec5.1}{{\mbox  {VI-A}}{7}{}{subsection.6.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}valuation scenario: (A) Comprehensive evaluations (end-to-end user experience); (B) Isolated backend service evaluation (compute time).}}}{8}{}\protected@file@percent }
+\newlabel{eval}{{4}{8}{}{figure.4}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}}{8}{}\protected@file@percent }
 \newlabel{baseline-perf}{{5}{8}{}{figure.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-D}}Quantifying the Inherent Proxy Latency Gap}{8}{}\protected@file@percent }
-\newlabel{sec5.4}{{\mbox  {V-D}}{8}{}{subsection.5.4}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative Latency Overhead at Optimal Saturation Point (400 RPS)}}}{8}{}\protected@file@percent }
-\newlabel{table1}{{2}{8}{}{table.2}{}}
+\citation{wsgi-pep}
 \citation{little2011or}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory).}}{9}{}\protected@file@percent }
-\newlabel{baseline-backend}{{6}{9}{}{figure.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-E}}Empirical Validation of the Queueing Model}{9}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}Unoptimized System: The CPR Bottleneck}{9}{}\protected@file@percent }
+\newlabel{sec5.2}{{\mbox  {VI-B}}{9}{}{subsection.6.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Optimized System: PCR Implementation}{9}{}\protected@file@percent }
+\newlabel{sec5.3}{{\mbox  {VI-C}}{9}{}{subsection.6.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Quantifying the Inherent Proxy Latency Gap}{9}{}\protected@file@percent }
+\newlabel{sec5.4}{{\mbox  {VI-D}}{9}{}{subsection.6.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline performance comparison across connection management strategies (CPR and PCR) and architectural paradigms (synchronous - Flask and asynchronous - FastAPI).}}}{9}{}\protected@file@percent }
+\newlabel{tab:ctr-tele}{{2}{9}{}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Empirical Validation of the Queueing Model}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario B on Fig. \ref {eval}.}}{10}{}\protected@file@percent }
+\newlabel{baseline-backend}{{6}{10}{}{figure.6}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}}{10}{}\protected@file@percent }
 \newlabel{base-vs-ctr}{{7}{10}{}{figure.7}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}}{10}{}\protected@file@percent }
-\newlabel{eval-ctr}{{8}{10}{}{figure.8}{}}
 \citation{b1,b2}
 \citation{b3}
 \citation{b5}
 \citation{b6,b7}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}}{11}{}\protected@file@percent }
+\newlabel{eval-ctr}{{8}{11}{}{figure.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{11}{}\protected@file@percent }
+\newlabel{sec:discuss}{{VII}{11}{}{section.7}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion and Future Work}{11}{}\protected@file@percent }
+\newlabel{sec:conclude}{{VIII}{11}{}{section.8}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IX}Reference Examples}{11}{}\protected@file@percent }
 \citation{b8,b9}
 \citation{b10}
 \citation{b13}
@@ -92,6 +109,12 @@
 \citation{b21}
 \citation{b22}
 \citation{b23}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative End-to-End latency and controller suppression efficacy across load tiers (light - 200 RPS, moderate - 800 RPS, heavy - 1200 RPS).}}}{12}{}\protected@file@percent }
+\newlabel{tab:compare-analysis}{{3}{12}{}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller telemetry, actuation metrics, and resource footprint.}}}{12}{}\protected@file@percent }
+\newlabel{tab:ctr-tele}{{4}{12}{}{table.4}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {S}ummary of proposed autonomic-controller performance in handling the latency reduction, mitigation effectiveness and increasing the throughput systems under saturated load.}}}{12}{}\protected@file@percent }
+\newlabel{tab:key-performance}{{5}{12}{}{table.5}{}}
 \citation{b24}
 \citation{b25,b26}
 \citation{b27}
@@ -99,58 +122,60 @@
 \citation{b30,b31}
 \citation{b32,b33}
 \citation{b34}
-\@writefile{toc}{\contentsline {section}{\numberline {VI}Conclusion and Future Work}{11}{}\protected@file@percent }
-\newlabel{sec6}{{VI}{11}{}{section.6}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Reference Examples}{11}{}\protected@file@percent }
 \bibcite{martin2022online}{1}
 \bibcite{Ventre2018SDNAAA}{2}
 \bibcite{zhu2023dissecting}{3}
 \bibcite{Guo2020StatefulTCPANAA}{4}
-\bibcite{pinheiro2024performance}{5}
-\bibcite{DAuria2021AnMQA}{6}
-\bibcite{little2011or}{7}
-\bibcite{gunicorn}{8}
-\bibcite{wsgi-pep}{9}
-\bibcite{wrk2}{10}
-\bibcite{ghz}{11}
-\bibcite{tijms2003first}{12}
-\bibcite{Banerjee2023MTDDHJSMTA}{13}
-\bibcite{b1}{14}
-\bibcite{b2}{15}
-\bibcite{b3}{16}
-\bibcite{b4}{17}
-\bibcite{b5}{18}
-\bibcite{b6}{19}
-\bibcite{b7}{20}
-\bibcite{b8}{21}
-\bibcite{b9}{22}
-\bibcite{b10}{23}
-\bibcite{b11}{24}
-\bibcite{b12}{25}
-\bibcite{b13}{26}
-\bibcite{b14}{27}
-\bibcite{b15}{28}
-\bibcite{b16}{29}
-\bibcite{b17}{30}
-\bibcite{b18}{31}
-\bibcite{b19}{32}
-\bibcite{b20}{33}
-\bibcite{b21}{34}
-\bibcite{b22}{35}
-\bibcite{b23}{36}
-\bibcite{b24}{37}
-\bibcite{b25}{38}
-\bibcite{b26}{39}
-\bibcite{b27}{40}
-\bibcite{b28}{41}
-\bibcite{b29}{42}
-\bibcite{b30}{43}
-\bibcite{b31}{44}
-\bibcite{b32}{45}
-\bibcite{b33}{46}
-\bibcite{b34}{47}
-\@writefile{toc}{\contentsline {section}{REFERENCES}{12}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{First A. Author}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Second B. Author}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{13}{}\protected@file@percent }
-\gdef \@abspage@last{13}
+\bibcite{sampson2026simplicity}{5}
+\bibcite{carnevali2025compositional}{6}
+\bibcite{pinheiro2024performance}{7}
+\bibcite{DAuria2021AnMQA}{8}
+\bibcite{alzahrani2026scalable}{9}
+\bibcite{taha2024proactive}{10}
+\bibcite{biondani2026mate}{11}
+\bibcite{little2011or}{12}
+\bibcite{gunicorn}{13}
+\bibcite{wsgi-pep}{14}
+\bibcite{wrk2}{15}
+\bibcite{ghz}{16}
+\bibcite{tijms2003first}{17}
+\bibcite{Banerjee2023MTDDHJSMTA}{18}
+\bibcite{b1}{19}
+\bibcite{b2}{20}
+\bibcite{b3}{21}
+\bibcite{b4}{22}
+\bibcite{b5}{23}
+\bibcite{b6}{24}
+\bibcite{b7}{25}
+\bibcite{b8}{26}
+\bibcite{b9}{27}
+\bibcite{b10}{28}
+\bibcite{b11}{29}
+\bibcite{b12}{30}
+\bibcite{b13}{31}
+\@writefile{toc}{\contentsline {section}{REFERENCES}{13}{}\protected@file@percent }
+\bibcite{b14}{32}
+\bibcite{b15}{33}
+\bibcite{b16}{34}
+\bibcite{b17}{35}
+\bibcite{b18}{36}
+\bibcite{b19}{37}
+\bibcite{b20}{38}
+\bibcite{b21}{39}
+\bibcite{b22}{40}
+\bibcite{b23}{41}
+\bibcite{b24}{42}
+\bibcite{b25}{43}
+\bibcite{b26}{44}
+\bibcite{b27}{45}
+\bibcite{b28}{46}
+\bibcite{b29}{47}
+\bibcite{b30}{48}
+\bibcite{b31}{49}
+\bibcite{b32}{50}
+\bibcite{b33}{51}
+\bibcite{b34}{52}
+\@writefile{toc}{\contentsline {subsection}{First A. Author}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Second B. Author}{14}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{15}{}\protected@file@percent }
+\gdef \@abspage@last{15}

@@ -76,10 +76,9 @@ Cloud-Native, Connection Per Request, gRPC API, High Performance Computing, Kube
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\label{sec:intro}
+\label{sec:introduction}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{comment}
 \PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC is specifically designed to multiplex many requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As study by \cite{zhu2023dissecting}, have exposed significant infrastructural overheads hidden within service mesh sidecars, we observe that analogous, undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
 
 The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020StatefulTCPANAA}. However, the direct application of legacy REST-based connection management to gRPC environments remains a pervasive flaw. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and Gunicorn) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
@@ -95,6 +94,62 @@ Therefore, this paper demonstrates how converting the original CPR approach into
     
     \item We benchmark these models within an actual Kubernetes environment using controlled isolation environment—\break{ensuring} the gateway is evaluated independently of backend database or business logic variance—to validate the correctness of the theoretical model against empirical runs.
 \end{itemize}
+
+%\begin{figure}
+%  \centering
+%  \includegraphics[width=\columnwidth,height=0.6\textheight,keepaspectratio]{fig/PCRvsCPR-SeqDiagram.png} % or \linewidth
+%  \caption{The framework models of gRPC connections mechanism. Connection-Per-Request (CPR) vs Persistent Connection Reuse (PCR).}
+%  \label{fig1}
+%\end{figure}
+\begin{comment}
+	
+\begin{figure*}[t]
+	\centering
+	\begin{subfigure}[t]{0.47\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{fig/seq-diagram-1-sync.png}
+		\caption{Synchronous CPR/PCR (Flask/Gunicorn).}
+		\label{fig:seq1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[t]{0.47\textwidth}
+		\centering
+		\includegraphics[width=\linewidth]{fig/seq-diagram-2-async.png}
+		\caption{Asynchronous CPR/PCR (Flask/Uvicorn).}
+		\label{fig:seq2}
+	\end{subfigure}
+	\caption{Sequence process of synchronous vs asynchronous communication models of cloud-native application.}
+	\label{fig:seq-model}
+\end{figure*}
+
+
+\begin{figure}[t!]
+	\centering
+	
+	% First subfigure
+	\vspace*{0pt}
+	\includegraphics[scale=0.25]{fig/seq-diagram-1-sync.png}
+	\vspace*{4pt}
+	{\small\textbf{(a) Synchronous CPR/PCR (Flask/Gunicorn).}}
+	\label{fig1a}
+	
+	\vspace{10pt}
+	
+	% Second subfigure
+	\vspace*{0pt}
+	\includegraphics[scale=0.25]{fig/seq-diagram-2-async.png}
+	\vspace*{4pt}
+	{\small\textbf{(b) Asynchronous CPR/PCR (Flask/Uvicorn).}}
+	\label{fig1b}
+	
+	\vspace{10pt}
+	
+	% Main caption
+	\caption{\textbf{Autonomic controller architectures.}}
+	\label{fig:controllers}
+\end{figure}
+
+\end{comment}
 
 \begin{figure*}[t!]
 	\centering
@@ -119,71 +174,29 @@ Therefore, this paper demonstrates how converting the original CPR approach into
 	\label{fig:seq-model}
 \end{figure*}
 
-\end{comment}
 
 
-\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC multiplexes multiple requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As demonstrated by Zhu et al. \cite{zhu2023dissecting}, significant infrastructural overheads remain hidden within service mesh sidecars; similarly, we observe that undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
 
-The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020StatefulTCPANAA}. However, applying legacy REST-based connection management to gRPC environments remains a pervasive flaw. While recent work on high-throughput serialization formats like Bebop highlights how CPU branch mispredictions and framing overheads bottleneck RPC runtimes \cite{sampson2026simplicity}, the fundamental overhead of connection instantiation at the gateway level is frequently overlooked. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and Gunicorn) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
-
-While the research community has modeled microservice performance extensively, the specific intersection of application-layer connection churn and queueing network saturation remains empirically unquantified. Recent works evaluate microservice resilience using stochastic Petri Nets \cite{pinheiro2024performance} or optimize multi-service resource provisioning using stochastic execution models \cite{carnevali2025compositional}. However, evaluating dynamic latency under load requires integrating these approaches with queueing theory \cite{DAuria2021AnMQA}. We argue that implementation-level bottlenecks, specifically gRPC con-nection churn, dynamically inflate the service time ($S$) of the system, degrading the effective service rate ($\mu$). This churn converts what should be a constant-time RPC execution into a highly variable, load-dependent event. Unmanaged connection churn destabilizes base duration estimates, forcing premature queue saturation long before physical CPU or memory thresholds are reached.
-
-Therefore, this paper demonstrates how converting the CPR model into a Persistent Channel Reuse (PCR) model, as illustrated in Fig. \ref{fig:seq-model}, eliminates this bottleneck by refactoring the gateway code to initialize a global, thread-safe gRPC channel at startup. To validate this approach, the key contributions of this paper are as follows:
-
-\begin{itemize}
-	\item We formalize and model the request patterns and application-layer execution logic for both the CPR and refactored PCR models.
+%\begin{figure}[t!]
+%	\centering
 	
-	\item We introduce a queueing-theoretic model to explain non-linear latency spikes under high load, establishing a direct link between application-layer connection churn and queue saturation.
+%	\SubFigure(topskip=4pt, botskip=4pt, midskip=4pt)[scale=1]{fig/seq-diagram-1-sync.png}
+%	{\textbf{(a) Synchronous CPR/PCR (Flask/Gunicorn).}\label{fig1a}}
 	
-	\item We benchmark these models within a production Kubernetes cluster using a controlled, isolated environ-ment—ensuring the gateway of database or backend business logic variance is independently evaluated—to validate theoretical queueing projections against empirical execution runs.
-\end{itemize}
-
-\begin{figure*}[t!]
-	\centering
-	\begin{minipage}{0.45\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{fig/seq-diagram-1-sync.png}
-		\vfill
-		{\small (a) Synchronous CPR/PCR (Flask/Gunicorn)}
-		\label{fig:sync}
-	\end{minipage}
-	\hfill
-	\begin{minipage}{0.48\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{fig/seq-diagram-2-async.png}
-		\vfill
-		{\small (b) Asynchronous CPR/PCR (Flask/Uvicorn)}
-		\label{fig:async}
-	\end{minipage}
-	\caption{\textbf{Sequence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection-Per-Request (CPR) and Persistent Connection Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}
-	\label{fig:seq-model}
-\end{figure*}
-
+%	\vspace{10pt}
+	
+%	\SubFigure(topskip=4pt, botskip=4pt, midskip=4pt)[scale=1]{fig/seq-diagram-2-async.png}
+%	{\textbf{(b) Asynchronous CPR/PCR (Flask/Uvicorn).}\label{fig1b}}
+	
+%	\caption{\textbf{Sequence process of synchronous vs asynchronous communication models of cloud-native application.}
+%	\label{fig:controllers}
+%\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related Work}
-\label{sec:related-work}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{Transport Protocols and Communication Overhead in Microservices}
-Microservice architectures increasingly rely on high-performance Remote Procedure Call (RPC) frameworks, such as gRPC, to facilitate low-latency inter-service communication over HTTP/2.  Recent work reports that because gRPC uses HTTP/2 and Protocol Buffers, it can cut latency by about 30\% compared with REST for inter-service communication \cite{alzahrani2026scalable}. That kind of gain matters most when applications make many small synchronous calls, since serialization cost, request framing, and connection handling are paid repeatedly across a request path.   
-
-While HTTP/2 multiplexing significantly reduces connection overhead compared to HTTP/1.1 REST interfaces, system performance remains highly sensitive to underlying transport-layer connection management. Existing benchmark studies demonstrate gRPC's superiority in execution time and resource utilization. Taha et al. point out that proactive performance prediction in microservice systems struggles with dynamic dependencies and multiplexing, especially because long and changing call chains add delay \cite{taha2024proactive}. When one service request triggers many downstream calls, queueing and contention on shared channels can make tail latency less predictable even if average latency stays low.
-
-However, these studies predominantly assume persistent channel reuse (PCR) under steady-state workloads. In dynamic cloud continuum environments characterized by ephemeral functions, rapid auto-scaling, and connection-per-request (CPR) patterns, connection churn frequently exhausts the OS TCP listen backlog, inducing tail-latency amplification and non-linear throughput degradation. Biondani et al. found that gRPC performance degrades for large file transfers, and they attribute this to HTTP/2 transport behavior: over a 45 ms RTT path, the bandwidth-delay product interacts badly with HTTP/2 application-layer flow control, so throughput is throttled while senders wait for WINDOW\_UPDATE frames \cite{biondani2026mate}. This is important for inter-service design because it shows that HTTP/2 multiplexing helps most for many small concurrent exchanges, not for every traffic type.
-
-\subsection{Autonomic Control Loops and Traffic Management}
-To mitigate performance degradation in cloud-native deployments, autonomic computing paradigms based on the Monitor-Analyze-Plan-Execute with Knowledge (MAPE-K) feedback loop have been widely explored. Traditional implementations embed autonomic managers within the service mesh or API gateway to handle dynamic autoscaling, circuit breaking, and traffic shifting. Recent literature introduces machine learning and agentic control units to predict microservice anomalies. Nevertheless, these approaches introduce non-negligible telemetry aggregation and decision latencies, rendering them ineffective against immediate network socket saturation. Furthermore, standard gRPC load-balancing heuristics—such as client-side round-robin or static connection age limits—fail to dynamically resolve connection starvation when runtime environments transition abruptly between CPR and PCR operational modes.
-
-\subsection{Positioning and Novel Contributions}
-Unlike existing static performance evaluations or computa-tionally heavy AI-driven controllers, this work presents a lightweight, mathematically grounded autonomic controller specifically tailored for gRPC connection management. By formalizing the transition boundary between CPR and PCR paradigms through queueing dynamics, the proposed controller achieves sub-second sensing and actuation. It eliminates baseline monitoring overhead during normal operation while effectively suppressing tail latency ($p99$) and throughput collapse during severe TCP backlog saturation.
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Mathematical Modeling of gRPC Connection Management}
-\label{sec:math-model}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec2}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In order to comprehend the communication bottleneck, it is essential to break down the entire lifecycle of a request as it progresses through the API gateway. This analysis will help us identify the key stages and factors contributing to the bottleneck in the communication process. We model this environment by evaluating two distinct application gateway architectures: a synchronous model (e.g., Flask thread pools) and an asynchronous model (e.g., FastAPI event loops).
 
@@ -226,7 +239,12 @@ In the optimized Persistent Channel Reuse (PCR) pattern, as shown in the PCR sec
     S_{pcr} = t_{rpc}
 \end{equation}
 
+\begin{comment}
+	content...
+Conversely, the PCR model completely decouples the data plane from the application by offloading routing, load balancing, and telemetry to a dedicated, out-of-process sidecar proxy (such as Envoy).
 
+While conventional research often criticizes the PCR model for introducing a continuous ``service mesh tax''—permanent CPU, memory, and latency overheads during normal operations—its architectural strength lies in robust queue management. In the PCR model, the sidecar acts as a highly optimized, asynchronous buffer. It is capable of absorbing massive traffic spikes, managing connection backlogs, and applying intelligent backpressure, thereby protecting the underlying application container from localized saturation.
+\end{comment}
 
 The PCR model completely decouples the data plane from the application by offloading routing, load balancing, and telemetry to a dedicated, out-of-process sidecar proxy (Envoy). This structural shift is dynamically enacted by the autonomic controller when saturation is detected.
 
@@ -276,10 +294,189 @@ When an asynchronous request initiates a gRPC call, it registers an I/O callback
 Because the event loop does not block physical threads during network negotiation, the effective capacity limit is decoupled from OS thread count and is instead constrained by event-loop tick duration and memory overhead. This enables the asynchronous gateway to hold thousands of partially completed connections in a pending state, delaying catastrophic packet drops far beyond the limits of the synchronous $M/M/c$ model.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Autonomic Controller Architecture}
-\label{sec:auto-ctr}
+\section{Autonomic controller}
+\label{sec3}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{comment}
+	content...
+The primary objective of Algorithm~\ref{alg1} is to map the abstract queueing variables from Section \ref{sec2} directly to their application-layer implementations. It illustrates exactly where gateway service time ($S_{gateway}$) is consumed by contrasting both configurations.
+
+Under the Connection-Per-Request (CPR) paradigm, channel initialization and teardown occur locally within the request handler (Lines 10-12, 17-19). This imposes an $O(N)$ computational penalty, manifesting as the "connection churn" that degrades the service rate ($\mu$). Conversely, the Persistent Channel Reuse (PCR) paradigm shifts this network state management to a global, one-time execution at startup (Lines 2-5). By referencing a thread-safe, multiplexed channel ($O(1)$ overhead), the structural refactoring averts queue saturation without altering the core RPC business logic.
+
+
+The average service time, represented as $S_{cpr}$, serves as the fundamental calculation component in establishing the mathematical saturation limit of the autonomic controller. The controller relies on two complementary Prometheus telemetry metrics to accurately calculate the $S_{cpr}$ variable in a distributed environment (e.g, RKE cluster). The controller continuously evaluates both metrics for further analysis. Both Prometheus telemetry metrics are \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum} and \textit{grpc\_client\_roundtrip\_latency\_seconds\_count}.
+On the one hand, \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum} metric serves as a continuous accumulator, gradually increasing over time. It tracks the absolute total seconds spent processing and responding to incoming remote procedure calls within the application.
+
+On the other hand, the \textit{grpc\_client\_roundtrip\_latency\_\break seconds\_count} metric conversely acts as a straightforward digital counter. It will register the exact volume of discrete requests that have successfully completed their lifecycle. To derive the real-time average service time for the control plane, the autonomic controller calculates the quotient of the rates of change of these two metrics over a sliding observation window. Mathematically, this relationship is expressed as the ratio of their respective variations over a specific time delta $\Delta t$:
+
+$$S_{cpr} = \frac{\Delta \textit{grpc\_client\_roundtrip\_latency\_seconds\_sum}_{\Delta t}}{\Delta \textit{grpc\_client\_roundtrip\_latency\_seconds\_count}_{\Delta t}}$$
+
+In the field of classical queuing theory, service time ($S$) is commonly used to represent the duration a physical or virtual server is actively engaged in a single unit of work, measured in precise time units. Native gRPC roundtrip metrics are the primary metric that is used by the controller to capture highly accurate, comprehensive processing measurements instead of using isolated internal application timers. This duration inherently includes data serialization, framework event-loop overhead, and the core CPU execution required for the prime number calculations.    
+
+\subsection{Proactive Autonomic Controller via $M/M/c$ Queueing}
+\label{sec2.4}
+
+To mathematically formalize the system's performance under increasing target rates, the system architecture can be modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / T_{compute}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{Banerjee2023MTDDHJSMTA}.
+
+For the system to remain stable, $\rho < 1$. As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula, the probability that an arriving request must wait in the queue ($P_Q$) is:
+
+\begin{equation}
+	P_Q = \frac{\frac{(c\rho)^c}{c!(1-\rho)}}{\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!(1-\rho)}}
+\end{equation}
+
+Consequently, the average expected wait time in the queue ($W_q$) grows non-linearly $$W_{queue} = \frac{P_Q}{c\mu(1-\rho)}$$. As $\rho \to 1$, $W_{queue}$ approaches infinity. This mathematical phenomenon explains the severe spikes observed in the empirical $p99$ tail latencies; minor fluctuations in arrival intervals at high utilization cause disproportionate queuing delays ($T_{net\_and\_queue}$).
+
+\begin{enumerate}
+	\item \textbf{The Process: Proactive Autonomic Intervention}
+	
+	A reactive controller waits for the total end-to-end latency ($W = W_q + \frac{1}{\mu}$) to breach a Service Level Agreement (SLA) before intervening. In contrast, the implemented proactive autonomic controller leverages this queueing theory framework to anticipate degradation. Instead of monitoring absolute latency thresholds, the proactive controller monitors the rate of change of the queueing delay with respect to the incoming load ($\frac{\partial W_q}{\partial \lambda}$), or establishes a critical utilization threshold ($\rho_{crit} < 1$).The trigger condition is mathematically defined to activate when the predicted waiting time approaches the upper bound of the acceptable SLA variance:
+	
+	
+	$$Trigger \rightarrow True \quad \text{if} \quad \rho \ge \rho_{crit} \quad$$ 
+	$$\text{or} \quad W_q(\lambda_{t+1}) > SLA_{threshold}$$
+	
+	
+	Upon triggering, the autonomic mechanism intervenes proactively—typically by scaling the number of resources ($c \to c'$) or applying backpressure to throttle incoming requests ($\lambda \to \lambda'$). By dynamically increasing the denominator ($c'\mu$) or capping the numerator ($\lambda'$), the controller artificially forces $\rho$ back to a stable state ($\rho < \rho_{crit}$), effectively neutralizing the exponential queuing delay before the physical system exhibits SLA violations.
+	
+	\item \textbf{Mitigation of Connection Bottlenecks via the PCR Autonomic Controller}
+	
+	In traditional Connection Per Request (CPR) architectures, $T_{net\_and\_queue\_ms}$ serves as the primary indicator of connection bottlenecks, as exhausted connection pools force requests into extended waiting states. Under normal circumstances, this results in a strong positive correlation between load ($\lambda$) and queueing delay ($W_{queue}$). However, our empirical analysis of the implemented PCR (Connection/Compute-to-Queue) model demonstrates a disruption of this bottleneck paradigm. A Pearson correlation analysis revealed a surprisingly weak and statistically insignificant relationship between target rate and queue time ($r = 0.1410, p = 0.059$). This decoupled relationship indicates that the system does not succumb to exponential queueing under high concurrency.The mechanism behind this stability is the highly proactive autonomic controller. A point-biserial correlation confirmed a strong, highly significant relationship between the target load and the controller's triggered state ($r_{pb} = 0.8607$, $p < 0.0001$). Furthermore, logistic regression modeling established that the controller is acutely sensitive to early-stage network degradation; for every 1ms increase in queue time, the odds of an autonomic intervention increase by a factor of 1.89. Ultimately, these mathematical findings prove that the PCR model proactively restructures resources at the earliest signs of latency variation, successfully capping the connection bottleneck long before catastrophic CPR-style queuing can occur.
+	
+\end{enumerate}
+
+%Recent literature predominantly treats CPR and PCR as mutually exclusive, static deployment strategies[cite][cite]. System architects are typically forced to choose between the high-performance, low-overhead proxyless approach (CPR) and the highly resilient, resource-intensive sidecar approach (PCR).
+
+%Existing solutions fail to address the necessity for dynamic architectural elasticity. Static CPR deployments remain fundamentally fragile under catastrophic load, while static PCR deployments waste critical compute resources during periods of low traffic. The autonomic control framework proposed in this paper bridges this gap by introducing a real-time topology transition. By continuously monitoring the $M/M/c$ queue boundaries, the system mathematically predicts failure and mechanically pivots from CPR to PCR only when intervention is strictly required, dynamically balancing steady-state efficiency with transient survivability.
+
+Our current autonomic control framework directly solves the lacked architectural elasticity by bridging the two states dynamically. Rather than waiting for system utilization to fail ($\rho \ge 1.0$), the controller continuously polls real-time telemetry to compute the empirical service time ($S_{cpr}$) and calculates the mathematical saturation limit ($\lambda_{sat}$) based on the application's thread concurrency ($c$):
+
+$$\lambda_{sat} = \frac{c}{S_{cpr}}$$
+
+To guarantee survivability, the controller does not wait for absolute saturation. Instead, it defines a predictive intervention boundary ($\lambda_{trigger}$) using a configurable safety threshold ratio ($T_{ratio}$):
+
+$$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
+
+By continuously monitoring this mathematical boundary, the system can autonomously pivot the Kubernetes architecture from the low-overhead CPR topology to the highly resilient PCR topology in real-time. It executes the Envoy injection exclusively when the incoming traffic ($\lambda$) breaches the predictive trigger ($\lambda \ge \lambda_{trigger}$), successfully balancing steady-state efficiency with transient survivability.
+
+%\begin{algorithm}
+%\caption{API Gateway Request Handler: CPR vs. PCR Paradigm}
+%\label{alg1}
+%\begin{algorithmic}[1]
+%\REQUIRE $req\_number$: Integer, $mode$: \{CPR, PCR\}
+%\ENSURE $is\_prime\_result$: Boolean
+%\vspace{1mm}
+%\STATE \textit{// PCR Global Initialization (Executed Once at Startup, $O(1)$)}
+%\IF{$mode == \text{PCR}$}
+%    \STATE $global\_channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
+%    \STATE $global\_stub \gets \text{PrimeCheckerStub}(global\_channel)$
+%\ENDIF
+%\vspace{2mm}
+%\STATE \textbf{function} HandleRequest($req\_number$, $mode$)
+%    \IF{$mode == \text{CPR}$}
+%        \STATE \textit{// CPR Local Initialization (Executed per request, $O(N)$)}
+%        \STATE $channel \gets \text{grpc.insecure\_channel}(\text{SERVER\_ADDRESS})$
+%        \STATE $stub \gets \text{PrimeCheckerStub}(channel)$
+%    \ELSE
+%        \STATE $stub \gets global\_stub$ \textit{// $O(1)$ Memory Reference}
+%    \ENDIF
+%    \vspace{1mm}
+%    \STATE $payload \gets \text{IsPrimeRequest}(\text{number}=req\_number)$
+%    \STATE $response \gets stub.\text{Check}(payload)$ \textit{// Network I/O}
+%    \vspace{1mm}
+%    \IF{$mode == \text{CPR}$}
+%        \STATE $channel.\text{close}()$ \textit{// Teardown overhead}
+%    \ENDIF
+%    \STATE \textbf{return} $response.is\_prime$
+%\STATE \textbf{end function}
+%\end{algorithmic}[1]
+%\end{algorithm}
+
+
+%\begin{algorithm}
+%	\caption{Autonomic Predictive Control for CPR to PCR Transition}
+%	\label{alg:autonomic_controller}
+%	\begin{algorithmic}[1]
+%	\STATE \textbf{Input:} Threshold ratio $T_{ratio}$, Worker threads $c$
+%	\STATE \textbf{Output:} Actuation duration $t_{actuation}$ recorded to CSV
+%	\STATE \textbf{Function:} \textit{evaluate\_and\_control}
+%		\STATE $\lambda \gets \text{QueryMetric}(\text{RPS\_Query})$
+%		\STATE $L_{sum} \gets \text{QueryMetric}(\text{Latency\_Sum\_Query})$
+%		\IF{$\lambda = 0$}
+%		\STATE \textbf{continue} \COMMENT{System stable, no traffic}
+%		\ENDIF
+%		\STATE $S_{cpr} \gets \frac{L_{sum}}{\lambda}$ \COMMENT{Compute Service Time}
+%		\STATE $\lambda_{sat} \gets \frac{c}{S_{cpr}}$ \COMMENT{Calculate Saturation Limit}
+%		\STATE $\lambda_{trigger} \gets \lambda_{sat} \times T_{ratio}$ \COMMENT{Calculate Dynamic Threshold}
+%			
+%		\IF{$\lambda \geq \lambda_{trigger}$}
+%		\STATE $t_{start} \gets \text{GetCurrentTime}()$
+%		\STATE $\text{PatchDeployment}(\text{EnvoySidecar})$ \COMMENT{Inject Mitigation}
+%			
+%		\WHILE{$\text{Rollout State} \neq \text{Complete}$}
+%		\STATE $\text{Sleep}(2\text{s})$ \COMMENT{Poll API Server}
+%		\ENDWHILE
+%			
+%		\STATE $t_{end} \gets \text{GetCurrentTime}()$
+%		\STATE $t_{actuation} \gets t_{end} - t_{start}$ \COMMENT{Measure Actuation Duration}
+%%			
+%		\STATE \textbf{break} \COMMENT{Idle container for telemetry extraction}
+%%			
+%		\STATE $\text{Sleep}(5\text{s})$ \COMMENT{Evaluation Interval}
+%	\STATE \textbf{End Function}
+%	\end{algorithmic}
+%\end{algorithm}
+
+\begin{comment}
+\begin{algorithm}
+	\caption{Adaptive Autonomic Controller (Phase 2: Dynamic Cutover)}
+	\label{alg:autonomic_controller}
+	\begin{algorithmic}[1]
+		\STATE \textbf{Inputs:} Poll interval $t_{poll}$, Minimum traffic threshold $\lambda_{min} = 10$
+		\STATE \textbf{Initialize:} $cutover\_triggered \gets \text{False}$
+		\WHILE{\textbf{true}}
+		\STATE Sleep for $t_{poll}$ seconds
+		\IF{$cutover\_triggered = \text{True}$}
+		\STATE \textbf{continue} \COMMENT{Idling post-actuation}
+		\ENDIF
+
+		\STATE \COMMENT{Fetch Real-time Telemetry}
+		\STATE $\lambda \gets \text{QueryPrometheus}(\text{Rate of Requests (RPS)})$
+		\STATE $S_{cpr} \gets \text{QueryPrometheus}(\text{Average Latency (s)})$
+		\STATE $n_{threads} \gets \text{QueryPrometheus}(\text{Average Thread Count})$
+		
+		\IF{$\lambda < \lambda_{min}$ \textbf{or} Telemetry is Null}
+		\STATE \textbf{continue} \COMMENT{Wait for stable load}
+		\ENDIF
+
+		\STATE \COMMENT{Framework Auto-Detection \& Recalibration}
+		\IF{$n_{threads} > 50$}
+		\STATE $mode \gets \text{SYNC (Flask)}$
+		\STATE $c \gets n_{threads}$ \COMMENT{Capacity bounded by OS threads}
+		\STATE $\tau_{ratio} \gets 0.80$
+		\ELSE
+		\STATE $mode \gets \text{ASYNC (FastAPI)}$
+		\STATE $c \gets 3$ \COMMENT{Estimated concurrent event loop tasks}
+		\STATE $\tau_{ratio} \gets 0.75$ \COMMENT{Aggressive trigger to prevent starvation}
+		\ENDIF
+
+		\STATE \COMMENT{Calculate Saturation Thresholds}
+		\STATE $\lambda_{sat} \gets \frac{c}{S_{cpr}}$
+		\STATE $\lambda_{trigger} \gets \lambda_{sat} \times \tau_{ratio}$
+
+		\STATE \COMMENT{Evaluate and Actuate}
+		\IF{$\lambda \geq \lambda_{trigger}$}
+		\STATE $t_{start} \gets \text{CurrentTime}()$
+		\STATE $\text{PatchDeployment}(\text{sidecar.istio.io/inject="true"})$
+		\STATE $\text{WaitUntilReady}(\text{Deployment Replicas})$
+		\STATE $\Delta t_{rollout} \gets \text{CurrentTime}() - t_{start}$
+		\STATE $\text{LogActuationMetrics}(\Delta t_{rollout})$
+		\STATE $cutover\_triggered \gets \text{True}$
+		\ENDIF
+		\ENDWHILE
+	\end{algorithmic}
+\end{algorithm}
+\end{comment}
 
 \Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){fig/ctr-arc.png}
 { 
@@ -288,6 +485,12 @@ Because the event loop does not block physical threads during network negotiatio
 }
 
 
+%\begin{figure}[t!]
+%	\centering
+%	\includegraphics[width=0.6\textheight,keepaspectratio]{fig/ctr-arc.png} % or \linewidth
+%	\caption{The proactive autonomic controller architectures.}
+%	\label{fig2}
+%\end{figure}
 
 \subsection{Sensing Mechanism and Telemetry Acquisition}
 \label{sec3.1}
@@ -308,36 +511,32 @@ In the field of classical queuing theory, service time ($S$) is commonly used to
 \subsection{Calculation and Analysis}
 \label{sec3.2}
 
-\subsubsection{Predictive Mathematical Formulation}
-To mathematically formalize the system's performance under increasing target rates, the system architecture is modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / S_{cpr}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{Banerjee2023MTDDHJSMTA}. For the system to remain stable, utilization must remain below capacity ($\rho < 1$). As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula, the probability that an arriving request must wait in the queue ($P_Q$) is:
+\begin{enumerate}
+	\item \textbf{Predictive Mathematical Formulation:} 
+	
+	To mathematically formalize the system's performance under increasing target rates, the system architecture is modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / S_{cpr}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{Banerjee2023MTDDHJSMTA}. For the system to remain stable, utilization must remain below capacity ($\rho < 1$). As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula, the probability that an arriving request must wait in the queue ($P_Q$) is:
 
-\begin{equation}
-	P_Q = \frac{\frac{(c\rho)^c}{c!(1-\rho)}}{\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!(1-\rho)}}
-\end{equation}
+	\begin{equation}
+		P_Q = \frac{\frac{(c\rho)^c}{c!(1-\rho)}}{\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!(1-\rho)}}
+	\end{equation}
 
-Consequently, the average expected wait time in the queue ($W_{queue}$) grows non-linearly:
+	Consequently, the average expected wait time in the queue ($W_{queue}$) grows non-linearly:
 
-\begin{equation}
-	W_{queue} = \frac{P_Q}{c\mu(1-\rho)}
-\end{equation}
+	$$W_{queue} = \frac{P_Q}{c\mu(1-\rho)}$$
 
-As $\rho \to 1$, $W_{queue}$ approaches infinity. This mathematical phenomenon explains the severe spikes observed in empirical $p99$ tail latencies. Rather than waiting for system utilization to completely fail ($\rho \ge 1.0$), the controller continuously polls real-time telemetry to compute the empirical service time ($S_{cpr}$) and calculates the mathematical saturation limit ($\lambda_{sat}$) based on the application's theoretical concurrency ($c$):
+	As $\rho \to 1$, $W_{queue}$ approaches infinity. This mathematical phenomenon explains the severe spikes observed in empirical $p99$ tail latencies. Rather than waiting for system utilization to completely fail ($\rho \ge 1.0$), the controller continuously polls real-time telemetry to compute the empirical service time ($S_{cpr}$) and calculates the mathematical saturation limit ($\lambda_{sat}$) based on the application's theoretical concurrency ($c$):
 
-\begin{equation}
-	\lambda_{sat} = \frac{c}{S_{cpr}}
-\end{equation}
+	$$\lambda_{sat} = \frac{c}{S_{cpr}}$$
 
-To guarantee survivability, the controller defines a predictive intervention boundary ($\lambda_{trigger}$) using a configurable safety threshold ratio ($T_{ratio}$):
+	To guarantee survivability, the controller defines a predictive intervention boundary ($\lambda_{trigger}$) using a configurable safety threshold ratio ($T_{ratio}$):
 
-\begin{equation}
-	\lambda_{trigger} = \lambda_{sat} \times T_{ratio}
-\end{equation}
+	$$\lambda_{trigger} = \lambda_{sat} \times T_{ratio}$$
 
-\subsubsection{SLA Evaluation and Bottleneck Verification} 
-While the predictive trigger anticipates resource exhaustion based on theoretical capacity, actual system degradation must be empirically verified to prevent premature actuation. The controller achieves this through real-time Service Level Agreement (SLA) monitoring, specifically targeting the 95th percentile application latency ($L_{p95}$). To acquire this metric accurately, the control plane queries the \textit{grpc\_client\_roundtrip\_latency\_seconds\_bucket} his-togram exposed directly by the application runtime. By calculating the 95th quantile from the rate of change across these distribution buckets over a one-minute sliding window, the system extracts a stabilized, real-time measurement of the tail latency. Relying on this internal gRPC telemetry rather than external HTTP network timers is a critical architectural choice; it strictly isolates the application's true compute and event-loop processing delays from external network artifacts, such as TCP backlog saturation or service mesh queuing.
+	\item \textbf{SLA Evaluation and Bottleneck Verification:} 
+	
+	While the predictive trigger anticipates resource exhaustion based on theoretical capacity, actual system degradation must be empirically verified to prevent premature actuation. The controller achieves this through real-time Service Level Agreement (SLA) monitoring, specifically targeting the 95th percentile application latency ($L_{p95}$). To acquire this metric accurately, the control plane queries the \textit{grpc\_client\_roundtrip\_latency\_seconds\_bucket} his-togram exposed directly by the application runtime. By calculating the 95th quantile from the rate of change across these distribution buckets over a one-minute sliding window, the system extracts a stabilized, real-time measurement of the tail latency. Relying on this internal gRPC telemetry rather than external HTTP network timers is a critical architectural choice; it strictly isolates the application's true compute and event-loop processing delays from external network artifacts, such as TCP backlog saturation or service mesh queuing.Targeting the 95th percentile ensures the controller focuses on the degraded experience of the slowest requests while filtering out extreme, transient outliers (like the 99th percentile) that are often caused by routine garbage collection or minor operating system context switching. This observed $L_{p95}$ value is continuously evaluated against a rigid, configurable latency boundary ($L_{SLA}$, set to $35$ ms). Within the hybrid controller, this SLA evaluation acts as the definitive proof of exhaustion. The mathematical capacity limit ($\lambda_{trigger}$) flags that the system \textit{should} be saturated based on average service times, but the $L_{p95}$ breach provides the empirical confirmation that the synchronous thread pool or asynchronous event loop has actually failed to process the current concurrent workload. By requiring this latency condition, the controller completely avoids false-positive mitigations during brief, harmless traffic bursts.
 
-Targeting the 95th percentile ensures the controller focuses on the degraded experience of the slowest requests while filtering out extreme, transient outliers (like the 99th percentile) that are often caused by routine garbage collection or minor operating system context switching. This observed $L_{p95}$ value is continuously evaluated against a rigid, configurable latency boundary ($L_{SLA}$, set to $35$ ms). Within the hybrid controller, this SLA evaluation acts as the definitive proof of exhaustion. The mathematical capacity limit ($\lambda_{trigger}$) flags that the system \textit{should} be saturated based on average service times, but the $L_{p95}$ breach provides the empirical confirmation that the synchronous thread pool or asynchronous event loop has actually failed to process the current concurrent workload. By requiring this latency condition, the controller completely avoids false-positive mitigations during brief, harmless traffic bursts.
-
+\end{enumerate}
 
 
 \subsection{Actuation and Dynamic Cutover}
@@ -345,9 +544,7 @@ Targeting the 95th percentile ensures the controller focuses on the degraded exp
 
 The control framework directly solves architectural inelasticity by bridging the CPR and PCR states dynamically. To prevent false positives caused by transient network jitter, the controller implements a strict dual-condition actuation gate. The dynamic cutover is only authorized if the predictive mathematical limit is breached \textit{and} the empirical SLA is actively failing (exceeding the $35$ ms threshold). The final condition is defined as:
 
-\begin{equation}
-	\text{Trigger} \rightarrow \text{True} \quad \text{if} \quad (\lambda \ge \lambda_{trigger}) \land (L_{p95} > 35\text{ ms})
-\end{equation}
+$$\text{Trigger} \rightarrow \text{True} \quad \text{if} \quad (\lambda \ge \lambda_{trigger}) \land (L_{p95} > 35\text{ ms})$$
 
 Upon satisfying this dual-condition logic, the autonomic controller intervenes proactively. It initiates a dynamic patch to the frontend deployment within the Kubernetes control plane, applying the \textit{sidecar.istio.io/inject="true"} annotation. This action forces a rolling restart, attaching the Envoy proxy to the workload in real-time. By dynamically shifting from a low-overhead CPR topology to a highly resilient PCR topology exclusively when these two thresholds intersect, the controller caps the connection bottleneck and neutralizes exponential queuing delay before catastrophic SLA violations occur.
 
@@ -406,8 +603,8 @@ Upon satisfying this dual-condition logic, the autonomic controller intervenes p
 \end{algorithm}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Experimental Setup and Evaluation Scenario}
-\label{sec:experiment}
+\section{Experiment}
+\label{sec4}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 To validate the proposed mathematical model and pinpoint accurately where latency overhead originates, we conducted controlled experiments in a containerized distributed setting. Our evaluation follows a strict component isolation strategy: we first measure end-to-end performance across the full system and then benchmark the backend service alone in order to distinguish computation time from communication-related delays. This was achieved by deploying a stateless, deterministic backend and enforcing Kubernetes Guaranteed QoS (matching CPU/memory requests to limits) to eliminate resource throttling and "noisy neighbor" interference. 
@@ -445,7 +642,6 @@ Our testbed uses a Python WSGI stack (Flask/Gunicorn \cite{gunicorn}) as a stand
 			Storage & SSD 1TB & SSD 1TB\\
 			Network & Mellanox MT27800 25Gb & Mellanox MT27710 25Gb\\
 			OS & Ubuntu 22.04 LTS & Ubuntu 24.04 LTS\\
-			K8s Cluster & RKE2 Control plane & RKE2 Worker  \\ 
 			%\hline
 			%\textbf{Gateway Overhead (PCR)} & $\sim 107.2$ ms & 97.5\% \\ 
 			\hline
@@ -520,11 +716,9 @@ Both tools executed 30 iterations for each target throughput level (ranging from
 	\label{baseline-perf}
 \end{figure*}
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results and Performance Analysis}
-\label{sec:results}
+\section{Results and Discussion}
+\label{sec5}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 The empirical results have successfully proven that the predicted Asymptotic latency degradation is caused by the $M/M/c$ queuing model in the Connection-Per-Request (CPR) paradigm and have clearly demonstrated the transformational impact of Persistent Channel Reuse (PCR). 
@@ -605,53 +799,50 @@ By subtracting the baseline backend network latency ($T_{network}$) established 
 %    }
 %\end{table}
 
-
 \begin{table}[htbp]
-	\centering
-	\caption{\textbf{Baseline performance comparison across connection management strategies (CPR and PCR) and architectural paradigms (synchronous - Flask and asynchronous - FastAPI).}}
-	\label{tab:ctr-tele}
-	\setlength{\tabcolsep}{3pt}
-	%\resizebox{\columnwidth}{!}{
-	%\begin{tabular}{|p{110pt}|p{75pt}|p{100pt}|}
-	\begin{tabular}{llllll}
-		\hline
-		% This is the header sets
-		\textbf{Architecture}& \textbf{Load}& \textbf{CPU}& \textbf{Mem}& \textbf{T\_comp}& \textbf{T\_net}\\
-		& \textbf{(RPS)}& \textbf{(m)}& \textbf{(Mi)}& \textbf{(ms)}& \textbf{(ms)}\\
-			
-		\hline
-		
-		% This is the column value
-		Sync (Flask) CPR & 200  &  482.1 & 147.1 & 0.84 &    4.98 \\
-		Sync (Flask) CPR & 600  & 1425.4 & 156.1 & 0.85 &   40.84 \\
-		Sync (Flask) CPR & 1000 & 1318.9 & 174.4 & 0.86 & 20454.8 \\
-		\hline
-		
-		Sync (Flask) PCR & 200  & 86.9  & 140.7 & 0.83 & 2.77 \\
-		Sync (Flask) PCR & 600  & 215.1 & 141.1 & 0.87 & 6.83 \\
-		Sync (Flask) PCR & 1000 & 365.2 & 141.8 & 0.87 & 36.31 \\
-		\hline
-		
-		Async (FastAPI) CPR & 200  & 546.4  & 346.1 & 0.83 & 5.55 \\
-		Async (FastAPI) CPR & 600  & 1904.2 & 355   & 0.82 & 25.14 \\
-		Async (FastAPI) CPR & 1000 & 1656.6 & 367.7 & 0.83 & 20518.2 \\
-		\hline
-		
-		Async (FastAPI) PCR & 200  & 166.4 & 344.9 & 0.86 & 1.29 \\
-		Async (FastAPI) PCR & 600  & 196.7 & 345.4 & 0.84 & 3.02 \\
-		Async (FastAPI) PCR & 1000 & 252.4 & 345.5 & 0.86 & 5.71 \\
-		
-		\hline
-		% \vspace{5pt}
-		\end{tabular}
+\centering
+\caption{\textbf{Comparative Latency Overhead at Optimal Saturation Point (400 RPS)}}
+\label{table1}
+\setlength{\tabcolsep}{3pt}
+%\resizebox{\columnwidth}{!}{
+%\begin{tabular}{|p{110pt}|p{75pt}|p{100pt}|}
+\begin{tabular}{lcc}
+\hline
+\textbf{Component level}& \textbf{Median latency}& \textbf{Percentage of}\\
+& \textbf{(p50)} & \textbf{total latency}\\
+\hline
+Backend Only (\textit{ghz}) & $\sim 2.8$ ms & 2.5\% \\
+Full System (CPR, Before) & $\sim 400$ ms & 100\% \\
+Full System (PCR, After) & $\sim 110$ ms & 100\% \\
+\hline
+\textbf{Gateway Overhead (PCR)} & $\sim 107.2$ ms & 97.5\% \\ 
+\hline
+%}
+\end{tabular}
 \end{table}
-
+    
 As illustrated in Table~\ref{table1}, the results reveal a compelling paradox in the optimized PCR paradigm. Although the persistent channel implementation successfully averted queue saturation and achieved a 97\% reduction in total latency compared to the CPR baseline, a compositional analysis shows that the gateway tier still accounts for 97.5\% of the remaining end-to-end response time. 
 
 This empirical gap directly connects our theoretical approach to the user experience. In our PCR model, the actual backend computational execution ($T_{network}$) requires only $\sim 2.8$ ms ($2.5\%$ of total time), while the remaining $107.2$ ms is consumed by the gateway. Critically, this gap encompasses not only the Python WSGI \cite{wsgi-pep} stack execution but also the protocol transcoding overhead—the computational cost of parsing incoming HTTP/1.1 JSON requests from \textit{wrk2} and serializing them into HTTP/2 Protobuf messages for the gRPC backend. 
 
 This reveals a fundamental "Performance-Abstraction Paradox." While developers utilize API gateways to seamlessly bridge RESTful clients (HTTP/1.1) with high-performance microservices (gRPC), this protocol translation introduces a structural latency tax that dwarfs the business logic itself. Consequently, while our PCR optimization resolves protocol-level queue saturation, the absolute lower bound of system latency remains strictly dictated by the gateway's HTTP-to-gRPC transcoding efficiency.
 
+\begin{comment}
+	content...
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/base_vs_ctr_cpr.png} % or \linewidth
+	\caption{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within Connection Per-Request (CPR) mode: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{base_vs_ctr_cpr}
+\end{figure}
+
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=\columnwidth, height=0.4\textheight,keepaspectratio]{fig/base_vs_ctr_pcr.png} % or \linewidth
+	\caption{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within Persistent Connection Reuse (PCR) mode: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU).}
+	\label{base_vs_ctr_pcr}
+\end{figure}
+\end{comment}
 
 \begin{figure*}[t!]
 	\centering
@@ -722,7 +913,7 @@ By transitioning to the Persistent Channel Reuse (PCR) paradigm, we eliminated t
 
 \begin{table*}[htbp]
 	\centering
-	\caption{\textbf{Comparative End-to-End latency and controller suppression efficacy across load tiers (light - 200 RPS, moderate - 800 RPS, heavy - 1200 RPS).}}
+	\caption{\textbf{Comparative End-to-End latency and controller suppression efficacy across load tiers (low - 200 RPS, moderate - 800 RPS, high - 1200 RPS).}}
 	\label{tab:compare-analysis}
 	\setlength{\tabcolsep}{3pt}
 	%\resizebox{\columnwidth}{!}{
@@ -730,9 +921,9 @@ By transitioning to the Persistent Channel Reuse (PCR) paradigm, we eliminated t
 		\begin{tabular}{lllllllllll}
 			\hline
 			% This is the header sets
-			\textbf{Architecture}& \textbf{Load}& \textbf{Baseline*}& \textbf{Controller*}& \textbf{RPS Suppres*}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p50$} Suppres}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p99$} Suppres}\\
+			\textbf{Architecture}& \textbf{Load}& \textbf{Baseline*}& \textbf{Controller*}& \textbf{RPS Suppres*}& \textbf{Baseline}& \textbf{Controller}& \textbf{p50 Suppres}& \textbf{Baseline}& \textbf{Controller}& \textbf{p99 Suppres}\\
 			
-			& \textbf{RPS}& \textbf{RPS}& \textbf{RPS}& \textbf{(\%)}& \textbf{{$p50$} (ms)}& \textbf{{$p50$} (ms)}& \textbf{(\%)}& \textbf{{$p99$} (ms)}& \textbf{{$p99$} (ms)}& \textbf{(\%)}\\
+			& \textbf{RPS}& \textbf{RPS}& \textbf{RPS}& \textbf{(\%)}& \textbf{p50 (ms)}& \textbf{p50 (ms)}& \textbf{(\%)}& \textbf{p99 (ms)}& \textbf{p99 (ms)}& \textbf{(\%)}\\
 			
 			\hline
 			
@@ -779,61 +970,32 @@ Consequently, the queueing delay $W_{queue}$ collapsed. The empirical result—a
 	\setlength{\tabcolsep}{3pt}
 	%\resizebox{\columnwidth}{!}{
 		%\begin{tabular}{|p{110pt}|p{75pt}|p{100pt}|}
-	\begin{tabular}{llllllll}
-		\hline
-		% This is the header sets
-		\textbf{Architecture}& \textbf{Target load}& \textbf{Degraded Capacity}& \textbf{Projected Crash}& \textbf{Actuation/Cutover}& \textbf{Controller CPU}& \textbf{Controller Mem}\\
+		\begin{tabular}{llllllll}
+			\hline
+			% This is the header sets
+			\textbf{Architecture}& \textbf{Taget load}& \textbf{Degraded capacity}& \textbf{Projected crash}& \textbf{Actuation/Cutover}& \textbf{Controller CPU}& \textbf{Controller Mem}\\
 			
-		& \textbf{Intervention Threshold}& \textbf{at Trigger {$\lambda_{sat}$} (RPS)}& \textbf{Point {$\lambda_{trigger}$}(RPS)}& \textbf{{$\Delta T_{rollout}$}Time (s)}& \textbf{Overhead (m)}& \textbf{Overhead (Mi)}\\
+			& \textbf{intervention threshold}& \textbf{at trigger (RPS)}& \textbf{point (RPS)}& \textbf{time (s)}& \textbf{overhead (m)}& \textbf{overhead (Mi)}\\
 			
-		\hline
+			\hline
 			
-		% This is the column value
-		Sync (Flask) CPR    & $\ge 500$ RPS & 83.7  & 104.6  & 8.3  & 9.3  & 56.6 \\
-		Sync (Flask) PCR    & $\ge 700$ RPS & 148.9 & 186.1  & 7.8  & 8.3  & 56.8\\
-		\hline
-		Async (FastAPI) CPR & $\ge 600$ RPS & 168.3 & 210.4  & 8.27  & 9.1 & 6.6 \\
-		Async (FastAPI) PCR	& Never Triggered & N/A  & N/A     & 0.00  & 8.9  & 56.8\\
-		\hline
-		% \vspace{5pt}
-	\end{tabular}
-\end{table*}
+			% This is the column value
+			Sync (Flask) CPR    & $\ge 500$ RPS & 83.7  & 104.6  & 8.3  & 9.3  & 56.6 \\
+			Sync (Flask) PCR    & $\ge 700$ RPS & 148.9 & 186.1  & 7.8  & 8.3  & 56.8\\
+			\hline
+			Async (FastAPI) CPR & $\ge 600$ RPS & 168.3 & 210.4  & 8.27  & 9.1 & 6.6 \\
+			Async (FastAPI) PCR	& Never Triggered & N/A  & N/A     & 0.00  & 8.9  & 56.8\\
+			\hline
+			% \vspace{5pt}
+		\end{tabular}
+	\end{table*}
 
 % Architecture Target Load Intervention Threshold Degraded Capacity at Trigger (RPS) Projected Crash Point (RPS) Actuation / Cutover Time (s) Controller CPU Overhead (m) Controller Mem Overhead (Mi) Sync (Flask) CPR$\ge 500$ RPS83.69104.618.329.3256.64Async (FastAPI) CPR$\ge 600$ RPS168.33210.418.279.0256.59Sync (Flask) PCR$\ge 700$ RPS148.87186.097.858.2856.78Async (FastAPI) PCRNever TriggeredN/AN/A0.008.7856.76
 
 
-
-\begin{table*}[htbp]
-	\centering
-	\caption{\textbf{Summary of proposed autonomic-controller performance in handling the latency reduction, mitigation effectiveness and increasing the throughput systems under saturated load.}}
-	\label{tab:key-performance}
-	\setlength{\tabcolsep}{4pt}
-	\begin{tabular}{lccccc}
-		\hline
-		\textbf{Architecture \&} & \textbf{Target Load} & \textbf{Throughput} & \textbf{{$p50$} Latency} & \textbf{{$p99$} Latency} & \textbf{Peak {$p99$}} \\
-		\textbf{Mode} & \textbf{(RPS)} & \textbf{Gain (\%)} & \textbf{Reduction (\%)} & \textbf{Reduction (\%)} & \textbf{Mitigation} \\
-		\hline
-		Sync (Flask) CPR & 800 & +15.6\% & 63.3\% & 81.2\% & 26.5s $\to$ 5.0s \\
-		Sync (Flask) CPR & 1200 & +63.2\% & 66.6\% & 79.9\% & 56.5s $\to$ 11.4s \\
-		\hline
-		Sync (Flask) PCR & 1200 & +0.6\% & 59.8\% & 73.4\% & 1.7s $\to$ 0.5s \\
-		\hline
-		Async (FastAPI) CPR & 800 & +14.8\% & 64.4\% & 79.1\% & 22.1s $\to$ 4.6s \\
-		Async (FastAPI) CPR & 1200 & +60.5\% & 61.0\% & 76.9\% & 53.3s $\to$ 12.3s \\
-		\hline
-	\end{tabular}
-\end{table*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
-\label{sec:discuss}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future Work}
-\label{sec:conclude}
+\label{sec6}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 In this paper, we investigated the hidden performance costs of application-layer communication bottlenecks in microservice architectures, focusing on the gRPC connection churn flaw within API gateways. We modeled the request patterns of the "connection-per-request" (CPR) anti-pattern and contrasted it with a refactored Persistent Channel Reuse (PCR) approach. The observation of actual runs demonstrated that refactoring the gateway implementation to the PCR approach yielded a 97\% reduction in median system latency—dropping from over 7,100 ms to 150 ms under a peak load of 600 RPS. This study proves that correcting application-layer protocol mismanagement successfully moves the performance bottleneck away from the infrastructure gateway and to the compute backend, highlighting that refactoring the gateway code is a critical aspect to scalability as the underlying architectural design.
@@ -950,24 +1112,9 @@ unnumbered footnote on the first page, not here.
 
 \bibitem{Guo2020StatefulTCPANAA} L. Guo and J. Y. B. Lee, ``Stateful-TCP—a new approach to accelerate TCP slow-start,'' IEEE Access, vol. 8, pp. 195955--195970, 2020.
 
-\bibitem{sampson2026simplicity}
-A. Sampson, Y. Saito, and R. Chan, ``Simplicity scales,'' \textit{arXiv} preprint arXiv:2604.09591, Jun. 2026.
-
-\bibitem{carnevali2025compositional}
-L. Carnevali, M. Paolieri, R. Reali, L. Scommegna, and E. Vicario, ``Compositional coordinated resource provisioning in workflows with stochastic durations,'' \textit{IEEE Trans. Parallel Distrib. Syst.}, vol. 36, no. 9, pp. 1937--1954, Sep. 2025, doi: 10.1109/TPDS.2025.3585821.
-
 \bibitem{pinheiro2024performance} T. Pinheiro, M. Mialaret, P. Pereira, L. Lins, D. Silva, J. Dantas, and P. Maciel, ``Performance modeling of microservices with circuit breakers using stochastic Petri nets,'' in Proc. 2024 IEEE Int. Syst. Conf. (SysCon), 2024, pp. 1--8.
 
 \bibitem{DAuria2021AnMQA} B. D'Auria, I. Adan, R. Bekker, and V. Kulkarni, ``An M/M/c queue with queueing-time dependent service rates,'' Eur. J. Oper. Res., vol. 299, pp. 566--579, 2021.
-
-\bibitem{alzahrani2026scalable}
-M. A. Alzahrani and E. Y. Albassam, ``A scalable microservice architecture for autonomous IoT systems in smart transportation: Integration of edge computing, real-time processing, and security,'' \textit{IEEE Access}, 2026, doi: 10.1109/ACCESS.2026.XXXXX.
-
-\bibitem{taha2024proactive}
-M. B. Taha, Y. Sanjalawe, A. Al-Daraiseh, S. Fraihat, and S. R. Al-E'mari, ``Proactive auto-scaling for service function chains in cloud computing based on deep learning,'' \textit{IEEE Access}, vol. 12, pp. 38575--38593, 2024, doi: 10.1109/ACCESS.2024.XXXXX.
-
-\bibitem{biondani2026mate}
-F. Biondani, F. Tosoni, N. Dall'Ora, E. Fraccaroli, D. S. Cheng, and F. Fummi, ``MATE: A methodology for connecting automatic test equipment in Industry 4.0,'' \textit{IEEE Access}, 2026, doi: 10.1109/ACCESS.2026.XXXXX.
 
 \bibitem{little2011or} J. D. C. Little, ``OR forum—Little's law as viewed on its 50th anniversary,'' Oper. Res., vol. 59, no. 3, pp. 536--549, 2011.
 
