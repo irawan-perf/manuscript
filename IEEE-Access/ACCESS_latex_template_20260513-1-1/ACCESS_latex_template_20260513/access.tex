@@ -200,7 +200,27 @@ Where:
   \item[$T_{\text{network}}$] : physical network propagation delay and backend computation time (baseline constant $c \approx 3\ \text{ms}$).
 \end{description}
 
-The critical variable in our study is $S_{gateway}$. We model this variable under two distinct operational paradigms, representing the system state before and after the autonomic controller's intervention.
+To isolate the backend processing efficiency from the communication overhead, $T_{\text{network}}$ is further decomposed into pure server compute time ($T_{\text{compute}}$) and the combined network transit and backend queueing delay ($T_{\text{net\_queue}}$):
+
+\begin{equation}
+	T_{\text{network}} = T_{\text{compute}} + T_{\text{net\_queue}}
+\end{equation}
+
+During isolated backend service evaluation, these variables are extracted by aggregating raw container-level telemetry across all active backend pods. The pure compute time is derived from the cumulative execution time ($\sum T_{\text{exec}}$) and the total request count ($\sum N_{\text{req}}$):
+
+\begin{equation}
+	T_{\text{compute}} = \left( \frac{\sum T_{\text{exec}}}{\sum N_{\text{req}}} \right) \times 1000 \quad \text{(ms)}
+\end{equation}
+
+Subsequently, the network and internal queueing delay is isolated by subtracting the pure compute time from the measured average response latency ($T_{\text{avg}}$):
+
+\begin{equation}
+	T_{\text{net\_queue}} = T_{\text{avg}} - T_{\text{compute}} \quad \text{(ms)}
+\end{equation}
+
+This decomposition proves that pure computation ($T_{\text{compute}}$) remains a fractional baseline constant ($\approx 0.002\ \text{ms}$ in our test environment), isolating gRPC connection handling, payload serialization, and queue saturation as the primary variables. Therefore, the critical variable in our end-to-end study is $S_{gateway}$. We model this variable under two distinct operational paradigms, representing the system state before and after the proposed controller's intervention.
+
+%The critical variable in our study is $S_{gateway}$. We model this variable under two distinct operational paradigms, representing the system state before and after the autonomic controller's intervention.
 
 \subsection{Paradigm 1: Connection-Per-Request (CPR)}
 \label{sec2.1}
@@ -245,9 +265,9 @@ The utilization of the gateway system is $\rho = \frac{\lambda}{c \cdot \mu}$. A
 
 Because $S_{cpr}$ is significantly larger than $S_{pcr}$, the service rate $\mu_{cpr}$ is artificially low. Therefore, under the CPR paradigm, the system reaches critical utilization ($\rho \to 1$) at a much lower arrival rate $\lambda_{sat}$. When $\lambda$ exceeds this threshold, $W_{queue}$ approaches infinity, resulting in the massive latency spikes and connection timeouts observed in our baseline data.
 
-To fully contextualize the performance disparity between the CPR and PCR approaches, it is necessary to distinguish the roles of the TCP session, the HTTP/2 stream, and application-layer channel management. A \textbf{TCP session} represents the underlying Layer-4 network socket, which incurs significant latency overhead to establish. An \textbf{HTTP/2 stream} is a lightweight, logical sequence of frames operating within that single TCP session; this is the native mechanism gRPC uses to multiplex thousands of concurrent requests over one connection.
+To fully contextualize the performance disparity between the CPR and PCR approaches, it is necessary to distinguish the roles of the TCP session, the HTTP/2 stream, and application-layer channel management. A TCP session represents the underlying Layer-4 network socket, which incurs significant latency overhead to establish. An HTTP/2 stream is a lightweight, logical sequence of frames operating within that single TCP session; this is the native mechanism gRPC uses to multiplex thousands of concurrent requests over one connection.
 
-The essential flaw of the CPR anti-pattern is that it actively circumvents this multiplexing capability. By instantiating and tearing down a gRPC channel within the local request handler, CPR forces the underlying HTTP/2 library to establish and destroy a unique TCP session for every single request, limiting multiplexing to a single stream per connection. Conversely, the PCR approach, enabled by the Envoy proxy, does not rebuild HTTP/2 features in the application layer. It is a structural design pattern that initializes a single, global TCP session, keeping the L4 connection persistent so that the native L7 HTTP/2 stream multiplexing functions as intended, seamlessly absorbing the load that causes the CPR model to fail.
+The fundamental issue of the CPR anti-pattern is that it actively avoids this multiplexing capability. By creating and tearing down a gRPC channel within the local request handler, CPR drives the underlying HTTP/2 library to establish and destroy a TCP session for each individual request. This limits the multiplexing capability to just one stream per connection. Contrarily, the PCR approach, enabled by the Envoy proxy, does not rebuild HTTP/2 features in the application layer. It is a structural design pattern that initializes a single, global TCP session, keeping the L4 connection persistent so that the native L7 HTTP/2 stream multiplexing functions as intended, and seamlessly absorbing the load that causes the CPR model to fail.
 
 
 \subsection{Framework-Specific Queueing Dynamics}
@@ -390,7 +410,7 @@ To guarantee survivability, the controller defines a predictive intervention bou
 \end{equation}
 
 \subsubsection{SLA Evaluation and Bottleneck Verification} 
-While the predictive trigger anticipates resource exhaustion using theoretical capacity as stated in equation \ref{eq:trigger}. However, it's crucial to verify the actual system degradation empirically to avoid any premature actuation. The controller achieves this through real-time Service Level Agreement (SLA) monitoring, specifically targeting the 95th percentile application latency ($L_{p95}$). To acquire this metric accurately, the control plane queries the \textit{grpc\_client\_roundtrip\_latency\_\break seconds\_bucket} histogram exposed directly by the application runtime. By calculating the 95th quantile from the rate of change across these distribution buckets over a one-minute sliding window, the system extracts a stabilized, real-time measurement of the tail latency. We rely on this internal gRPC telemetry rather than the external HTTP network timers. It strictly separates the application's true compute and event-loop processing delays from external network issues, such as TCP backlog saturation or service queuing in the service mesh.
+While the predictive trigger anticipates resource exhaustion using theoretical capacity as stated in \eqref{eq:trigger}, we also include a critical empirical verification of actual system degradation to avoid any impulsive actuation. The controller achieves this through real-time Service Level Agreement (SLA) monitoring, specifically targeting the 95th percentile application latency ($L_{p95}$). To acquire this metric accurately, the control plane queries the \textit{grpc\_client\_roundtrip\_latency\_\break seconds\_bucket} histogram exposed directly by the application runtime. By calculating the 95th quantile from the rate of change across these distribution buckets over a one-minute sliding window, the system extracts a stabilized, real-time measurement of the tail latency. We rely on this internal gRPC telemetry rather than the external HTTP network timers. It strictly separates the application's true compute and event-loop processing delays from external network issues, such as TCP backlog saturation or service queuing in the service mesh.
 
 Targeting the 95th percentile ensures the controller focuses on the degraded experience of the slowest requests while filtering out extreme, transient outliers (like the 99th percentile) that are often caused by routine garbage collection or minor operating system context switching. This observed $L_{p95}$ value is continuously evaluated against a rigid, configurable latency boundary ($L_{SLA}$, set to $35$ ms). Within the hybrid controller mode, this SLA evaluation acts as the definitive proof of exhaustion. The mathematical capacity limit ($\lambda_{trigger}$) flags that the system should be saturated based on average service times, but the $L_{p95}$ breach provides the empirical confirmation that the synchronous thread pool or asynchronous event loop has actually failed to process the current concurrent workload. By requiring this latency condition, the controller completely avoids false-positive mitigations during brief, harmless traffic bursts.
 
@@ -494,7 +514,58 @@ The experiment was conducted on a Kubernetes cluster composed of multiple nodes,
 \label{4.2}
 
 
-To precisely calculate the application-layer gateway overhead, we utilized two specialized, open-source load-testing tools (\textit{wrk2} \cite{wrk2} and \textit{ghz} \cite{ghz}), as shown in the Fig. \ref{fig:eval}:
+To precisely calculate the application-layer gateway overhead, we utilized two specialized, open-source load-testing tools (\textit{wrk2} \cite{wrk2} and \textit{ghz} \cite{ghz}), as shown in the Fig. \ref{fig:eval}. Both tools executed 30 iterations for each target throughput level, ranging from 200 to 1200 Requests Per Second (RPS). 
+
+\subsubsection{End-to-end Comprehensive Evaluation}
+To evaluate the overall system performance and comprehensive user experience of the deployed microservices architecture, an end-to-end (E2E) evaluation stage was conducted. This scenario grabs the entire round-trip request lifecycle, effectively capturing the client’s perception of performance as the traffic flows through the external network. Using \textit{wrk2} as a load generator for a highly efficient HTTP benchmarking tool, we conduct the penetration test of the cluster via the frontend ingress, translate from HTTP to gRPC, process the request at the backend, and return the response to the client. This evaluation scenario is shown in the Fig. \ref{fig:eval}A.
+
+The frontend serves as an API gateway, handling standard HTTP requests, transform the payload into gRPC protocol buffers, and routing the traffic to the backend prime-server-service. This topology ensures that the evaluation captures all systemic overhead within a 120-second time frame in 30 runs for each payload, including HTTP/gRPC translation costs, cluster network mesh latency, and the total resource usage of both frontend and backend components. 
+
+In this scenario, we also evaluate the system's adaptability, the framework efficiency, and the control logic. To obtain the E2E evaluation result, we incorporate interchangeable frontend implementations and multiple operational states. The API gateway tier was interchangeably evaluated using Flask (representing a traditional synchronous Web Server Gateway Interface-WSGI \cite{wsgi} handling profile) and FastAPI (representing a modern asynchronous Asynchronous Server Gateway Interface-ASGI \cite{asgi} handling profile) to measure HTTP-to-gRPC translation overhead. Evaluations were strictly segmented between a Baseline state (relying entirely on default Kubernetes static scheduling) and a Controller-enabled state (where the custom dynamic control loop actively managed the system). During both Baseline state and Controller-enabled evaluations, the system was independently tested in CPR and PCR modes to determine their respective impacts on latency mitigation, resource scaling, and total end-to-end throughput under varying load intensities.
+
+To maintain rigorous evaluation control and eliminate state leakage between load phases, each evaluation cycle executed an automated pipeline:
+
+\begin{itemize}
+	\item \textbf{System Provisioning:} First, we ensure that all CPUs on the SUT node are in high-performance mode and remain in that state for further processes. Both the frontend and backend Kubernetes deployments and their associated services were dynamically applied. The script paused execution until all pods across both tiers achieved a Ready state.
+	
+	\item \textbf{Endpoint Resolution:} The external IP or NodePort of the Frontend service was dynamically resolved to establish the absolute target URL for the \textit{wrk} client.
+	
+	\item \textbf{Comprehensive Telemetry Sampling:} A background daemon initiated continuous polling of container-level resource consumption using the Kubernetes Metrics API. This process simultaneously recorded CPU utilization (m) and memory usage (Mi) for frontend pods at 2-second intervals. This allowed us to conduct a comparative analysis of resource bottlenecks across the service mesh, whenever the current system is running with or without the controller.
+	
+	\item \textbf{Traffic Injection:} The \textit{wrk} benchmarking tool injected sustained HTTP payloads for the designated duration (120 seconds) at the specified rate and concurrency.
+	
+	\item \textbf{Data Processing and Metric Extraction:} Upon completion of the injection phase, the script parsed the wrk outputs to extract the true client-facing metrics, include actual RPS ($R_{act}$), total Round-Trip time ($T_{RTT}$), latency distribution ($p50, p99$), and resources utilization (CPU and Memory).
+	
+	\item \textbf{Environment Teardown:} All deployments and services were completely decommissioned. The script enforced a mandatory cooldown period, monitoring the namespace until all resources were fully terminated before initiating the subsequent test iteration.
+\end{itemize}
+
+
+
+\subsubsection{Backend service evaluation}
+Unlike end-to-end scenarios that evaluate the system as a whole, backend service evaluation aims to demonstrate that the backend service's computational logic effectively handles gRPC requests from the load generator via cluster-level routing and service resolution. This evaluation scenario captures the total client-perceived performance when gRPC requests traverse the backend system path—from internal load generation (\textit{ghz}—a gRPC performance tool) hosts that act as frontend service requests, penetrating directly through the backend service cluster. The backend service evaluation scenario is shown in Fig. \ref{fig:eval}B.
+
+\begin{comment}
+	content...
+\begin{table}[t!]
+	\centering
+	\caption{\textbf{Experimental Setup and Configuration Parameters.}}
+	\label{tab:e2e-eval}
+	\begin{tabular}{lll}
+		\hline
+		\textbf{Parameter} & \textbf{Value / Configuration} & \textbf{Description} \\
+		\hline
+		Target Endpoint & Frontend Service / Ingress & Externally exposed API gateway endpoint \\
+		Target Protocol & HTTP & Client-facing HTTP request protocol \\
+		Load Generator & wrk on jbench node & External HTTP benchmark runner via SSH \\
+		Target Request Rates (R) & 200, 400, 600, 800, 1000, 1200 RPS & Stepped request rates per evaluation run \\
+		Concurrent Connections (C) & 100 & Concurrent HTTP connections maintained by wrk \\
+		Test Duration (D) & 30 s per iteration & Continuous sustained traffic injection duration \\
+		Iterations (N) & 5 per target rate & Repeated execution cycles for statistical confidence \\
+		Telemetry Scope & Frontend \& Backend Pods & Simultaneous resource monitoring across all tiers \\
+		\hline
+	\end{tabular}
+\end{table}
+
 
 \begin{itemize}
     \item \textbf{Unoptimized Gateway (CPR):} Simulates Algorithm~\ref{alg:ctr} ($mode = \text{CPR}$), forcing TCP/HTTP2 renegotiation for every incoming request.
@@ -503,6 +574,7 @@ To precisely calculate the application-layer gateway overhead, we utilized two s
 
 
 Both tools executed 30 iterations for each target throughput level (ranging from 100 to 1000 Requests Per Second, or RPS), sustaining the load for 60 seconds per iteration to allow queueing buffers to stabilize.
+\end{comment}
 
 %\begin{figure}[t!]
 %	\centering
@@ -1034,10 +1106,16 @@ F. Biondani, F. Tosoni, N. Dall'Ora, E. Fraccaroli, D. S. Cheng, and F. Fummi, `
 I. Angus et al., ``An introduction to Erlang B and Erlang C,'' \textit{Telemanagement}, vol. 187, pp. 6--8, 2001.
 
 % bib-28
-\bibitem{wrk2} G. Tene, ``A HTTP benchmarking tool based mostly on wrk,'' Jun. 28, 2016. [Online]. Available: https://github.com/giltene/wrk2. [Accessed: May 14, 2026].
+\bibitem{wrk2} G. Tene, ``A HTTP benchmarking tool based mostly on wrk,'' Jun. 28, 2016. [Online]. Available: \underline{https://github.com/giltene/wrk2}. [Accessed: May 14, 2026].
 
 % bib-29
-\bibitem{ghz} B. Djurkovic, ``gRPC benchmarking and load testing tool,'' Dec. 7, 2025. [Online]. Available: https://github.com/bojand/ghz. [Accessed: May 14, 2026].
+\bibitem{ghz} B. Djurkovic, ``gRPC benchmarking and load testing tool,'' Dec. 7, 2025. [Online]. Available: \underline{https://github.com/bojand/ghz}. [Accessed: May 14, 2026].
+
+% bib-30
+\bibitem{wsgi} WSGI Team, ``What is WSGI,'' 2015. [Online]. Available: \underline{https://wsgi.readthedocs.io/en/latest/what.html}. [Accessed: Sept. 24 2026].
+
+% bib-31
+\bibitem{asgi} ASGI Team, ``ASGI Documentation,'' 2018. [Online]. Available: \underline{https://asgi.readthedocs.io/en/latest/}. [Accessed: Sept. 24 2026].
 
 
 
