@@ -38,27 +38,20 @@
 \doi{10.1109/ACCESS.2024.0429000}
 
 \title{Exposing the Performance Hidden Costs: Empirical Queueing Analysis of Connection Churn in gRPC Gateways}
-\author{\uppercase{First A. Author}\authorrefmark{1}, \IEEEmembership{Fellow, IEEE},
-\uppercase{Second B. Author}\authorrefmark{2}, AND \uppercase{Third C. Author},
-Jr.\authorrefmark{3},
-\IEEEmembership{Member, IEEE}}
+\author{\uppercase{Irawan Widi Widayat}\authorrefmark{1}, \IEEEmembership{Member, IEEE},
+\uppercase{Takahiro Hirofuchi}\authorrefmark{2}, AND \uppercase{Yukinori Sato},
+Jr.\authorrefmark{3},\IEEEmembership{Member, IEEE}}
 
-\address[1]{National Institute of Standards and
-Technology, Boulder, CO 80305 USA (e-mail: author@boulder.nist.gov)}
-\address[2]{Department of Physics, Colorado State University, Fort Collins,
-CO 80523 USA (e-mail: author@lamar.colostate.edu)}
-\address[3]{Electrical Engineering Department, University of Colorado, Boulder, CO
-80309 USA}
-\tfootnote{This paragraph of the first footnote will contain support
-information, including sponsor and financial support acknowledgment. For
-example, ``This work was supported in part by the U.S. Department of
-Commerce under Grant BS123456.''}
+\address[1]{Department of Computer Science and Engineering, Toyohashi University of Technology, Japan}
+\address[2]{National Institute of Advanced Industrial Science and Technology, Tokyo, Japan}
+\address[3]{Department of Computer Science and Engineering, Toyohashi University of Technology, Japan}
+\tfootnote{This work is based on results obtained from the project, "Research and Development Project of the Enhanced infrastructures for Post-5G Information and Communication Systems (JPNP20017)", commissioned by the New Energy and Industrial Technology Development Organization (NEDO).}
 
 \markboth
 {Author \headeretal: Preparation of Papers for IEEE TRANSACTIONS and JOURNALS}
 {Author \headeretal: Preparation of Papers for IEEE TRANSACTIONS and JOURNALS}
 
-\corresp{Corresponding author: First A. Author (e-mail: author@ boulder.nist.gov).}
+\corresp{Corresponding author: Irawan Widi Widayat (e-mail: irawan.widi.widayat@ieee.org).}
 
 
 \begin{abstract}
@@ -67,7 +60,7 @@ external RESTful traffic with internal gRPC communications. However, typical pro
 \end{abstract}
 
 \begin{keywords}
-Cloud-Native, Connection Per Request, gRPC API, High Performance Computing, Kubernetes, Microservices, Persistent Channel Reuse 
+Cloud continuum, Distributed System, Microservices Architecture, gRPC, API Gateways, High Performance Computing, Kubernetes, Envoy Proxy, Performance Evaluation, Queueing Theory. 
 \end{keywords}
 
 \titlepgskip=-21pt
@@ -123,7 +116,7 @@ Therefore, this paper demonstrates how converting the original CPR approach into
 \end{comment}
 
 
-\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC multiplexes multiple requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As demonstrated by Zhu et al. \cite{zhu2023dissecting}, significant infrastructural overheads remain hidden within service mesh sidecars; similarly, we observe that undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
+\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC multiplexes multiple requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As demonstrated by Zhu \emph{et al.} \cite{zhu2023dissecting}, significant infrastructural overheads remain hidden within service mesh sidecars; similarly, we observe that undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
 
 The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020StatefulTCPANAA}. However, applying legacy REST-based connection management to gRPC environments remains a pervasive flaw. While recent work on high-throughput serialization formats like Bebop highlights how CPU branch mispredictions and framing overheads bottleneck RPC runtimes \cite{sampson2026simplicity}, the fundamental overhead of connection instantiation at the gateway level is frequently overlooked. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and FastAPI) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
 
@@ -170,9 +163,9 @@ Therefore, this paper demonstrates how converting the CPR model into a Persisten
 \subsection{Transport Protocols and Communication Overhead in Microservices}
 Microservice architectures increasingly rely on high-performance Remote Procedure Call (RPC) frameworks, such as gRPC, to facilitate low-latency inter-service communication over HTTP/2.  Recent work reports that because gRPC uses HTTP/2 and Protocol Buffers, it can cut latency by about 30\% compared with REST for inter-service communication \cite{alzahrani2026scalable}. That kind of gain matters most when applications make many small synchronous calls, since serialization cost, request framing, and connection handling are paid repeatedly across a request path.   
 
-While HTTP/2 multiplexing significantly reduces connection overhead compared to HTTP/1.1 REST interfaces, system performance remains highly sensitive to underlying transport-layer connection management. Existing benchmark studies demonstrate gRPC's superiority in execution time and resource utilization. Taha et al. point out that proactive performance prediction in microservice systems struggles with dynamic dependencies and multiplexing, especially because long and changing call chains add delay \cite{taha2024proactive}. When one service request triggers many downstream calls, queueing and contention on shared channels can make tail latency less predictable even if average latency stays low.
+While HTTP/2 multiplexing significantly reduces connection overhead compared to HTTP/1.1 REST interfaces, system performance remains highly sensitive to underlying transport-layer connection management. Existing benchmark studies demonstrate gRPC's superiority in execution time and resource utilization. Taha \emph{et al.} point out that proactive performance prediction in microservice systems struggles with dynamic dependencies and multiplexing, especially because long and changing call chains add delay \cite{taha2024proactive}. When one service request triggers many downstream calls, queueing and contention on shared channels can make tail latency less predictable even if average latency stays low.
 
-However, these studies predominantly assume persistent channel reuse (PCR) under steady-state workloads. Several aspects significantly influence and characterize the causes of increased tail latency and non-linear throughput degradation in cloud continuum environments—including ephemeral functions, rapid auto-scaling, connection-per-request (CPR) patterns, and connection churn—which frequently lead to the exhaustion of the OS TCP listen backlog. Biondani et al. found that gRPC performance degrades for large file transfers, and they attribute this to HTTP/2 transport behavior: over a 45 ms RTT path, the bandwidth-delay product interacts badly with HTTP/2 application-layer flow control, so throughput is throttled while senders wait for WINDOW\_UPDATE frames \cite{biondani2026mate}. This is important for inter-service design because it shows that HTTP/2 multiplexing helps most for many small concurrent exchanges, not for every traffic type.
+However, these studies predominantly assume persistent channel reuse (PCR) under steady-state workloads. Several aspects significantly influence and characterize the causes of increased tail latency and non-linear throughput degradation in cloud continuum environments—including ephemeral functions, rapid auto-scaling, connection-per-request (CPR) patterns, and connection churn—which frequently lead to the exhaustion of the OS TCP listen backlog. Biondani \emph{et al.} found that gRPC performance degrades for large file transfers, and they attribute this to HTTP/2 transport behavior: over a 45 ms RTT path, the bandwidth-delay product interacts badly with HTTP/2 application-layer flow control, so throughput is throttled while senders wait for WINDOW\_UPDATE frames \cite{biondani2026mate}. This is important for inter-service design because it shows that HTTP/2 multiplexing helps most for many small concurrent exchanges, not for every traffic type.
 
 \subsection{Control Loops and Traffic Management}
 The use of autonomic computing paradigms based on the Monitor-Analyze-Plan-Execute with Knowledge (MAPE-K) feedback loop has become common practice to address performance issues in cloud-native settings \cite{armstrong2017towards}. Traditional implementations integrate autonomic managers into the service mesh or API gateway to handle dynamic autoscaling, circuit breaking, anomaly detection, and traffic activity \cite{carnevali2025compositional}. A recent article introduces machine learning and agentic control units to predict microservice anomalies \cite{toka2021machine}. Nevertheless, these approaches introduce non-negligible telemetry aggregation and decision latencies, making them less effective in responding to immediate network socket saturation \cite{qiu2020firm}. Furthermore, standard load-balancing techniques used in gRPC, such as client-side round-robin or fixed connection age limits, do not effectively address connection starvation problems when runtime conditions suddenly shift between CPR and PCR operational modes \cite{dautov2014utilising}.
@@ -587,9 +580,9 @@ The evaluation results demonstrate that asymptotic latency degradation in the mi
 
 To establish a strict computational baseline and isolate the source of system-wide bottlenecks, the backend prime-checking service was evaluated independently using the \textit{ghz} load testing tool over an isolated internal cluster interface.
 
-Across the entire load range (200 to 1200 RPS across 30 independent iterations per load tier), the backend pods consistently delivered a total average response latency ranging from $0.200\text{ ms}$ at 200 RPS to $0.296\text{ ms}$ at 1200 RPS, as shown in the Fig. \ref{fig:baseline-backend}a. The Fig. \ref{fig:baseline-backend}b shows the aggregated observed telemetry results revealing that the pure algorithm execution time ($T_{\text{compute}}$) remained negligible and virtually static between $0.002\text{ ms}$ and $0.003\text{ ms}$. Over 98.9\% of the backend response was consumed by internal cluster network propagation and lightweight gRPC queueing ($T_{\text{net\_queue}} \approx 0.198\text{ ms } \text{to } 0.294\text{ ms}$). Furthermore, tail latencies remained particularly stable, with $P_{99}$ latency increasing from $0.286\text{ ms}$ at 200 RPS to a maximum of $0.536\text{ ms}$ at 1200 RPS.
+Across the entire load range (200 to 1200 RPS across 30 independent iterations per load tier), the backend pods consistently delivered a total average response latency ranging from $0.2\text{ ms}$ at 200 RPS to $0.29\text{ ms}$ at 1200 RPS, as shown in the Fig. \ref{fig:baseline-backend}a. The Fig. \ref{fig:baseline-backend}b shows the aggregated observed telemetry results revealing that the pure algorithm execution time ($T_{\text{compute}}$) remained negligible and virtually static between $0.002\text{ ms}$ and $0.003\text{ ms}$. Over 98.9\% of the backend response was consumed by internal cluster network propagation and lightweight gRPC queueing ($T_{\text{net\_queue}} \approx 0.19\text{ ms } \text{to } 0.29\text{ ms}$). Furthermore, tail latencies remained particularly stable, with $P_{99}$ latency increasing from $0.28\text{ ms}$ at 200 RPS to a maximum of $0.54\text{ ms}$ at 1200 RPS.
 
-The backend successfully processed 100\% of the injected traffic without a single connection drop or timeout. At the maximum tested load of 1200 RPS, the system maintained an actual throughput of 1199.87 RPS—as shown in the Fig. \ref{fig:baseline-backend}c—proving that the underlying mathematical service operates far below its saturation threshold. Nevertheless, Fig. \ref{fig:baseline-backend}d shows that resource monitoring confirmed predictable, linear scaling. CPU consumption increased proportionally from $83.51\text{ m}$ at 200 RPS to $281.16\text{ m}$ at 1200 RPS, while memory footprint remained flat at approximately $200\text{ MiB}$. This flat latency and resource profile demonstrates that the core backend logic maintains computational capacity well beyond the maximum injected load rate, isolating all systemic performance degradation strictly to the API gateway tier.
+The backend successfully processed 100\% of the injected traffic without a single connection drop or timeout. At the maximum tested load of 1200 RPS, the system maintained an actual throughput of 1199.87 RPS—as shown in the Fig. \ref{fig:baseline-backend}c—proving that the underlying mathematical service operates far below its saturation threshold. Nevertheless, Fig. \ref{fig:baseline-backend}d shows that resource monitoring confirmed predictable, linear scaling. CPU consumption increased proportionally from $83.51\text{ millicores}$ at 200 RPS to $281.16\text{ millicores}$ at 1200 RPS, while memory footprint remained flat at approximately $200\text{ MiB}$. This flat latency and resource profile demonstrates that the core backend logic maintains computational capacity well beyond the maximum injected load rate, isolating all systemic performance degradation strictly to the API gateway tier.
 
 
 \begin{figure*}[t!]
@@ -617,28 +610,12 @@ The backend successfully processed 100\% of the injected traffic without a singl
 	\label{base-vs-ctr}
 \end{figure*}
 
-\begin{figure*}[t!]
-	\centering
-	
-	\begin{minipage}{1\textwidth}
-		\centering
-		\vspace*{0pt}
-		\includegraphics[scale=0.3]{fig/ctr-perf.png}
-		%\vspace*{4pt}
-		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
-		%\label{eval-stg}
-	\end{minipage}
-	%\vspace{10pt}
-	\caption{\textbf{Autonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}
-	\label{eval-ctr}
-\end{figure*}
-
 \subsection{End-to-End System Evaluation: CPR vs. PCR Baseline}
 \label{sec5.2}
 
 Evaluating the complete end-to-end (E2E) workflow via HTTP traffic injected by \textit{wrk2} revealed severe performance disparities between connection paradigms and gateway framework architectures, as detailed in Table~\ref{tab:baseline-comp}.
 
-Under the Connection-Per-Request (CPR) paradigm, both synchronous (Flask) and asynchronous (FastAPI) gateways hit critical queue saturation ($\rho \to 1$) at moderate load thresholds. For Flask CPR, increasing load from 200 RPS to 1000 RPS caused average network and queueing latency ($T_{\text{net}}$) to explode from $4.98\text{ ms}$ to $20.5\text{ s}$, accompanied by a CPU utilization spike to $1318.9\text{ millicores}$. FastAPI CPR exhibited identical saturation behavior at 1000 RPS, with $T_{\text{net}}$ surging to $20.5\text{ s}$ and CPU reaching $1656.6\text{ millicores}$. As illustrated in Fig. \ref{fig:seq-model}, this catastrophic failure occurs because worker threads and event loops become completely blocked managing repetitive L4 TCP handshakes and L7 HTTP/2 frame negotiations ($S_{cpr}$), exhausting local listen backlogs. The throughput degradation of both FastAPI and Flask CPR was recorded at approximately 670 RPS, as shown in the \ref{fig:baseline-perf}c. This proves that when the incoming Request-per-Second (RPS) rate exceeds the maximum processing capacity ($\mu$) of a server with fixed resource constraints, throughput does not just flat at maximum capacity; rather, it rapidly dives toward zero while response latency approaches infinity. 
+Under the Connection-Per-Request (CPR) paradigm, both synchronous (Flask) and asynchronous (FastAPI) gateways hit critical queue saturation ($\rho \to 1$) at moderate load thresholds. For Flask CPR, increasing load from 200 RPS to 1000 RPS caused average network and queueing latency ($T_{\text{net}}$) to explode from $4.98\text{ ms}$ to $20.45\text{ s}$, accompanied by a CPU utilization spike to $1318.9\text{ millicores}$. FastAPI CPR exhibited identical saturation behavior at 1000 RPS, with $T_{\text{net}}$ surging to $20.45\text{ s}$ and CPU reaching $1656.6\text{ millicores}$. As illustrated in Fig. \ref{fig:seq-model}, this catastrophic failure occurs because worker threads and event loops become completely blocked managing repetitive L4 TCP handshakes and L7 HTTP/2 frame negotiations ($S_{cpr}$), exhausting local listen backlogs. The throughput degradation of both FastAPI and Flask CPR was recorded at approximately 670 RPS, as shown in the Fig. \ref{fig:baseline-perf}c. This proves that when the incoming Request-per-Second (RPS) rate exceeds the maximum processing capacity ($\mu$) of a server with fixed resource constraints, throughput does not just flat at maximum capacity; rather, it rapidly dives toward zero while response latency approaches infinity. 
 
 Conversely, enforcing Persistent Channel Reuse (PCR) qualitatively transformed system stability. These phenomena are clearly shown in the Fig. \ref{fig:baseline-perf}. By multiplexing concurrent requests over persistent gRPC channels, Flask PCR reduced $T_{\text{net}}$ at 1000 RPS to $36.31\text{ ms}$ (a 99.8\% reduction compared to CPR) while lowering the CPU footprint to $365.2\text{ millicores}$. FastAPI PCR demonstrated superior concurrency handling, maintaining a $T_{\text{net}}$ of only $5.71\text{ ms}$ at 1000 RPS with a minimal CPU footprint of $252.4\text{ millicores}$.
 
@@ -765,14 +742,30 @@ Similar suppression trends were observed for FastAPI CPR at 1200 RPS, where thro
 While the Connection Per-Request (CPR) anti-pattern demonstrates universal vulnerability to TCP connection churn, evaluating the Persistent Connection Reuse (PCR) profile reveals fundamental structural differences between synchronous (Flask) and asynchronous (FastAPI) runtime architectures. Under PCR, gRPC channels are initialized at application startup and multiplexed across requests, eliminating $t_{\text{tcp}}$ and $t_{\text{http2}}$ setup overheads per transaction.
 
 \subsubsection{Synchronous Framework (Flask) PCR Analysis}
-In the synchronous WSGI model, keeping downstream gRPC channels persistent drastically increases service rate ($\mu_{\text{pcr}} \gg \mu_{\text{cpr}}$). As shown in Table~\ref{tab:compare-analysis}, at light-to-moderate load tiers (200--600 RPS), Flask PCR maintains a flat latency profile with $P_{50} \le 1.07\text{ ms}$ and $P_{99} \le 64.56\text{ ms}$. However, as traffic scales to heavy load tiers (1100--1200 RPS), physical worker thread pool constraints ($c$ workers) reintroduce queueing backlog ($W_{\text{queue}}$). At 1200 RPS, the unmanaged Flask PCR baseline experiences latency inflation, reaching a $P_{50}$ of $385.09\text{ ms}$ and a $P_{99}$ of $1,737.32\text{ ms}$ with an actual throughput of $1,192.76\text{ RPS}$.
+In the synchronous WSGI model, keeping downstream gRPC channels persistent drastically increases service rate ($\mu_{\text{pcr}} \gg \mu_{\text{cpr}}$). As shown in Table~\ref{tab:compare-analysis}, at light-to-moderate load tiers (200--600 RPS), Flask PCR maintains a flat latency profile with $P_{50} \le 1.07\text{ ms}$ and $P_{99} \le 64.56\text{ ms}$. However, as traffic scales to heavy load tiers (1100--1200 RPS), physical worker thread pool constraints ($c$ workers) reintroduce queueing backlog ($W_{\text{queue}}$). At 1200 RPS, the unmanaged Flask PCR baseline experiences latency inflation, reaching a $P_{50}$ of $385.09\text{ ms}$ and a $P_{99}$ of $1737.32\text{ ms}$ with an actual throughput of $1192.76\text{ RPS}$.
 
 Upon reaching the controller's intervention threshold ($\lambda_{\text{trigger}} = 186.1\text{ RPS}$, $L_{p95} \ge 50\text{ ms}$), the autonomic controller executes sidecar cutover in $\Delta T_{\text{rollout}} = 0.74\text{ s}$. Post-actuation, Envoy's out-of-process buffer absorbs connection bursts and enforces asynchronous backpressure. At 1200 RPS, controller-actuated Flask PCR restores throughput to a full $1,200.18\text{ RPS}$ ($+0.6\%$ gain over baseline), while suppressing $P_{50}$ latency by $59.8\%$ ($385.09\text{ ms} \to 154.62\text{ ms}$) and $P_{99}$ tail latency by $73.4\%$ ($1,737.32\text{ ms} \to 462.13\text{ ms}$).
 
 \subsubsection{Asynchronous Framework (FastAPI) PCR Analysis}
 The combination of an asynchronous event loop ($M/G/1-PS$ queueing model) and Persistent Connection Reuse (PCR) achieves optimal architectural efficiency. Across the entire load spectrum (200--1200 RPS), FastAPI PCR processes 100\% of injected traffic without any queue degradation. At the maximum load of 1200 RPS, actual throughput reaches $1,201.78\text{ RPS}$ with an average latency of only $10.05\text{ ms}$, a $P_{50}$ latency of $1.41\text{ ms}$, and a $P_{99}$ tail latency of $91.19\text{ ms}$.
 
-Significantly as shown in Table \ref{tab:ctr-actuation}, across all test runs for FastAPI PCR, the autonomic controller's evaluation loop returned \texttt{triggered = False} ("Never Triggered"). Because the non-blocking event loop paired with persistent HTTP/2 stream multiplexing kept tail latencies well below $L_{\text{SLA}} = 35\text{ ms}$, the predictive controller correctly refrained from actuating. This zero-false-positive outcome empirically validates the precision of Algorithm~\ref{alg:ctr}: it actively intervenes during saturation events while avoiding unnecessary sidecar memory and CPU overheads when the underlying stack operates within healthy SLA bounds.
+Significantly as shown in Table \ref{tab:controller-telemetry-summary}, across all test runs for FastAPI PCR, the autonomic controller's evaluation loop returned \texttt{triggered = False} (Never Triggered), $\Delta T_{rollout} (\text{s}) = 0.0$. Because the non-blocking event loop paired with persistent HTTP/2 stream multiplexing kept tail latencies well below $L_{\text{SLA}} = 35\text{ ms}$, the predictive controller correctly refrained from actuating. This zero-false-positive outcome empirically validates the precision of Algorithm~\ref{alg:ctr}: it actively intervenes during saturation events while avoiding unnecessary sidecar memory and CPU overheads when the underlying stack operates within healthy SLA bounds.
+
+\begin{figure*}[t!]
+	\centering
+	
+	\begin{minipage}{1\textwidth}
+		\centering
+		\vspace*{0pt}
+		\includegraphics[scale=0.3]{fig/ctr-perf.png}
+		%\vspace*{4pt}
+		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
+		%\label{eval-stg}
+	\end{minipage}
+	%\vspace{10pt}
+	\caption{\textbf{Autonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda_{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}
+	\label{fig:eval-ctr}
+\end{figure*}
 
 \subsection{Empirical Queueing Dynamics, Transcoding Tax, and Controller Telemetry Observability}
 \label{sec5.3_queueing_tax_telemetry}
@@ -780,7 +773,7 @@ Significantly as shown in Table \ref{tab:ctr-actuation}, across all test runs fo
 To understand the mechanics of asymptotic latency degradation, we correlate the theoretical queueing models formulated in Section~\ref{sec:math-model} with empirical E2E response times and real-time controller telemetry.
 
 \subsubsection{The Inherent Gateway Transcoding Tax}
-Comparing the isolated backend benchmark ($T_{\text{network}} \approx 0.28\text{ ms}$) with the E2E PCR system latency ($T_{\text{total}} \approx 3.02\text{ ms} - 36.31\text{ ms}$) exposes a fundamental structural overhead, defined as the \textit{Inherent Proxy Latency Gap}. Compositional analysis reveals that the API gateway tier inherently accounts for $90\%$ to $97.5\%$ of the total E2E response envelope. This baseline latency floor is driven by protocol transcoding—the mandatory CPU cost of parsing incoming external HTTP JSON payloads, serializing them into binary Protocol Buffers, and managing client-side socket states. This empirical gap highlights a critical "Performance-Abstraction Paradox": although API gateways provide essential protocol decoupling, their internal serialization frameworks establish an absolute minimum service time ($S_{\text{transcode}}$) that vastly exceeds pure backend algorithm execution ($T_{\text{compute}} \approx 0.002\text{ ms}$).
+Comparing the isolated backend benchmark ($T_{\text{network}} \approx 0.28\text{ ms}$) with the E2E PCR system latency ($T_{\text{total}} \approx 3.02\text{ ms } \text{to } 36.31\text{ ms}$) exposes a fundamental structural overhead, defined as the \textit{Inherent Proxy Latency Gap}. Compositional analysis reveals that the API gateway tier inherently accounts for $90\%$ to $97.5\%$ of the total E2E response envelope. This baseline latency floor is driven by protocol transcoding—the mandatory CPU cost of parsing incoming external HTTP JSON payloads, serializing them into binary Protocol Buffers, and managing client-side socket states. This empirical gap highlights a critical \textit{Performance-Abstraction Paradox}: although API gateways provide essential protocol decoupling, their internal serialization frameworks establish an absolute minimum service time ($S_{\text{transcode}}$) that vastly exceeds pure backend algorithm execution ($T_{\text{compute}} \approx 0.002\text{ ms}$).
 
 \begin{table*}[htbp]
 	\centering
@@ -831,20 +824,20 @@ Comparing the isolated backend benchmark ($T_{\text{network}} \approx 0.28\text{
 \subsubsection{Framework-Specific Queueing Degradation}
 The operational impact of this fixed transcoding tax becomes critical when mapped to queueing models, as it dictates the gateway's baseline service rate ($\mu = 1/S$). 
 
-In the synchronous multi-threaded architecture (Flask), request processing operates as an $M/M/c$ queue where worker threads block during both CPU transcoding and downstream network I/O. Under Connection Per-Request (CPR), connection negotiation ($t_{\text{tcp}} + t_{\text{http2}}$) inflates total service time ($S_{\text{cpr}}$), severely depressing service rate $\mu_{\text{cpr}}$. As arrival rate $\lambda$ approaches total worker capacity $c\mu_{\text{cpr}}$, utilization $\rho = \frac{\lambda}{c\mu} \to 1$. Governed by Little's Law, queueing delay $W_{\text{queue}} \propto \frac{\rho}{1-\rho}$ grows asymptotically, driving OS listen backlogs to saturation and causing severe packet drops.
+In the synchronous multi-threaded architecture (Flask), request processing operates as an $M/M/c$ queue where worker threads block during both CPU transcoding and downstream network I/O. Under Connection Per-Request (CPR), connection negotiation ($t_{\text{tcp}} + t_{\text{http2}}$) inflates total service time ($S_{\text{cpr}}$), severely depressing service rate $\mu_{\text{cpr}}$. As arrival rate $\lambda$ approaches total worker capacity $c\mu_{\text{cpr}}$, utilization $\rho = \frac{\lambda}{c\mu} \to 1$. Governed by Little's Law \cite{little2011or}, queueing delay $W_{\text{queue}} \propto \frac{\rho}{1-\rho}$ grows asymptotically, driving OS listen backlogs to saturation and causing severe packet drops.
 
-In contrast, the asynchronous event-loop architecture (FastAPI) operates as an $M/G/1$ Processor Sharing ($PS$) queue. By yielding execution during external gRPC I/O wait states, FastAPI decouples task handling from OS physical thread counts, distributing CPU tick duration across $N_{\text{active}}$ concurrent connections:
+In contrast, the asynchronous event-loop architecture (FastAPI) operates as an $M/G/1$ Processor Sharing ($PS$) queue \cite{KahramanMG1,dalai2024novel}. By yielding execution during external gRPC I/O wait states, FastAPI decouples task handling from OS physical thread counts, distributing CPU tick duration across $N_{\text{active}}$ concurrent connections:
 \begin{equation}
 	W_{\text{queue, PS}} = \frac{\rho}{1 - \rho} \cdot S_{g}
 \end{equation}
 Because the single execution thread is not blocked by network handshakes, FastAPI's service time remains closer to the pure CPU transcoding tax, delaying catastrophic queue collapse to higher arrival rates compared to synchronous thread pools.
 
 \subsubsection{Real-Time Controller Telemetry Observability}
-To prevent queue collapse without maintaining static sidecars during low-traffic periods, Algorithm~\ref{alg:ctr} employs a continuous telemetry loop that operationalizes the $M/M/c$ and $M/G/1-PS$ queueing equations. At polling intervals ($t_{\text{poll}}$), the controller queries Prometheus to extract real-time metrics and compute theoretical saturation boundaries:
+To prevent queue collapse without maintaining static sidecars during low-traffic periods, Algorithm~\ref{alg:ctr} employs a continuous telemetry loop that operationalizes the $M/M/c$ and $M/G/1-PS$ queueing equations. These phenomena result in graphs as shown in the Fig. \ref{fig:eval-ctr}. At polling intervals ($t_{\text{poll}}$), the controller queries Prometheus to extract real-time metrics and compute theoretical saturation boundaries:
 
 \begin{enumerate}
-	\item \textbf{Real-Time Parameterization:} The telemetry engine continuously records the arrival rate $\lambda$ (\texttt{controller\_rps}) and service time $S$ (\texttt{service\_time\_ms}).
-	\item \textbf{Saturation \& Intervention Thresholds:} Using $S$, the controller dynamically computes the predicted crash point $\lambda_{\text{sat}} = \frac{c}{S}$ (\texttt{crash\_point\_rps}) and the predictive trigger threshold $\lambda_{\text{trigger}} = \lambda_{\text{sat}} \times \tau_{\text{ratio}}$ (\texttt{trigger\_point\_rps}), where target utilization ratio $\tau_{\text{ratio}} = 0.80$.
+	\item \textbf{Real-Time Parameterization:} The telemetry engine continuously records the arrival rate $\lambda$ ($controller\_rps$) and service time $S$ ($service\_time\_ms$).
+	\item \textbf{Saturation \& Intervention Thresholds:} Using $S$, the controller dynamically computes the predicted crash point $\lambda_{\text{sat}} = \frac{c}{S}$ ($crash\_point\_rps$) and the predictive trigger threshold $\lambda_{\text{trigger}} = \lambda_{\text{sat}} \times \tau_{\text{ratio}}$ ($trigger\_point\_rps$), where target utilization ratio $\tau_{\text{ratio}} = 0.80$.
 	\item \textbf{Dual-Condition Actuation:} Sidecar injection occurs if and only if predicted saturation coincides with SLA degradation ($\lambda \ge \lambda_{\text{trigger}} \;\land\; L_{p95} \ge L_{\text{SLA}}$).
 \end{enumerate}
 
@@ -852,10 +845,14 @@ As detailed in Table~\ref{tab:controller-telemetry-summary}, empirical telemetry
 
 \begin{itemize}
 	\item \textbf{Sync (Flask) CPR Telemetry:} Under saturated load ($\ge 600\text{ RPS}$), connection churn depresses the average service rate, resulting in an observed service time $S = 9.93\text{ ms}$. This drops the calculated saturation threshold to $\lambda_{\text{sat}} = 103.96\text{ RPS}$ and $\lambda_{\text{trigger}} = 83.17\text{ RPS}$. Because target load rates ($\lambda \ge 600\text{ RPS}$) far exceed $\lambda_{\text{trigger}}$, the controller achieves a 100\% actuation rate (210/210 runs), executing sidecar injection in $\Delta T_{\text{rollout}} = 8.32\text{ s}$.
+	
 	\item \textbf{Async (FastAPI) CPR Telemetry:} Under high CPR load, FastAPI exhibits $S = 9.86\text{ ms}$, yielding $\lambda_{\text{sat}} = 210.41\text{ RPS}$ and $\lambda_{\text{trigger}} = 168.33\text{ RPS}$. While non-blocking execution doubles the effective saturation limit relative to Flask CPR, loads $\ge 600\text{ RPS}$ still exceed capacity, prompting a 100\% actuation rate with $\Delta T_{\text{rollout}} = 8.27\text{ s}$.
+	
 	\item \textbf{Sync (Flask) PCR Telemetry:} Channel reuse reduces service time to $S = 5.51\text{ ms}$ under heavy load, raising predicted capacity to $\lambda_{\text{sat}} = 186.09\text{ RPS}$ ($\lambda_{\text{trigger}} = 148.87\text{ RPS}$). Sidecar injection is triggered selectively (5.2\% of runs) only when transient thread contention causes $L_{p95} \ge L_{\text{SLA}}$ at peak loads, completing rollout in $\Delta T_{\text{rollout}} = 7.85\text{ s}$.
-	\item \textbf{Async (FastAPI) PCR Telemetry:} Multiplexed async execution maintains $S = 2.04\text{ ms}$ even at 1200 RPS, keeping predicted capacity high ($\lambda_{\text{sat}} = 1050.32\text{ RPS}$) and $P_{95}$ latency well below $L_{\text{SLA}} = 50\text{ ms}$. Consequently, the controller records an actuation rate of 0.0\% (0/210 runs), confirming zero false-positive deployments.
-	\item \textbf{Daemon Resource Footprint:} Across all 1,320 total test iterations, the controller daemon operated with negligible resource overhead, consuming an average CPU footprint of $8.28\text{ m} - 9.32\text{ m}$ ($< 1\%$ of a single CPU core) and maintaining a static memory footprint of $56.59\text{ MiB} - 56.78\text{ MiB}$.
+	
+	\item \textbf{Async (FastAPI) PCR Telemetry:} Multiplexed async execution maintains $S = 2.04\text{ ms}$ even at 1200 RPS, keeping predicted capacity high ($\lambda_{\text{sat}} = 1050.32\text{ RPS}$) and $P_{95}$ latency well below $L_{\text{SLA}} = 35\text{ ms}$. Consequently, the controller records an actuation rate of 0.0\% (0/210 runs), confirming zero false-positive deployments.
+	
+	\item \textbf{Daemon Resource Footprint:} Across all 1320 total test iterations, the controller daemon operated with negligible resource overhead, consuming an average CPU footprint of $8.28\text{ millicores } \text{to } 9.32\text{ millicores}$ ($< 1\%$ of a single CPU core) and maintaining a static memory footprint of $56.59\text{ MiB } \text{to } 56.78\text{ MiB}$.
 \end{itemize}
 
 Ultimately, transitioning the system to PCR—either statically or via dynamic Envoy sidecar actuation—scales effective service rate $\mu_{\text{pcr}} \gg \mu_{\text{cpr}}$, keeping system utilization $\rho \ll 1$ and completely suppressing non-linear latency spikes without requiring additional hardware provisioning.
@@ -882,106 +879,37 @@ Four primary architectural takeaways emerge from this empirical synthesis:
 \label{sec:discuss}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+The performance evaluation at the gateway level in this paper shows the reality of modern cloud-native system design. While microservice architectures enable strict decoupling and flexibility in protocol, the latency tax associated with these abstractions is seldom investigated in detail at the millisecond level. The resulting data bridges theoretical queueing limits with practical operational constraints, offering three primary insights for industry practitioners.
 
+\subsubsection{The Microservice Abstraction Penalty}
+A striking finding from our compositional analysis is the significant disparity between the transcoding protocol overhead and the pure computational logic execution. At the API gateway tier, this factor accounts for $90\%$ to $97.5\%$ of the total end-to-end latency. Our empirical data analysis confirms that the structural bottleneck in modern web services no longer lies in raw network transmission or database I/O, but rather in the CPU-bound processes of payload serialization and deserialization.
+
+This aligns closely with Barroso \emph{et al.}'s observations, in which microsecond-scale overheads in remote procedure calls (RPCs) and protocol parsing increasingly dominate datacenter latency \cite{barroso2017attack}. Furthermore, research surrounding the DeathStarBench microservice suite (Gan \emph{et al.}) highlights that as applications become hyper-fragmented, the cumulative cost of proxying and translating payloads (e.g., JSON to Protocol Buffers) can exceed the execution time of the microservices themselves \cite{gan2019deathstarbench}. The \textit{Inherent Proxy Latency Gap} quantified in this study underscores a Performance-Abstraction Paradox: while API gateways are mandatory for external security and routing, their static overhead ($S_{\text{transcode}}$) establishes a hard performance floor that cannot be bypassed by backend optimizations.
+
+\subsubsection{The Thread Pool Trap}
+When synchronous web architectures (such as Flask) face sudden traffic spikes, the default industry response is vertical scaling—provisioning nodes with higher CPU core counts ($c$). However, our queueing analysis of the Connection Per-Request (CPR) paradigm demonstrates why this approach is economically and computationally flawed.
+
+Recent cloud and n-tier application work shows that these software limits must be managed together with hardware scaling. In an $M/M/c$ queueing environment, worker threads are completely blocked during external network operations ($t_{\text{tcp}} + t_{\text{http2}}$). Carnevali \emph{et al.} summarize that both overprovisioning and underprovisioning can be addressed by coordinating hardware and software resources such as threads and database connections, because mismatched settings create inefficiencies in concurrent request processing across application tiers \cite{carnevali2025compositional}. Our empirical data proves that under CPR, the service time ($S_{\text{cpr}}$) is inflated not by CPU utilization, but by I/O wait states. Consequently, adding more CPU cores fails to increase the effective service rate $\mu$; it merely results in more threads remaining idle. This \textit{Thread Pool Trap} necessitates a shift away from vertical scaling and toward persistent connection multiplexing, breaking the dependency between physical CPU cores and concurrent network connections.
+
+\subsubsection{Autonomic Mitigation vs. Architectural Cure}
+Addressing the aforementioned bottlenecks requires in outlining between immediate operational mitigation and long-term architectural cures. As demonstrated in this paper, migrating to an asynchronous, event-loop framework (FastAPI) acts as the ultimate architectural cure. By transforming the system into an $M/G/1$ Processor Sharing ($PS$) queue, the application decouples task execution from connection wait states and natively supports high arrival rates ($\lambda$) without sidecar intervention.
+
+However, enterprise production cloud-native environments are heavily burdened with legacy synchronous microservices that cannot be rapidly refactored. In these scenarios, the autonomic controller developed in this study serves as a critical stabilization mechanism. This modeling choice matters directly for refactoring and runtime control. Rooted in Kephart and Chess’s vision of autonomic computing \cite{kephart2003vision} (the MAPE-K loop: Monitor, Analyze, Plan, Execute \cite{armstrong2017towards}), the controller transforms static queueing theory into a dynamic telemetry guardrail. By injecting an Envoy sidecar only when real-time utilization ($\rho$) threatens saturation, the system achieves the connection pooling benefits of a service mesh without suffering the permanent CPU/memory footprint of a ubiquitous sidecar deployment. Ultimately, while asynchronous application refactoring is the definitive cure, precision-targeted autonomic injection provides an essential, zero-waste insurance policy for vulnerable synchronous infrastructures.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Conclusion and Future Work}
 \label{sec:conclude}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In this paper, we investigated the hidden performance costs of application-layer communication bottlenecks in microservice architectures, focusing on the gRPC connection churn flaw within API gateways. We modeled the request patterns of the "connection-per-request" (CPR) anti-pattern and contrasted it with a refactored Persistent Channel Reuse (PCR) approach. The observation of actual runs demonstrated that refactoring the gateway implementation to the PCR approach yielded a 97\% reduction in median system latency—dropping from over 7,100 ms to 150 ms under a peak load of 600 RPS. This study proves that correcting application-layer protocol mismanagement successfully moves the performance bottleneck away from the infrastructure gateway and to the compute backend, highlighting that refactoring the gateway code is a critical aspect to scalability as the underlying architectural design.
+In this paper, we investigated the hidden performance costs of application-layer communication bottlenecks in modern microservice architectures, focusing specifically on the catastrophic latency degradation caused by gRPC connection churn within API gateways. By modeling the Connection-Per-Request (CPR) anti-pattern and contrasting it with a refactored Persistent Connection Reuse (PCR) paradigm, we exposed the structural limitations of standard gateway implementations. Our evaluation, conducted across both synchronous (Flask, $M/M/c$ queueing) and asynchronous (FastAPI, $M/G/1-PS$ queueing) frameworks within an isolated Kubernetes cluster across load tiers from 200 to 1200 RPS, demonstrated that mismanaged protocol abstractions inherently dictate system scalability boundaries. 
 
-Future work will expand this steady-state benchmarking methodology into the domain of Chaos Engineering. By introducing controlled faults (e.g., node resource starvation, sudden pod termination) under a persistent load. 
+Our empirical analysis results conclusively showed that transitioning from CPR to PCR significantly reduced the connection setup overheads ($t_{\text{tcp}} + t_{\text{http2}}$) and prevents asymptotic queue collapse. Under a peak load of 1000 RPS, adopting PCR reduced network/queueing delay ($T_{\text{net}}$) by $99.82\%$ for Flask ($20454.8\text{ ms} \to 36.31\text{ ms}$) and by $99.97\%$ for FastAPI ($20518.2\text{ ms} \to 5.71\text{ ms}$). At the maximum load tier of 1200 RPS—where unmanaged CPR baselines suffered a $43.5\%$ throughput collapse and median latencies exceeding $27000\text{ ms}$—FastAPI PCR maintained a full $1201.78\text{ RPS}$ throughput with a median ($P_{50}$) latency of just $1.41\text{ ms}$ (a $99.99\%$ reduction relative to CPR). 
+
+Furthermore, for legacy architectures where application refactoring is unfeasible, our zero-waste autonomic Envoy controller demonstrated remarkable mitigation efficacy. By continually tracking real-time utilization ($\rho$) via Prometheus telemetry, the controller accurately predicts queue saturation ($\lambda \ge \lambda_{\text{trigger}}$) and dynamically injects Envoy sidecar proxies upon SLA violation ($L_{p95} \ge L_{\text{SLA}}$). Under saturated CPR conditions at 1200 RPS, controller actuation increased throughput by $+63.2\%$ for Flask ($678.6 \to 1107.8\text{ RPS}$) and by $+60.5\%$ for FastAPI ($680.3 \to 1092.1\text{ RPS}$), while suppressing $P_{99}$ tail latencies by up to $79.9\%$. Crucially, the controller recorded a $0.0\%$ false-positive actuation rate during performant runs (such as FastAPI PCR), operating with a minimal daemon resource footprint ($< 9.5\text{ m}$ CPU, $56.7\text{ MiB}$ RAM). 
+
+Future work will expand upon this benchmarking methodology in two distinct directions. First, we will transition the evaluation into the domain of Chaos Engineering by introducing controlled infrastructure faults (e.g., node CPU starvation, transient network partitioning, and unexpected pod termination) under sustained load to measure the resilience, cutover latency, and recovery dynamics of the autonomic controller. Second, building upon our findings regarding the \textit{Thread Pool Trap}—which proved that vertical scaling (expanding physical CPU core capacity $c$) fails to resolve I/O-bound connection queues in synchronous systems—future research will examine horizontal scalability. We aim to integrate Kubernetes Horizontal Pod Autoscaling (HPA) alongside our autonomic controller to analyze how dynamic pod replica scaling interacts with targeted sidecar injection. This will offer deeper insights into resolving transient gateway bottlenecks through horizontal load redistribution rather than localized resource expansion, moving toward a fully self-healing, SLA-aware cloud-native ingress architecture.
 
 
-
-\section{Reference Examples}
-
-\begin{itemize}
-
-\item \emph{Basic format for books:}\\
-J. K. Author, ``Title of chapter in the book,'' in \emph{Title of His Published Book, x}th ed. City of Publisher, (only U.S. State), Country: Abbrev. of Publisher, year, ch. $x$, sec. $x$, pp. \emph{xxx--xxx.}\\
-See \cite{b1,b2}.
-
-\item \emph{Basic format for periodicals:}\\
-J. K. Author, ``Name of paper,'' \emph{Abbrev. Title of Periodical}, vol. \emph{x, no}. $x, $pp\emph{. xxx--xxx, }Abbrev. Month, year, DOI. 10.1109.\emph{XXX}.123456.\\
-See \cite{b3}--\cite{b5}.
-
-\item \emph{Basic format for reports:}\\
-J. K. Author, ``Title of report,'' Abbrev. Name of Co., City of Co., Abbrev. State, Country, Rep. \emph{xxx}, year.\\
-See \cite{b6,b7}.
-
-\item \emph{Basic format for handbooks:}\\
-\emph{Name of Manual/Handbook, x} ed., Abbrev. Name of Co., City of Co., Abbrev. State, Country, year, pp. \emph{xxx--xxx.}\\
-See \cite{b8,b9}.
-
-\item \emph{Basic format for books (when available online):}\\
-J. K. Author, ``Title of chapter in the book,'' in \emph{Title of
-Published Book}, $x$th ed. City of Publisher, State, Country: Abbrev.
-of Publisher, year, ch. $x$, sec. $x$, pp. \emph{xxx--xxx}. [Online].
-Available: \underline{http://www.web.com}\\
-See \cite{b10}--\cite{b13}.
-
-\item \emph{Basic format for journals (when available online):}\\
-J. K. Author, ``Name of paper,'' \emph{Abbrev. Title of Periodical}, vol. $x$, no. $x$, pp. \emph{xxx--xxx}, Abbrev. Month, year. Accessed on: Month, Day, year, DOI: 10.1109.\emph{XXX}.123456, [Online].\\
-See \cite{b14}--\cite{b16}.
-
-\item \emph{Basic format for papers presented at conferences (when available online): }\\
-J.K. Author. (year, month). Title. presented at abbrev. conference title. [Type of Medium]. Available: site/path/file\\
-See \cite{b17}.
-
-\item \emph{Basic format for reports and handbooks (when available online):}\\
-J. K. Author. ``Title of report,'' Company. City, State, Country. Rep. no., (optional: vol./issue), Date. [Online] Available: site/path/file\\
-See \cite{b18,b19}.
-
-\item \emph{Basic format for computer programs and electronic documents (when available online): }\\
-Legislative body. Number of Congress, Session. (year, month day). \emph{Number of bill or resolution}, \emph{Title}. [Type of medium]. Available: site/path/file\\
-See \cite{b20}.
-
-\item \emph{Basic format for patents (when available online):}\\
-Name of the invention, by inventor's name. (year, month day). Patent Number [Type of medium]. Available: site/path/file\\
-See \cite{b21}.
-
-\item \emph{Basic format}\emph{for conference proceedings (published):}\\
-J. K. Author, ``Title of paper,'' in \emph{Abbreviated Name of Conf.}, City of Conf., Abbrev. State (if given), Country, year, pp. \emph{xxxxxx.}\\
-See \cite{b22}.
-
-\item \emph{Example for papers presented at conferences (unpublished):}\\
-See \cite{b23}.
-
-\item \emph{Basic format for patents}$:$\\
-J. K. Author, ``Title of patent,'' U.S. Patent \emph{x xxx xxx}, Abbrev. Month, day, year.\\
-See \cite{b24}.
-
-\item \emph{Basic format for theses (M.S.) and dissertations (Ph.D.):}
-\begin{enumerate}
-\item J. K. Author, ``Title of thesis,'' M.S. thesis, Abbrev. Dept., Abbrev. Univ., City of Univ., Abbrev. State, year.
-\item J. K. Author, ``Title of dissertation,'' Ph.D. dissertation, Abbrev. Dept., Abbrev. Univ., City of Univ., Abbrev. State, year.
-\end{enumerate}
-See \cite{b25,b26}.
-
-\item \emph{Basic format for the most common types of unpublished references:}
-\begin{enumerate}
-\item J. K. Author, private communication, Abbrev. Month, year.
-\item J. K. Author, ``Title of paper,'' unpublished.
-\item J. K. Author, ``Title of paper,'' to be published.
-\end{enumerate}
-See \cite{b27}--\cite{b29}.
-
-\item \emph{Basic formats for standards:}
-\begin{enumerate}
-\item \emph{Title of Standard}, Standard number, date.
-\item \emph{Title of Standard}, Standard number, Corporate author, location, date.
-\end{enumerate}
-See \cite{b30,b31}.
-
-\item \emph{Article number in~reference examples:}\\
-See \cite{b32,b33}.
-
-\item \emph{Example when using et al.:}\\
-See \cite{b34}.
-
-\end{itemize}
 
 
 \section*{Acknowledgment}
@@ -1067,7 +995,7 @@ F. Biondani, F. Tosoni, N. Dall'Ora, E. Fraccaroli, D. S. Cheng, and F. Fummi, `
 \bibitem{santos2018analyzing} G. L. Santos, P. T. Endo, M. F. F. S. L. Tigre, L. G. F. S. Silva, D. Sadok, J. Kelner, and T. Lynn, "Analyzing the availability and performance of an e-health system integrated with edge, fog and cloud infrastructures," \textit{Journal of Cloud Computing}, vol. 7, no. 1, p. 16, 2018, doi: 10.1186/s13677-018-0118-3.
 
 % bib-23
-\bibitem{little2011or} J. D. C. Little, ``OR forum—Little's law as viewed on its 50th anniversary,'' Oper. Res., vol. 59, no. 3, pp. 536--549, 2011, doi: 10.1287/opre.1110.0940.
+\bibitem{little2011or} J. D. C. Little, ``OR forum—Little's law as viewed on its 50th anniversary,'' \textit{Oper. Res.}, vol. 59, no. 3, pp. 536--549, 2011, doi: 10.1287/opre.1110.0940.
 
 % bib-24
 \bibitem{dalai2024novel} D. Dalai, S. Babu, V. B. Sukumaran, and B. S. Manoj, "A novel space-based hosting approach for ultra low latency web services," \textit{IEEE Access}, vol. 12, pp. 142838--142862, 2024, doi: 10.1109/ACCESS.2024.3462252.
@@ -1094,95 +1022,17 @@ I. Angus et al., ``An introduction to Erlang B and Erlang C,'' \textit{Telemanag
 % bib-31
 \bibitem{asgi} ASGI Team, ``ASGI Documentation,'' 2018. [Online]. Available: \underline{https://asgi.readthedocs.io/en/latest/}. [Accessed: Sept. 24 2026].
 
+% bib-32
+\bibitem{KahramanMG1} A. Kahraman and A. Gosavi, “On the distribution of the number stranded in bulk-arrival, bulk-service queues of the M/G/1 form,” \textit{European Journal of Operational Research}, vol. 212, no. 2, pp. 352–360, Jul. 2011, doi: 10.1016/j.ejor.2011.02.010.
 
+% bib-33
+\bibitem{barroso2017attack} L. A. Barroso, M. Marty, D. Patterson, and P. Ranganathan, ``Attack of the killer microseconds,'' \textit{Commun. ACM}, vol. 60, no. 4, pp. 48--54, Apr. 2017, doi: 10.1145/3015146.
 
-%%%%%%%%%%%%%%%%%%%%%%
-% IEEE Access bibtex %
-%%%%%%%%%%%%%%%%%%%%%%
+% bib-34
+\bibitem{gan2019deathstarbench} Y. Gan, Y. Zhang, D. Cheng, A. Shetty, P. Rathi, N. Katarki, A. Kumar, T. Agresta, B. Bhuva, P. Topley, Z. Zhang, and C. Delimitrou, ``An open-source benchmark suite for microservices and their hardware-software implications for cloud \& edge systems,'' in \textit{Proc. 24th ACM Int. Conf. Archit. Support Program. Lang. Oper. Syst.} (ASPLOS), 2019, pp. 3--18, doi: 10.1145/3297858.3304013.
 
-\bibitem{b1} G. O. Young, ``Synthetic structure of industrial plastics,'' in \emph{Plastics,} 2\textsuperscript{nd} ed., vol. 3, J. Peters, Ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15--64.
-
-\bibitem{b2} W.-K. Chen, \emph{Linear Networks and Systems.} Belmont, CA, USA: Wadsworth, 1993, pp. 123--135.
-
-\bibitem{b3} J. U. Duncombe, ``Infrared navigation---Part I: An assessment of feasibility,'' \emph{IEEE Trans. Electron Devices}, vol. ED-11, no. 1, pp. 34--39, Jan. 1959, 10.1109/TED.2016.2628402.
-
-\bibitem{b4} E. P. Wigner, ``Theory of traveling-wave optical laser,'' \emph{Phys. Rev}., vol. 134, pp. A635--A646, Dec. 1965.
-
-\bibitem{b5} E. H. Miller, ``A note on reflector arrays,'' \emph{IEEE Trans. Antennas Propagat}., to be published.
-
-\bibitem{b6} E. E. Reber, R. L. Michell, and C. J. Carter, ``Oxygen absorption in the earth's atmosphere,'' Aerospace Corp., Los Angeles, CA, USA, Tech. Rep. TR-0200 (4230-46)-3, Nov. 1988.
-
-\bibitem{b7} J. H. Davis and J. R. Cogdell, ``Calibration program for the 16-foot antenna,'' Elect. Eng. Res. Lab., Univ. Texas, Austin, TX, USA, Tech. Memo. NGL-006-69-3, Nov. 15, 1987.
-
-\bibitem{b8} \emph{Transmission Systems for Communications}, 3\textsuperscript{rd} ed., Western Electric Co., Winston-Salem, NC, USA, 1985, pp. 44--60.
-
-\bibitem{b9} \emph{Motorola Semiconductor Data Manual}, Motorola Semiconductor Products Inc., Phoenix, AZ, USA, 1989.
-
-\bibitem{b10} G. O. Young, ``Synthetic structure of industrial
-plastics,'' in Plastics, vol. 3, Polymers of Hexadromicon, J. Peters,
-Ed., 2\textsuperscript{nd} ed. New York, NY, USA: McGraw-Hill, 1964, pp. 15-64.
-[Online]. Available:
-\underline{http://www.bookref.com}.
-
-\bibitem{b11} \emph{The Founders' Constitution}, Philip B. Kurland
-and Ralph Lerner, eds., Chicago, IL, USA: Univ. Chicago Press, 1987.
-[Online]. Available: \underline{http://press-pubs.uchicago.edu/founders/}
-
-\bibitem{b12} The Terahertz Wave eBook. ZOmega Terahertz Corp., 2014.
-[Online]. Available:
-\underline{http://dl.z-thz.com/eBook/zomegaebookpdf\_1206\_sr.pdf}. Accessed on: May 19, 2014.
-
-\bibitem{b13} Philip B. Kurland and Ralph Lerner, eds., \emph{The
-Founders' Constitution.} Chicago, IL, USA: Univ. of Chicago Press,
-1987, Accessed on: Feb. 28, 2010, [Online] Available:
-\underline{http://press-pubs.uchicago.edu/founders/}
-
-\bibitem{b14} J. S. Turner, ``New directions in communications,'' \emph{IEEE J. Sel. Areas Commun}., vol. 13, no. 1, pp. 11-23, Jan. 1995.
-
-\bibitem{b15} W. P. Risk, G. S. Kino, and H. J. Shaw, ``Fiber-optic frequency shifter using a surface acoustic wave incident at an oblique angle,'' \emph{Opt. Lett.}, vol. 11, no. 2, pp. 115--117, Feb. 1986.
-
-\bibitem{b16} P. Kopyt \emph{et al., ``}Electric properties of graphene-based conductive layers from DC up to terahertz range,'' \emph{IEEE THz Sci. Technol.,} to be published. DOI: 10.1109/TTHZ.2016.2544142.
-
-\bibitem{b17} PROCESS Corporation, Boston, MA, USA. Intranets:
-Internet technologies deployed behind the firewall for corporate
-productivity. Presented at INET96 Annual Meeting. [Online].
-Available: \underline{http://home.process.com/Intranets/wp2.htp}
-
-\bibitem{b18} R. J. Hijmans and J. van Etten, ``Raster: Geographic analysis and modeling with raster data,'' R Package Version 2.0-12, Jan. 12, 2012. [Online]. Available: \underline {http://CRAN.R-project.org/package=raster}
-
-\bibitem{b19} Teralyzer. Lytera UG, Kirchhain, Germany [Online].
-Available:
-\underline{http://www.lytera.de/Terahertz\_THz\_Spectroscopy.php?id=home}, Accessed on: Jun. 5, 2014.
-
-\bibitem{b20} U.S. House. 102\textsuperscript{nd} Congress, 1\textsuperscript{st} Session. (1991, Jan. 11). \emph{H. Con. Res. 1, Sense of the Congress on Approval of}  \emph{Military Action}. [Online]. Available: LEXIS Library: GENFED File: BILLS
-
-\bibitem{b21} Musical toothbrush with mirror, by L.M.R. Brooks. (1992, May 19). Patent D 326 189 [Online]. Available: NEXIS Library: LEXPAT File: DES
-
-\bibitem{b22} D. B. Payne and J. R. Stern, ``Wavelength-switched pas- sively coupled single-mode optical network,'' in \emph{Proc. IOOC-ECOC,} Boston, MA, USA, 1985, pp. 585--590.
-
-\bibitem{b23} D. Ebehard and E. Voges, ``Digital single sideband detection for interferometric sensors,'' presented at the \emph{2\textsuperscript{nd} Int. Conf. Optical Fiber Sensors,} Stuttgart, Germany, Jan. 2-5, 1984.
-
-\bibitem{b24} G. Brandli and M. Dick, ``Alternating current fed power supply,'' U.S. Patent 4 084 217, Nov. 4, 1978.
-
-\bibitem{b25} J. O. Williams, ``Narrow-band analyzer,'' Ph.D. dissertation, Dept. Elect. Eng., Harvard Univ., Cambridge, MA, USA, 1993.
-
-\bibitem{b26} N. Kawasaki, ``Parametric study of thermal and chemical nonequilibrium nozzle flow,'' M.S. thesis, Dept. Electron. Eng., Osaka Univ., Osaka, Japan, 1993.
-
-\bibitem{b27} A. Harrison, private communication, May 1995.
-
-\bibitem{b28} B. Smith, ``An approach to graphs of linear forms,'' unpublished.
-
-\bibitem{b29} A. Brahms, ``Representation error for real numbers in binary computer arithmetic,'' IEEE Computer Group Repository, Paper R-67-85.
-
-\bibitem{b30} IEEE Criteria for Class IE Electric Systems, IEEE Standard 308, 1969.
-
-\bibitem{b31} Letter Symbols for Quantities, ANSI Standard Y10.5-1968.
-
-\bibitem{b32} R. Fardel, M. Nagel, F. Nuesch, T. Lippert, and A. Wokaun, ``Fabrication of organic light emitting diode pixels by laser-assisted forward transfer,'' \emph{Appl. Phys. Lett.}, vol. 91, no. 6, Aug. 2007, Art. no. 061103.~
-
-\bibitem{b33} J. Zhang and N. Tansu, ``Optical gain and laser characteristics of InGaN quantum wells on ternary InGaN substrates,'' \emph{IEEE Photon. J.}, vol. 5, no. 2, Apr. 2013, Art. no. 2600111
-
-\bibitem{b34} S. Azodolmolky~\emph{et al.}, Experimental demonstration of an impairment aware network planning and operation tool for transparent/translucent optical networks,''~\emph{J. Lightw. Technol.}, vol. 29, no. 4, pp. 439--448, Sep. 2011.
+% bib-35
+\bibitem{kephart2003vision} J. O. Kephart and D. M. Chess, ``The vision of autonomic computing,'' \textit{Computer}, vol. 36, no. 1, pp. 41--50, Jan. 2003, doi: 10.1109/MC.2003.1160055.
 
 \end{thebibliography}
 
