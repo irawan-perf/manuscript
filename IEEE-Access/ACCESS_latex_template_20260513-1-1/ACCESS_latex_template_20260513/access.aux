@@ -24,9 +24,13 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-B}}Control Loops and Traffic Management}{2}{}\protected@file@percent }
 \citation{gunicorn}
 \citation{uvicorn}
-\newlabel{fig:sync}{{I}{3}{}{section.1}{}}
-\newlabel{fig:async}{{I}{3}{}{section.1}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {S}equence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection-Per-Request (CPR) and Persistent Connection Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}}{3}{}\protected@file@percent }
+\newlabel{fig:sub1}{{1a}{3}{}{subfigure.1.1}{}}
+\newlabel{sub@fig:sub1}{{(a)}{a}}
+\newlabel{fig:sub2}{{1b}{3}{}{subfigure.1.2}{}}
+\newlabel{sub@fig:sub2}{{(b)}{b}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Sequence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection Per Request (CPR) and Persistent Connection Reuse (PCR). In the CPR paradigm for both gateway frameworks (Flask and FastAPI), every request made to the frontend through the backend service relies on TCP-based handshakes and tearing down the connection after the system replies to the request. In contrast to the PCR paradigm, the connection is established immediately on the first request and remains open until all HTTP/1.1 requests are processed.}}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Synchronous Flask gateway framework.}}}{3}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Asynchronous FastAPI gateway framework.}}}{3}{}\protected@file@percent }
 \newlabel{fig:seq-model}{{1}{3}{}{figure.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {II-C}}Positioning and Novel Contributions}{3}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {III}Mathematical Modeling of gRPC Connection Management}{3}{}\protected@file@percent }
@@ -64,22 +68,20 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}1}Predictive Mathematical Formulation}{6}{}\protected@file@percent }
 \newlabel{eq:trigger}{{14}{6}{}{equation.14}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {IV-B}2}SLA Evaluation and Bottleneck Verification}{6}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\fontencoding  {T1}\fontseries  {b}\selectfont  {T}he autonomic controller architectures.}  }}{7}{}\protected@file@percent }
+\citation{gunicorn}
+\citation{uvicorn}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces  {\fontencoding  {T1}\fontseries  {b}\selectfont  {T}he autonomic controller architectures. The controller's architecture consists of four main components, i.e., sensing, analysis, decision, and action. The controller continuously runs the process to monitor, analyze, plan, and execute actions based on specific metrics scraped from Prometheus. The action execution to patch the frontend deployments will be enforced whenever the threshold criteria are breached by a catastrophic queuing request at the frontend service. The threshold criteria are defined by an empirical mathematical calculation to predict $\lambda _{sat}$ and are combined with actual system degradation, as measured by real-time SLA monitoring ($L_{SLA}$). }  }}{7}{}\protected@file@percent }
 \newlabel{fig:ctr-arc}{{2}{7}{}{figure.2}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {IV-C}}Actuation and Dynamic Cutover}{7}{}\protected@file@percent }
 \newlabel{sec3.3}{{\mbox  {IV-C}}{7}{}{subsection.4.3}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Kubernetes cluster environment.}}{7}{}\protected@file@percent }
-\newlabel{fig:rke-cls}{{3}{7}{}{figure.3}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Experimental Setup and Evaluation Scenario}{7}{}\protected@file@percent }
 \newlabel{sec:experiment}{{V}{7}{}{section.5}{}}
-\citation{gunicorn}
-\citation{uvicorn}
 \citation{wrk2}
 \citation{ghz}
 \citation{wsgi}
 \citation{asgi}
-\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}valuation scenario: (a) Comprehensive evaluations (end-to-end user experience); (b) Isolated backend service evaluation (compute time).}}}{8}{}\protected@file@percent }
-\newlabel{fig:eval}{{4}{8}{}{figure.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Kubernetes cluster environment. We use two nodes in the evaluation cluster environment. Machine A contains the {\it  wrk2} performance tool and automated sequential evaluation script, which is used to generate various load tiers on the system under test. To purely isolate the evaluation scenarios from any noisy-neighbor effects within the cluster, all container deployments are scheduled on Machine B. }}{8}{}\protected@file@percent }
+\newlabel{fig:rke-cls}{{3}{8}{}{figure.3}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {I}nfrastructure specification}}}{8}{}\protected@file@percent }
 \newlabel{tab:infra}{{1}{8}{}{table.1}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-A}}Experimental Environment and Architecture}{8}{}\protected@file@percent }
@@ -87,54 +89,72 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {V-B}}Component Isolation and Evaluation Scenario}{8}{}\protected@file@percent }
 \newlabel{4.2}{{\mbox  {V-B}}{8}{}{subsection.5.2}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}1}End-to-end Comprehensive Evaluation}{8}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref {fig:eval}.}}{9}{}\protected@file@percent }
+\newlabel{fig:evalA}{{4a}{9}{}{subfigure.4.1}{}}
+\newlabel{sub@fig:evalA}{{(a)}{a}}
+\newlabel{fig:evalB}{{4b}{9}{}{subfigure.4.2}{}}
+\newlabel{sub@fig:evalB}{{(b)}{b}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Evaluation scenario: (a) Referring to the Fig. \ref {fig:rke-cls}, the load generator is located on Machine A to simulate the user experience latency in accessing the overall systems. While the System Under Test (SUT) is the target to be evaluated and is located on Machine B. The connectivity used to trunk the request from Machine A ({\it  wrk2}, which fires the HTTP/1.1 request) to Machine B is utilizing a 25 Gbps Ethernet network. Frontend, at this phase, will accept all incoming HTTP requests and translate them into gRPC requests using the proxy gateway interface defined in its deployment configuration. (b) Isolated evaluation of the backend service that runs partially inside the SUT cluster. This evaluation is performed using {\it  ghz} performance tool, which aims to eliminate the queuing effect caused by the communication mesh at the frontend service and to measure the pure computational backend service time.}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {Comprehensive end-to-end evaluation.}}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {Isolated backend service evaluation.}}}{9}{}\protected@file@percent }
+\newlabel{fig:eval}{{4}{9}{}{figure.4}{}}
+\newlabel{fig:backend-a}{{5a}{9}{}{subfigure.5.1}{}}
+\newlabel{sub@fig:backend-a}{{(a)}{a}}
+\newlabel{fig:backend-b}{{5b}{9}{}{subfigure.5.2}{}}
+\newlabel{sub@fig:backend-b}{{(b)}{b}}
+\newlabel{fig:backend-c}{{5c}{9}{}{subfigure.5.3}{}}
+\newlabel{sub@fig:backend-c}{{(c)}{c}}
+\newlabel{fig:backend-d}{{5d}{9}{}{subfigure.5.4}{}}
+\newlabel{sub@fig:backend-d}{{(d)}{d}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref {fig:evalB}.}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(a)}{\ignorespaces {}}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(b)}{\ignorespaces {}}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(c)}{\ignorespaces {}}}{9}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {subfigure}{\numberline{(d)}{\ignorespaces {}}}{9}{}\protected@file@percent }
 \newlabel{fig:baseline-backend}{{5}{9}{}{figure.5}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}}{10}{}\protected@file@percent }
-\newlabel{fig:baseline-perf}{{6}{10}{}{figure.6}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {V-B}2}Backend service evaluation}{10}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Results and Performance Analysis}{10}{}\protected@file@percent }
 \newlabel{sec:results}{{VI}{10}{}{section.6}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Isolated Backend Microservice Benchmark}{11}{}\protected@file@percent }
-\newlabel{sec5.1}{{\mbox  {VI-A}}{11}{}{subsection.6.1}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}End-to-End System Evaluation: CPR vs. PCR Baseline}{11}{}\protected@file@percent }
-\newlabel{sec5.2}{{\mbox  {VI-B}}{11}{}{subsection.6.2}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline performance comparison across connection management strategies (CPR and PCR) and architectural paradigms (synchronous -- Flask and asynchronous -- FastAPI).}}}{11}{}\protected@file@percent }
-\newlabel{tab:baseline-comp}{{2}{11}{}{table.2}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Comparative Efficacy Under Persistent Connection Reuse (PCR) Loads}{11}{}\protected@file@percent }
-\newlabel{sec5.3_pcr_comparison}{{\mbox  {VI-C}}{11}{}{subsection.6.3}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-C}1}Synchronous Framework (Flask) PCR Analysis}{11}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}}{12}{}\protected@file@percent }
-\newlabel{base-vs-ctr}{{7}{12}{}{figure.7}{}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative End-to-End latency and controller suppression efficacy across load tiers (light -- 200 RPS, moderate -- 800 RPS, heavy -- 1200 RPS).}}}{12}{}\protected@file@percent }
-\newlabel{tab:compare-analysis}{{3}{12}{}{table.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-A}}Isolated Backend Microservice Benchmark}{10}{}\protected@file@percent }
+\newlabel{sec5.1}{{\mbox  {VI-A}}{10}{}{subsection.6.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-B}}End-to-End System Evaluation: CPR vs. PCR Baseline}{10}{}\protected@file@percent }
+\newlabel{sec5.2}{{\mbox  {VI-B}}{10}{}{subsection.6.2}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Baseline performance evaluation of frontend communication gateway (Synchronous and Asynchronous method) within Connection Per Request (CPR) and Persistant Connections Reuse (PCR) model: (a) median latency ($p50$); (b) end-to-end latency ($p99$); (c) systems throughput; (d) resource utilization (CPU).}}{11}{}\protected@file@percent }
+\newlabel{fig:baseline-perf}{{6}{11}{}{figure.6}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}}{11}{}\protected@file@percent }
+\newlabel{base-vs-ctr}{{7}{11}{}{figure.7}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {B}aseline performance comparison across connection management strategies (CPR and PCR) and architectural paradigms (synchronous -- Flask and asynchronous -- FastAPI).}}}{12}{}\protected@file@percent }
+\newlabel{tab:baseline-comp}{{2}{12}{}{table.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-C}}Comparative Efficacy Under Persistent Connection Reuse (PCR) Loads}{12}{}\protected@file@percent }
+\newlabel{sec5.3_pcr_comparison}{{\mbox  {VI-C}}{12}{}{subsection.6.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-C}1}Synchronous Framework (Flask) PCR Analysis}{12}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-C}2}Asynchronous Framework (FastAPI) PCR Analysis}{12}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-D}}Empirical Queueing Dynamics, Transcoding Tax, and Controller Telemetry Observability}{12}{}\protected@file@percent }
 \newlabel{sec5.3_queueing_tax_telemetry}{{\mbox  {VI-D}}{12}{}{subsection.6.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-D}1}The Inherent Gateway Transcoding Tax}{12}{}\protected@file@percent }
 \citation{little2011or}
 \citation{KahramanMG1,dalai2024novel}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omparative End-to-End latency and controller suppression efficacy across load tiers (light -- 200 RPS, moderate -- 800 RPS, heavy -- 1200 RPS).}}}{13}{}\protected@file@percent }
+\newlabel{tab:compare-analysis}{{3}{13}{}{table.3}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {A}utonomic controller performance evaluation in asynchronous (FastAPI/Uvicorn) and synchronous (Flask/Gunicorn) mode. Connection Per Request (CPR) - upper row, Persistent Connection Reuse (PCR) - lower row : (a) Calculated saturation point ($\lambda _{sat}$); (b) service time ($S$); (c) Actuation time when envoy deployed to frontend pods.}}}{13}{}\protected@file@percent }
 \newlabel{fig:eval-ctr}{{8}{13}{}{figure.8}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-D}1}The Inherent Gateway Transcoding Tax}{13}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-D}2}Framework-Specific Queueing Degradation}{13}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-D}3}Real-Time Controller Telemetry Observability}{13}{}\protected@file@percent }
 \@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {E}mpirical Controller Telemetry Parameters, Predictive Thresholds, Rollout Latency, and Daemon Resource Footprint Across Experimental Configurations.}}}{14}{}\protected@file@percent }
 \newlabel{tab:controller-telemetry-summary}{{4}{14}{}{table.4}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces {\fontencoding  {T1}\fontseries  {b}\selectfont  {C}omprehensive Performance Synthesis Across Frameworks, Connection Paradigms, and Controller Management States at Peak Load (1200 RPS).}}}{14}{}\protected@file@percent }
 \newlabel{tab:master-synthesis}{{5}{14}{}{table.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Cross-Architectural Synthesis and Decision Matrix}{14}{}\protected@file@percent }
-\newlabel{sec5.5_synthesis}{{\mbox  {VI-E}}{14}{}{subsection.6.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VI-D}3}Real-Time Controller Telemetry Observability}{14}{}\protected@file@percent }
 \citation{barroso2017attack}
 \citation{gan2019deathstarbench}
 \citation{carnevali2025compositional}
 \citation{kephart2003vision}
 \citation{armstrong2017towards}
+\@writefile{toc}{\contentsline {subsection}{\numberline {\mbox  {VI-E}}Cross-Architectural Synthesis and Decision Matrix}{15}{}\protected@file@percent }
+\newlabel{sec5.5_synthesis}{{\mbox  {VI-E}}{15}{}{subsection.6.5}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VII}Discussion}{15}{}\protected@file@percent }
 \newlabel{sec:discuss}{{VII}{15}{}{section.7}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VII-}1}The Microservice Abstraction Penalty}{15}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VII-}2}The Thread Pool Trap}{15}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {\mbox  {VII-}3}Autonomic Mitigation vs. Architectural Cure}{15}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion and Future Work}{15}{}\protected@file@percent }
-\newlabel{sec:conclude}{{VIII}{15}{}{section.8}{}}
 \bibcite{martin2022online}{1}
 \bibcite{Ventre2018SDNAAA}{2}
 \bibcite{zhu2023dissecting}{3}
@@ -144,6 +164,9 @@
 \bibcite{pinheiro2024performance}{7}
 \bibcite{carnevali2025compositional}{8}
 \bibcite{DAuria2021AnMQA}{9}
+\@writefile{toc}{\contentsline {section}{\numberline {VIII}Conclusion and Future Work}{16}{}\protected@file@percent }
+\newlabel{sec:conclude}{{VIII}{16}{}{section.8}{}}
+\@writefile{toc}{\contentsline {section}{REFERENCES}{16}{}\protected@file@percent }
 \bibcite{alzahrani2026scalable}{10}
 \bibcite{taha2024proactive}{11}
 \bibcite{biondani2026mate}{12}
@@ -151,7 +174,6 @@
 \bibcite{toka2021machine}{14}
 \bibcite{qiu2020firm}{15}
 \bibcite{dautov2014utilising}{16}
-\@writefile{toc}{\contentsline {section}{REFERENCES}{16}{}\protected@file@percent }
 \bibcite{gunicorn}{17}
 \bibcite{uvicorn}{18}
 \bibcite{chen2025trade}{19}
@@ -172,6 +194,6 @@
 \bibcite{gan2019deathstarbench}{34}
 \bibcite{kephart2003vision}{35}
 \@writefile{toc}{\contentsline {subsection}{First A. Author}{17}{}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{Second B. Author}{17}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{Second B. Author}{18}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{Third C. Author, Jr.}{18}{}\protected@file@percent }
 \gdef \@abspage@last{18}

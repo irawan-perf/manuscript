@@ -14,6 +14,11 @@
 \usepackage{comment}
 \usepackage{capt-of}  % For \captionof command
 
+\usepackage{ifpdf}
+\usepackage{graphicx}
+\usepackage[caption=false,font=footnotesize]{subfig}
+% Note: IEEE templates usually recommend 'subfig' with 'caption=false' 
+% so it doesn't override IEEE's custom caption fonts.
 
 \usepackage{bm}
 \makeatletter
@@ -132,6 +137,7 @@ Therefore, this paper demonstrates how converting the CPR model into a Persisten
 	\item We benchmark these models within a production Kubernetes cluster using controlled and isolated environment, ensuring the gateway of both frontend and backend business logic variance is independently evaluated, to validate theoretical queueing projections against empirical execution runs.
 \end{itemize}
 
+\begin{comment}
 \begin{figure*}[t!]
 	\centering
 	\begin{minipage}{0.48\textwidth}
@@ -152,8 +158,17 @@ Therefore, this paper demonstrates how converting the CPR model into a Persisten
 	\caption{\textbf{Sequence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection-Per-Request (CPR) and Persistent Connection Reuse (PCR): (a) Synchronous CPR/PCR (Flask/Gunicorn); (b) Asynchronous CPR/PCR (Flask/Uvicorn).}}
 	\label{fig:seq-model}
 \end{figure*}
+	
+\end{comment}
 
-
+\begin{figure*}[t!]
+	\centering
+	\subfloat[Synchronous Flask gateway framework.]{\includegraphics[scale=0.25]{fig/seq-diagram-1-sync.png}\label{fig:sub1}}
+	\hfil
+	\subfloat[Asynchronous FastAPI gateway framework.]{\includegraphics[scale=0.24]{fig/seq-diagram-2-async.png}\label{fig:sub2}}
+	\caption{Sequence diagrams comparing synchronous and asynchronous communication models in cloud-native applications across Connection Per Request (CPR) and Persistent Connection Reuse (PCR). In the CPR paradigm for both gateway frameworks (Flask and FastAPI), every request made to the frontend through the backend service relies on TCP-based handshakes and tearing down the connection after the system replies to the request. In contrast to the PCR paradigm, the connection is established immediately on the first request and remains open until all HTTP/1.1 requests are processed.}
+	\label{fig:seq-model}
+\end{figure*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work}
@@ -348,7 +363,7 @@ The Algorithm \ref{alg:ctr} is represented to accommodate mathematical processes
 
 \Figure[t!](topskip=0pt, botskip=0pt, midskip=0pt){fig/ctr-arc.png}
 { 
-	\textbf{The autonomic controller architectures.}
+	\textbf{The autonomic controller architectures. The controller's architecture consists of four main components, i.e., sensing, analysis, decision, and action. The controller continuously runs the process to monitor, analyze, plan, and execute actions based on specific metrics scraped from Prometheus. The action execution to patch the frontend deployments will be enforced whenever the threshold criteria are breached by a catastrophic queuing request at the frontend service. The threshold criteria are defined by an empirical mathematical calculation to predict $\lambda_{sat}$ and are combined with actual system degradation, as measured by real-time SLA monitoring ($L_{SLA}$). }
 	\label{fig:ctr-arc}
 }
 
@@ -430,25 +445,20 @@ Upon satisfying this dual-condition logic, the autonomic controller intervenes p
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\columnwidth,height=0.2\textheight,keepaspectratio]{fig/topology.png} % or \linewidth
-	\caption{Kubernetes cluster environment.}
+	\caption{Kubernetes cluster environment. We use two nodes in the evaluation cluster environment. Machine A contains the \textit{wrk2} performance tool and automated sequential evaluation script, which is used to generate various load tiers on the system under test. To purely isolate the evaluation scenarios from any noisy-neighbor effects within the cluster, all container deployments are scheduled on Machine B. }
 	\label{fig:rke-cls}
 \end{figure}
 
+	
 \begin{figure*}[t!]
 	\centering
-	
-	\begin{minipage}{0.9\textwidth}
-		\centering
-		\vspace*{0pt}
-		\includegraphics[scale=0.22]{fig/eval-stg.png}
-		%\vspace*{4pt}
-		%\centering{\small(a) Synchronous CPR/PCR (Flask/Gunicorn).}
-		%\label{eval-stg}
-	\end{minipage}
-	%\vspace{10pt}
-	\caption{\textbf{Evaluation scenario: (a) Comprehensive evaluations (end-to-end user experience); (b) Isolated backend service evaluation (compute time).}}
+	\subfloat[Comprehensive end-to-end evaluation.]{\includegraphics[scale=0.24]{fig/eval-stg-A.png}\label{fig:evalA}}
+	\hfil
+	\subfloat[Isolated backend service evaluation.]{\includegraphics[scale=0.24]{fig/eval-stg-B.png}\label{fig:evalB}}
+	\caption{Evaluation scenario: (a) Referring to the Fig. \ref{fig:rke-cls}, the load generator is located on Machine A to simulate the user experience latency in accessing the overall systems. While the System Under Test (SUT) is the target to be evaluated and is located on Machine B. The connectivity used to trunk the request from Machine A (\textit{wrk2}, which fires the HTTP/1.1 request) to Machine B is utilizing a 25 Gbps Ethernet network. Frontend, at this phase, will accept all incoming HTTP requests and translate them into gRPC requests using the proxy gateway interface defined in its deployment configuration. (b) Isolated evaluation of the backend service that runs partially inside the SUT cluster. This evaluation is performed using \textit{ghz} performance tool, which aims to eliminate the queuing effect caused by the communication mesh at the frontend service and to measure the pure computational backend service time.}
 	\label{fig:eval}
 \end{figure*}
+
 
 To validate the proposed mathematical model and pinpoint accurately where latency overhead originates, we conducted controlled experiments in a containerized distributed setting. Our evaluation follows a strict component isolation strategy: we first measure end-to-end performance across the full system and then benchmark the backend service alone in order to distinguish computation time from communication-related delays. This was achieved by deploying a stateless, deterministic backend and enforcing Kubernetes Guaranteed QoS (matching CPU/memory requests to limits) to eliminate resource throttling and "noisy neighbor" interference. 
 
@@ -511,6 +521,7 @@ The experiment was conducted on a Kubernetes cluster composed of multiple nodes,
 
 To precisely calculate the application-layer gateway overhead, we utilized two specialized, open-source load-testing tools (\textit{wrk2} \cite{wrk2} and \textit{ghz} \cite{ghz}), as shown in the Fig. \ref{fig:eval}. Both tools executed 30 iterations for each target throughput level, ranging from 200 to 1200 Requests Per Second (RPS). 
 
+\begin{comment}
 \begin{figure*}[t!]
 	\centering
 	\begin{minipage}{1\textwidth}
@@ -520,6 +531,22 @@ To precisely calculate the application-layer gateway overhead, we utilized two s
 	\end{minipage}
 	
 	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref{fig:eval}.}
+	\label{fig:baseline-backend}
+\end{figure*}
+	
+\end{comment}
+
+
+\begin{figure*}[t!]
+	\centering
+	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-a.png}\label{fig:backend-a}}
+	\hfill
+	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-b.png}\label{fig:backend-b}}
+
+	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-c.png}\label{fig:backend-c}}
+	\hfil
+	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-d.png}\label{fig:backend-d}}
+	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref{fig:evalB}.}
 	\label{fig:baseline-backend}
 \end{figure*}
 
@@ -667,8 +694,8 @@ Similar suppression trends were observed for FastAPI CPR at 1200 RPS, where thro
 	\setlength{\tabcolsep}{3pt}
 	\begin{tabular}{lllllllllll}
 		\hline
-		\textbf{Architecture}& \textbf{Load}& \textbf{Baseline*}& \textbf{Controller*}& \textbf{RPS Suppres}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p50$} Suppres}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p99$} Suppres}\\
-		& \textbf{RPS}& \textbf{RPS}& \textbf{RPS}& \textbf{(\%)}& \textbf{{$p50$} (ms)}& \textbf{{$p50$} (ms)}& \textbf{(\%)}& \textbf{{$p99$} (ms)}& \textbf{{$p99$} (ms)}& \textbf{(\%)}\\
+		\textbf{Architecture}& \textbf{Load}& \textbf{Baseline*}& \textbf{Controller*}& \textbf{Throughput}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p50$} Suppres}& \textbf{Baseline}& \textbf{Controller}& \textbf{{$p99$} Suppres}\\
+		& \textbf{RPS}& \textbf{RPS}& \textbf{RPS}& \textbf{gain (\%)}& \textbf{{$p50$} (ms)}& \textbf{{$p50$} (ms)}& \textbf{(\%)}& \textbf{{$p99$} (ms)}& \textbf{{$p99$} (ms)}& \textbf{(\%)}\\
 		\hline
 		Sync (Flask) CPR & 200  & 199.1  & 199.1   & 0.0\%  & 2.73     & 2.73    & 0.1\%    & 54.35    & 55.2    & -1.5\%\\
 		Sync (Flask) CPR & 800  & 676.6  & 781.8   & 15.6\% & 7452     & 2733.3  & 63.3\%   & 26564.7  & 5004    & 81.2\%\\
