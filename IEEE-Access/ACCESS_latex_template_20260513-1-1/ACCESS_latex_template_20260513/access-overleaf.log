@@ -1,0 +1,1962 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (MiKTeX 26.5) (preloaded format=pdflatex 2026.8.20)  5 OCT 2026 17:27
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**./access-overleaf.tex
+(access-overleaf.tex
+LaTeX2e <2026-06-01>
+L3 programming layer <2026-07-20>
+(ieeeaccess.cls (IEEEtran.cls
+Document Class: IEEEtran 2015/08/26 V1.8b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- http://www.michaelshell.org/tex/ieeetran/
+\@IEEEtrantmpdimenA=\dimen150
+\@IEEEtrantmpdimenB=\dimen151
+\@IEEEtrantmpdimenC=\dimen152
+\@IEEEtrantmpcountA=\count276
+\@IEEEtrantmpcountB=\count277
+\@IEEEtrantmpcountC=\count278
+\@IEEEtrantmptoksA=\toks17
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 5
+03.
+(/home/irawan/.miktex/texmfs/install/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+-- Using 8.5in x 11in (letter) paper.
+-- Using PDF output.
+\@IEEEnormalsizeunitybaselineskip=\dimen153
+-- This is a 10 point document.
+LaTeX Encoding Info:    Redeclaring text command \textunderscore (encoding ?) o
+n input line 937.
+\CLASSINFOnormalsizebaselineskip=\dimen154
+\CLASSINFOnormalsizeunitybaselineskip=\dimen155
+\IEEEnormaljot=\dimen156
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1090.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1090.
+
+\IEEEquantizedlength=\dimen157
+\IEEEquantizedlengthdiff=\dimen158
+\IEEEquantizedtextheightdiff=\dimen159
+\IEEEilabelindentA=\dimen160
+\IEEEilabelindentB=\dimen161
+\IEEEilabelindent=\dimen162
+\IEEEelabelindent=\dimen163
+\IEEEdlabelindent=\dimen164
+\IEEElabelindent=\dimen165
+\IEEEiednormlabelsep=\dimen166
+\IEEEiedmathlabelsep=\dimen167
+\IEEEiedtopsep=\skip49
+\c@section=\count279
+\c@subsection=\count280
+\c@subsubsection=\count281
+\c@paragraph=\count282
+\c@IEEEsubequation=\count283
+\abovecaptionskip=\skip50
+\belowcaptionskip=\skip51
+\c@figure=\count284
+\c@table=\count285
+\@IEEEeqnnumcols=\count286
+\@IEEEeqncolcnt=\count287
+\@IEEEsubeqnnumrollback=\count288
+\@IEEEquantizeheightA=\dimen168
+\@IEEEquantizeheightB=\dimen169
+\@IEEEquantizeheightC=\dimen170
+\@IEEEquantizeprevdepth=\dimen171
+\@IEEEquantizemultiple=\count289
+\@IEEEquantizeboxA=\box53
+\@IEEEtmpitemindent=\dimen172
+\IEEEPARstartletwidth=\dimen173
+\c@IEEEbiography=\count290
+\@IEEEtranrubishbin=\box54
+) (/home/irawan/.miktex/texmfs/install/tex/generic/iftex/ifpdf.sty
+Package: ifpdf 2019/10/25 v3.4 ifpdf legacy package. Use iftex instead.
+
+(/home/irawan/.miktex/texmfs/install/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+))
+(/home/irawan/.miktex/texmfs/install/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+
+(/home/irawan/.miktex/texmfs/install/tex/generic/xkeyval/xkeyval.tex
+(/home/irawan/.miktex/texmfs/install/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks18
+\XKV@tempa@toks=\toks19
+
+(/home/irawan/.miktex/texmfs/install/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count291
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)){/home/irawan/.miktex/texmfs/data/fonts/map/pdftex/pdftex.map}{./t1-times.map
+}{./t1-formata.map}{./t1-giovannistd.map}
+\@draftversionrule=\dimen174
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/color.sty
+Package: color 2026-05-17 v1.3f Standard LaTeX Color (DPC)
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/mathcolor.ltx))
+(spotcolor.sty
+Package: spotcolor 2006/11/15 v1.2 Package for adding Spot Color support to pdf
+LaTeX.
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/graphics.sty
+Package: graphics 2026-05-17 v1.4h Standard LaTeX Graphics (DPC,SPQR)
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 106.
+)
+\thecolorprofile=\count292
+\thecolor=\count293
+)
+\PANTONE=\toks20
+Package color Info: Redefining color black on input line 287.
+\figbox=\box55
+\subfigbox=\box56
+\titlewidth=\skip52
+\abstractwidth=\skip53
+\c@addrCtr=\count294
+\abstractbox=\box57
+\indexbox=\box58
+\absht=\dimen175
+\kwdht=\dimen176
+\@tempcntc=\count295
+\titlepgskip=\skip54
+\maketitlebox=\box59
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2026/05/19 v2.18d AMS math features
+\@mathmargin=\skip55
+
+For additional information on amsmath, use the `?' option.
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amstext.sty
+Package: amstext 2024/11/17 v2.01 AMS text
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks21
+\ex@=\dimen177
+))
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen178
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count296
+LaTeX Info: Redefining \frac on input line 233.
+\uproot@=\count297
+\leftroot@=\count298
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count299
+\DOTSCASE@=\count300
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box60
+\strutbox@=\box61
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen179
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count301
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count302
+\dotsspace@=\muskip17
+\c@parentequation=\count303
+\dspbrk@lvl=\count304
+\tag@help=\toks22
+\row@=\count305
+\column@=\count306
+\maxfields@=\count307
+\andhelp@=\toks23
+\eqnshift@=\dimen180
+\alignsep@=\dimen181
+\tagshift@=\dimen182
+\tagwidth@=\dimen183
+\totwidth@=\dimen184
+\lineht@=\dimen185
+\@envbody=\toks24
+\multlinegap=\skip56
+\multlinetaggap=\skip57
+\mathdisplay@stack=\toks25
+LaTeX Info: Redefining \[ on input line 2965.
+LaTeX Info: Redefining \] on input line 2966.
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(/home/irawan/.miktex/texmfs/install/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\c@ALC@unique=\count308
+\c@ALC@line=\count309
+\c@ALC@rem=\count310
+\c@ALC@depth=\count311
+\ALC@tlm=\skip58
+\algorithmicindent=\skip59
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/algorithms/algorithm.sty
+Package: algorithm 2009/08/24 v0.1 Document Style `algorithm' - floating enviro
+nment
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count312
+\float@exts=\toks26
+\float@box=\box62
+\@float@everytoks=\toks27
+\@floatcapt=\box63
+)
+\@float@every@algorithm=\toks28
+\c@algorithm=\count313
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/graphicx.sty
+Package: graphicx 2026-05-17 v1.2e Enhanced LaTeX Graphics (DPC,SPQR)
+\Gin@req@height=\dimen186
+\Gin@req@width=\dimen187
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/base/textcomp.sty
+Package: textcomp 2024/04/24 v2.1b Standard LaTeX package
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/tools/enumerate.sty
+Package: enumerate 2023/07/04 v3.00 enumerate extensions (DPC)
+\@enLab=\toks29
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/siunitx/siunitx.sty
+Package: siunitx 2026-05-15 v3.5.5 A comprehensive (SI) units package
+\l__siunitx_number_uncert_offset_int=\count314
+\l__siunitx_number_exponent_fixed_int=\count315
+\l__siunitx_number_min_decimal_int=\count316
+\l__siunitx_number_min_integer_int=\count317
+\l__siunitx_number_round_precision_int=\count318
+\l__siunitx_number_lower_threshold_int=\count319
+\l__siunitx_number_upper_threshold_int=\count320
+\l__siunitx_number_group_first_int=\count321
+\l__siunitx_number_group_size_int=\count322
+\l__siunitx_number_group_min_int=\count323
+\l__siunitx_number_group_minimum_int=\count324
+\l__siunitx_compound_count_int=\count325
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/translations/translations.sty
+Package: translations 2022/02/05 v1.12 internationalization of LaTeX2e packages
+ (CN)
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count326
+)
+(/home/irawan/.miktex/texmfs/install/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/home/irawan/.miktex/texmfs/install/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+)
+(/home/irawan/.miktex/texmfs/install/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+))
+\l__siunitx_table_tmp_box=\box64
+\l__siunitx_table_tmp_dim=\dimen188
+\l__siunitx_table_column_width_dim=\dimen189
+\l__siunitx_table_integer_box=\box65
+\l__siunitx_table_decimal_box=\box66
+\l__siunitx_table_uncert_box=\box67
+\l__siunitx_table_before_box=\box68
+\l__siunitx_table_after_box=\box69
+\l__siunitx_table_before_dim=\dimen190
+\l__siunitx_table_carry_dim=\dimen191
+\l__siunitx_unit_tmp_int=\count327
+\l__siunitx_unit_position_int=\count328
+\l__siunitx_unit_total_int=\count329
+\l__siunitx_sexagesimal_tmp_dim=\dimen192
+\l__siunitx_sexagesimal_marker_box=\box70
+\l__siunitx_sexagesimal_unit_box=\box71
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/tools/array.sty
+Package: array 2026/02/24 v2.7b Tabular extension package (FMi)
+\col@sep=\dimen193
+\ar@mcellbox=\box72
+\extrarowheight=\dimen194
+\NC@list=\toks30
+\extratabsurround=\skip60
+\backup@length=\skip61
+\ar@cellbox=\box73
+))
+(/home/irawan/.miktex/texmfs/install/tex/latex/comment/comment.sty
+\CommentStream=\write3
+
+Excluding comment 'comment')
+(/home/irawan/.miktex/texmfs/install/tex/latex/capt-of/capt-of.sty
+Package: capt-of 2009/12/29 v0.2 standard captions outside of floats
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen195
+\captionmargin=\dimen196
+\caption@leftmargin=\dimen197
+\caption@rightmargin=\dimen198
+\caption@width=\dimen199
+\caption@indent=\dimen256
+\caption@parindent=\dimen257
+\caption@hangindent=\dimen258
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+Package caption Info: \@makecaption = \long macro:#1#2->\ifx \@captype \@IEEEta
+blestring \begin {flushleft} \vspace *{5pt} {\vss \color {accessblue}\tablecaph
+eadfont #1. \ }{\raggedright \tablecapfont #2\vss }\end {flushleft} \@IEEEtable
+captionsepspace \else \@IEEEfigurecaptionsepspace \setbox \@tempboxa \hbox {\st
+rut {\color {accessblue}\figcapheadfont #1. \ }\raggedright \figcapfont #2\stru
+t }\ifdim \wd \@tempboxa <\columnwidth \setbox \@tempboxa \hbox {{\color {acces
+sblue}\figcapheadfont #1. \ }}\mbox {}\hfill \begin {tabular}{@{}l@{}}\noindent
+ \raggedright \unhbox \@tempboxa \figcapfont #2\end {tabular}\hfill \mbox {}\el
+se \setbox \@tempboxa \hbox {{\color {accessblue}\figcapheadfont #1. \ }}{\vss 
+\raggedright \noindent \unhbox \@tempboxa \figcapfont #2\vss }\fi \fi \vskip 1p
+t plus 1pt minus 1pt on input line 1175.
+)
+\c@KVtest=\count330
+\sf@farskip=\skip62
+\sf@captopadj=\dimen259
+\sf@capskip=\skip63
+\sf@nearskip=\skip64
+\c@subfigure=\count331
+\c@subfigure@save=\count332
+\c@lofdepth=\count333
+\c@subtable=\count334
+\c@subtable@save=\count335
+\c@lotdepth=\count336
+\sf@top=\skip65
+\sf@bottom=\skip66
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 274.
+LaTeX Info: Redefining \color on input line 762.
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+)
+(/home/irawan/.miktex/texmfs/install/tex/latex/tools/bm.sty
+Package: bm 2025/10/21 v1.2g Bold Symbol Support (DPC/FMi)
+\symboldoperators=\mathgroup6
+\symboldletters=\mathgroup7
+\symboldsymbols=\mathgroup8
+Package bm Info: No bold for \OMX/cmex/m/n, using \pmb.
+Package bm Info: No bold for \U/msa/m/n, using \pmb.
+Package bm Info: No bold for \U/msb/m/n, using \pmb.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 149.
+)
+Package translations Info: No language package found. I am going to use `englis
+h' as default language. on input line 46.
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2026-07-20 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count337
+)
+(access-overleaf.aux)
+\openout1 = `access-overleaf.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 46.
+LaTeX Font Info:    ... okay on input line 46.
+
+-- Lines per column: 56 (exact).
+\symNewLetters=\mathgroup9
+\symxsymbols=\mathgroup10
+LaTeX Font Info:    Redeclaring math symbol \ddagger on input line 46.
+LaTeX Font Info:    Redeclaring math symbol \dagger on input line 46.
+\c@mv@regular=\count338
+LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
+(Font)              `operators' in the math version `regular' on input line 46.
+
+LaTeX Font Info:    Overwriting symbol font `operators' in version `regular'
+(Font)                  OT1/cmr/m/n --> T1/formata/n/n on input line 46.
+LaTeX Font Info:    Overwriting symbol font `NewLetters' in version `regular'
+(Font)                  T1/times/n/it --> T1/formata/n/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `regular'
+(Font)                  T1/formata/n/n --> T1/formata/n/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `regular'
+(Font)                  OT1/cmr/m/it --> T1/formata/n/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `regular'
+(Font)                  OT1/cmr/bx/n --> T1/formata/m/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `regular'
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/m/n on input line 46.
+\c@mv@medium=\count339
+LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
+(Font)              `operators' in the math version `medium' on input line 46.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `medium'
+(Font)                  OT1/cmr/m/n --> T1/formata/m/n on input line 46.
+LaTeX Font Info:    Overwriting symbol font `NewLetters' in version `medium'
+(Font)                  T1/times/n/it --> T1/formata/m/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `medium'
+(Font)                  > T1/formata/m/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `medium'
+(Font)                  OT1/cmr/m/it --> T1/formata/m/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `medium'
+(Font)                  > T1/formata/b/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `medium'
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/b/n on input line 46.
+\c@mv@black=\count340
+LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
+(Font)              `operators' in the math version `black' on input line 46.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `black'
+(Font)                  OT1/cmr/m/n --> T1/formata/b/n on input line 46.
+LaTeX Font Info:    Overwriting symbol font `NewLetters' in version `black'
+(Font)                  T1/times/n/it --> T1/formata/b/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `black'
+(Font)                  > T1/formata/b/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `black'
+(Font)                  OT1/cmr/m/it --> T1/formata/b/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `black'
+(Font)                  > T1/formata/b/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `black'
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/b/n on input line 46.
+LaTeX Font Info:    Trying to load font information for T1+ptm on input line 46
+.
+(/home/irawan/.miktex/texmfs/install/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+LaTeX Font Info:    Trying to load font information for T1+times on input line 
+46.
+ (t1times.fd)
+(/home/irawan/.miktex/texmfs/install/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count341
+\scratchdimen=\dimen260
+\scratchbox=\box74
+\nofMPsegments=\count342
+\nofMParguments=\count343
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count344
+\MPscratchDim=\dimen261
+\MPnumerator=\count345
+\makeMPintoPDFobject=\count346
+\everyMPtoPDFconversion=\toks32
+) (/home/irawan/.miktex/texmfs/install/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+(/home/irawan/.miktex/texmfs/install/tex/latex/00miktex/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+(/home/irawan/.miktex/texmfs/install/tex/latex/translations/dicts/translations-
+basic-dictionary-english.trsl
+File: translations-basic-dictionary-english.trsl (english translation file `tra
+nslations-basic-dictionary')
+)
+Package translations Info: loading dictionary `translations-basic-dictionary' f
+or `english'. on input line 46.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Redeclaring math version `bold' on input line 46.
+LaTeX Font Info:    Encoding `OT1' has changed to `T1' for symbol font
+(Font)              `operators' in the math version `bold' on input line 46.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/m/n --> T1/times/b/n on input line 46.
+LaTeX Font Info:    Overwriting symbol font `NewLetters' in version `bold'
+(Font)                  T1/times/n/it --> T1/times/b/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
+(Font)                  > T1/times/b/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/m/it --> T1/times/b/it on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
+(Font)                  > T1/times/b/n on input line 46.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> OT1/pcr/b/n on input line 46.
+LaTeX Font Info:    Overwriting symbol font `symbols' in version `bold'
+(Font)                  OMS/cmsy/m/n --> OMS/cmsy/b/n on input line 46.
+<bullet.png, id=3, 12.045pt x 35.38219pt>
+File: bullet.png Graphic file (type png)
+<use bullet.png>
+Package pdftex.def Info: bullet.png  used on input line 68.
+(pdftex.def)             Requested size: 5.0pt x 14.6871pt.
+
+
+Package xcolor Warning: Incompatible color definition on input line 68.
+
+LaTeX Font Info:    Trying to load font information for U+msa on input line 69.
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 69.
+
+
+(/home/irawan/.miktex/texmfs/install/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+File: bullet.png Graphic file (type png)
+<use bullet.png>
+Package pdftex.def Info: bullet.png  used on input line 75.
+(pdftex.def)             Requested size: 5.0pt x 14.6871pt.
+
+
+Package xcolor Warning: Incompatible color definition on input line 75.
+
+
+Package xcolor Warning: Incompatible color definition on input line 81.
+
+LaTeX Font Info:    Calculating math sizes for size <9.9> on input line 81.
+LaTeX Font Info:    Calculating math sizes for size <6.6> on input line 81.
+
+Overfull \hbox (9.2679pt too wide) in paragraph at lines 81--81
+[]  
+ []
+
+
+Overfull \hbox (9.2679pt too wide) in paragraph at lines 81--81
+[]  
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 85.
+
+Excluding 'comment' comment.
+
+LaTeX Warning: Citation `martin2022online' on page 1 undefined on input line 13
+1.
+
+
+LaTeX Warning: Citation `ventre2018sdn' on page 1 undefined on input line 131.
+
+
+LaTeX Warning: Citation `alzahrani2026scalable' on page 1 undefined on input li
+ne 131.
+
+
+LaTeX Warning: Citation `zhu2023dissecting' on page 1 undefined on input line 1
+32.
+
+
+Underfull \hbox (badness 1715) in paragraph at lines 131--133
+\T1/times/n/n/10 highly distributed, communication-intensive architectures.
+ []
+
+
+Underfull \hbox (badness 2865) in paragraph at lines 131--133
+\T1/times/n/n/10 In these environments, the API gateway serves as the
+ []
+
+
+Underfull \hbox (badness 6625) in paragraph at lines 131--133
+\T1/times/n/n/10 proxy and protocol transcoder. While external clients
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--133
+\T1/times/n/n/10 multiplexing, gRPC reduces inter-service latency by
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 131--133
+\T1/times/n/n/10 gains are particularly vital in communication-heavy
+ []
+
+
+Underfull \hbox (badness 7468) in paragraph at lines 131--133
+\T1/times/n/n/10 requests over a single persistent HTTP/2 connection.
+ []
+
+
+Underfull \hbox (badness 3679) in paragraph at lines 131--133
+\T1/times/n/n/10 abstraction often hides substantial dataplane overheads.
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+LaTeX Warning: Citation `guo2020stateful' on page 1 undefined on input line 136
+.
+
+
+LaTeX Warning: Citation `sampson2026simplicity' on page 1 undefined on input li
+ne 136.
+
+
+LaTeX Warning: Citation `wsgi-pep' on page 1 undefined on input line 136.
+
+
+Underfull \hbox (badness 1895) in paragraph at lines 135--137
+[]\T1/times/n/n/10 Specifically, when converting inbound REST requests
+ []
+
+
+Underfull \hbox (badness 5939) in paragraph at lines 135--137
+\T1/times/n/n/10 into internal gRPC calls, API gateways default to a
+ []
+
+
+Underfull \hbox (badness 4595) in paragraph at lines 135--137
+\T1/times/n/it/10 connection-per-request \T1/times/n/n/10 (CPR) model. We defin
+e gRPC
+ []
+
+
+Underfull \hbox (badness 6445) in paragraph at lines 135--137
+\T1/times/n/n/10 operational overhead relative to the incoming request
+ []
+
+
+Underfull \hbox (badness 2096) in paragraph at lines 135--137
+\T1/times/n/n/10 volume $\T1/times/n/it/10 N$\T1/times/n/n/10 , undermining the
+ $\T1/times/n/it/10 O\OT1/cmr/m/n/10 (1)$ \T1/times/n/n/10 connection efficienc
+y
+ []
+
+
+Underfull \hbox (badness 7944) in paragraph at lines 135--137
+\T1/times/n/n/10 offered by HTTP/2 stream multiplexing. While prior
+ []
+
+
+Underfull \hbox (badness 4859) in paragraph at lines 135--137
+\T1/times/n/n/10 studies have addressed TCP/TLS handshake delays in
+ []
+
+
+Underfull \hbox (badness 2435) in paragraph at lines 135--137
+\T1/times/n/n/10 distributed systems [\T1/times/b/n/10 ?\T1/times/n/n/10 ] or r
+untime bottlenecks in high-
+ []
+
+
+Underfull \hbox (badness 7291) in paragraph at lines 135--137
+\T1/times/n/n/10 API gateway workers into excessive network context
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+Package xcolor Warning: Incompatible color definition on input line 137.
+
+<logo.png, id=4, 206.27063pt x 53.44969pt>
+File: logo.png Graphic file (type png)
+<use logo.png>
+Package pdftex.def Info: logo.png  used on input line 137.
+(pdftex.def)             Requested size: 91.32pt x 23.66309pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[1
+
+
+ <./logo.png> <./bullet.png>]
+
+LaTeX Warning: Citation `pinheiro2024performance' on page 2 undefined on input 
+line 138.
+
+
+LaTeX Warning: Citation `carnevali2025compositional' on page 2 undefined on inp
+ut line 138.
+
+
+LaTeX Warning: Citation `DAuria2021AnMQA' on page 2 undefined on input line 138
+.
+
+
+Underfull \hbox (badness 2142) in paragraph at lines 138--139
+\T1/times/n/n/10 performance extensively, the empirical impact of gRPC
+ []
+
+
+Underfull \hbox (badness 2334) in paragraph at lines 138--139
+\T1/times/n/n/10 service resource provisioning using stochastic execution
+ []
+
+
+Overfull \hbox (6.2862pt too wide) in paragraph at lines 138--139
+\T1/times/n/n/10 models [\T1/times/b/n/10 ?\T1/times/n/n/10 ]. However, these e
+xisting frameworks predominantly
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 138--139
+\T1/times/n/n/10 queueing behaviors of workers. Accurately modeling
+ []
+
+
+Underfull \hbox (badness 5787) in paragraph at lines 138--139
+\T1/times/n/n/10 necessitates a queueing-theoretic framework [\T1/times/b/n/10 
+?\T1/times/n/n/10 ]. From
+ []
+
+
+Underfull \hbox (badness 2671) in paragraph at lines 142--143
+\T1/times/n/n/10 gRPC requests over persistent HTTP/2 connections via
+ []
+
+
+Underfull \hbox (badness 5711) in paragraph at lines 142--143
+\T1/times/n/n/10 By decoupling transport connection management from
+ []
+
+
+Underfull \hbox (badness 2253) in paragraph at lines 147--148
+[]\T1/times/b/n/10 Empirical Quantification of CPR Overhead: \T1/times/n/n/10 W
+e
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 148--149
+[]\T1/times/b/n/10 Queueing-Theoretic Boundary Formulation: \T1/times/n/n/10 We
+
+ []
+
+
+Underfull \hbox (badness 1917) in paragraph at lines 148--149
+\T1/times/n/n/10 layer connection state, formally demonstrating how
+ []
+
+
+Underfull \hbox (badness 6204) in paragraph at lines 150--151
+\T1/times/n/n/10 sidecar proxy deployed at each frontend pod to
+ []
+
+
+Overfull \hbox (0.71022pt too wide) in paragraph at lines 151--152
+[]\T1/times/b/n/10 Benchmark Evaluation: \T1/times/n/n/10 Through extensive eva
+luations
+ []
+
+
+Underfull \hbox (badness 7012) in paragraph at lines 151--152
+\T1/times/n/n/10 on representative Python WSGI/ASGI stacks, we
+ []
+
+
+LaTeX Warning: Reference `sec:related-work' on page 2 undefined on input line 1
+54.
+
+
+LaTeX Warning: Reference `sec:conclude' on page 2 undefined on input line 154.
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 154--155
+[]\T1/times/n/n/10 The remainder of this paper is organized as follows:
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 163.
+
+<fig/seq-diagram-1-sync.png, id=18, 986.68625pt x 1048.91875pt>
+File: fig/seq-diagram-1-sync.png Graphic file (type png)
+<use fig/seq-diagram-1-sync.png>
+Package pdftex.def Info: fig/seq-diagram-1-sync.png  used on input line 171.
+(pdftex.def)             Requested size: 246.67096pt x 262.22903pt.
+<fig/seq-diagram-2-async.png, id=20, 986.68625pt x 1096.095pt>
+File: fig/seq-diagram-2-async.png Graphic file (type png)
+<use fig/seq-diagram-2-async.png>
+Package pdftex.def Info: fig/seq-diagram-2-async.png  used on input line 173.
+(pdftex.def)             Requested size: 236.80954pt x 263.06818pt.
+
+Package xcolor Warning: Incompatible color definition on input line 174.
+
+
+Package xcolor Warning: Incompatible color definition on input line 174.
+
+
+Underfull \hbox (badness 3439) in paragraph at lines 179--180
+\T1/times/n/n/10 boundaries in modern cloud-native architectures. While
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 179--180
+\T1/times/n/n/10 Specifically, when ingress traffic triggers short-lived
+ []
+
+
+Underfull \hbox (badness 3919) in paragraph at lines 179--180
+\T1/times/n/n/10 the operational mechanics of protocol transcoding and
+ []
+
+
+LaTeX Warning: Citation `alzahrani2026scalable' on page 2 undefined on input li
+ne 182.
+
+
+LaTeX Warning: Citation `taha2024proactive' on page 2 undefined on input line 1
+82.
+
+
+Overfull \hbox (4.34961pt too wide) in paragraph at lines 182--183
+[]\T1/times/n/n/10 Although HTTP/2 stream multiplexing mitigates connection
+ []
+
+
+Underfull \hbox (badness 4582) in paragraph at lines 182--183
+\T1/times/n/n/10 setup overhead relative to HTTP/1.1 REST interfaces,
+ []
+
+
+Underfull \hbox (badness 2213) in paragraph at lines 182--183
+\T1/times/n/n/10 under steady-state conditions [\T1/times/b/n/10 ?\T1/times/n/n
+/10 ]. However, Taha \T1/times/n/it/10 et al.
+ []
+
+
+Underfull \hbox (badness 4647) in paragraph at lines 182--183
+\T1/times/n/n/10 under multiplexed transport [\T1/times/b/n/10 ?\T1/times/n/n/1
+0 ]. Specifically, when an
+ []
+
+
+Underfull \hbox (badness 2261) in paragraph at lines 182--183
+\T1/times/n/n/10 ingress request triggers multiple concurrent downstream
+ []
+
+
+Underfull \hbox (badness 3557) in paragraph at lines 182--183
+\T1/times/n/n/10 this highlights a fundamental gap between mean-value
+ []
+
+
+Underfull \hbox (badness 4242) in paragraph at lines 182--183
+\T1/times/n/n/10 performance expectations and real-world transport-layer
+ []
+
+<notaglinelogo.png, id=21, 169.38281pt x 42.91031pt>
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 183.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 183.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[2 <./notaglinelogo.png>]
+
+LaTeX Warning: Citation `gunicorn' on page 3 undefined on input line 184.
+
+
+Underfull \hbox (badness 3250) in paragraph at lines 184--185
+[]\T1/times/n/n/10 Fig. 1[] illustrates the end-to-end lifecycle breakdown
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 184--185
+\T1/times/n/n/10 of a request traversing the API gateway. To isolate the
+ []
+
+
+Underfull \hbox (badness 1748) in paragraph at lines 184--185
+\T1/times/n/n/10 this communication pipeline, we model a representative
+ []
+
+
+Underfull \hbox (badness 1953) in paragraph at lines 184--185
+\T1/times/n/n/10 synchronous gateway architecture [\T1/times/b/n/10 ?\T1/times/
+n/n/10 ] employing thread-
+ []
+
+
+Underfull \hbox (badness 2080) in paragraph at lines 184--185
+\T1/times/n/n/10 architecture, each incoming request occupies a gateway
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 4556) in paragraph at lines 193--194
+[]\T1/times/n/n/10 : Queueing delay incurred while awaiting an
+ []
+
+
+Underfull \hbox (badness 1874) in paragraph at lines 195--196
+[]\T1/times/n/n/10 : Combined network transmission and backend
+ []
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 213.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 213.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[3 <./fig/seq-diagram-1-sync.png> <./fig/seq-diagram-2-async.png>]
+Underfull \hbox (badness 1442) in paragraph at lines 215--216
+[]\T1/times/n/n/10 This empirical decomposition reveals that pure server
+ []
+
+
+Underfull \hbox (badness 2762) in paragraph at lines 215--216
+\T1/times/n/n/10 ($\OMS/cmsy/m/n/10 ^^Y \OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1
+/cmr/m/n/10 002 []$ \T1/times/n/n/10 in our evaluation environment), thereby
+ []
+
+
+Overfull \hbox (4.52876pt too wide) in paragraph at lines 215--216
+\T1/times/n/n/10 isolating gRPC connection management, payload serialization,
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 222.
+
+
+Underfull \hbox (badness 1521) in paragraph at lines 231--232
+[]\T1/times/n/n/10 Where $\T1/times/n/it/10 t[]$ \T1/times/n/n/10 is the TCP 3-
+way handshake, $\T1/times/n/it/10 t[]$ \T1/times/n/n/10 is the
+ []
+
+
+Underfull \hbox (badness 2932) in paragraph at lines 233--234
+\T1/times/n/n/10 hops, optimizing baseline latency and reducing steady-
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 236.
+
+
+Underfull \hbox (badness 3701) in paragraph at lines 239--240
+\T1/times/n/n/10 as a rigid $\T1/times/n/it/10 M\OML/cmm/m/it/10 =\T1/times/n/i
+t/10 M\OML/cmm/m/it/10 =\T1/times/n/it/10 c$ \T1/times/n/n/10 queue. Under acut
+e traffic surges,
+ []
+
+
+Underfull \hbox (badness 5563) in paragraph at lines 241--242
+\T1/times/n/n/10 by $\T1/times/n/it/10 c$ \T1/times/n/n/10 gateway computationa
+l resources at rate $\OML/cmm/m/it/10 ^^V \OT1/cmr/m/n/10 =
+ []
+
+
+Underfull \hbox (badness 2671) in paragraph at lines 241--242
+\OT1/cmr/m/n/10 1\OML/cmm/m/it/10 =\T1/times/n/it/10 S[]$\T1/times/n/n/10 . Whe
+n the system arrival rate approaches or
+ []
+
+
+LaTeX Warning: Citation `little2011or' on page 4 undefined on input line 243.
+
+
+Underfull \hbox (badness 1681) in paragraph at lines 243--244
+[]\T1/times/n/n/10 According to Little's Law [\T1/times/b/n/10 ?\T1/times/n/n/1
+0 ] and standard queueing
+ []
+
+
+Overfull \hbox (2.05888pt too wide) in paragraph at lines 243--244
+\T1/times/n/n/10 theory, the average queuing delay $\T1/times/n/it/10 W[]$ \T1/
+times/n/n/10 grows asymptotically
+ []
+
+
+Underfull \hbox (badness 2828) in paragraph at lines 249--250
+\T1/times/n/n/10 rate $\OML/cmm/m/it/10 ^^V[]$ \T1/times/n/n/10 is artificially
+ low. Therefore, under the CPR
+ []
+
+
+LaTeX Warning: Citation `gunicorn' on page 4 undefined on input line 255.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
+[]\T1/times/n/n/10 While the general queueing delay $\T1/times/n/it/10 W[]$ \T1
+/times/n/n/10 reflects
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 255--256
+\T1/times/n/n/10 system-level saturation, the structural behavior under
+ []
+
+
+Underfull \hbox (badness 3471) in paragraph at lines 255--256
+\T1/times/n/n/10 high concurrency diverges fundamentally depending on
+ []
+
+
+Underfull \hbox (badness 3068) in paragraph at lines 255--256
+\T1/times/n/n/10 the application framework's concurrency model. In the
+ []
+
+
+Underfull \hbox (badness 2142) in paragraph at lines 255--256
+\T1/times/n/n/10 on a thread pool of $\T1/times/n/it/10 c$ \T1/times/n/n/10 par
+allel worker processes. Each
+ []
+
+
+Underfull \hbox (badness 4479) in paragraph at lines 261--262
+[]\T1/times/n/n/10 When the arrival rate exceeds the aggregate thread
+ []
+
+<fig/ctr-arc.png, id=35, 1543.7675pt x 992.70876pt>
+File: fig/ctr-arc.png Graphic file (type png)
+<use fig/ctr-arc.png>
+Package pdftex.def Info: fig/ctr-arc.png  used on input line 275.
+(pdftex.def)             Requested size: 385.94093pt x 248.17657pt.
+File: fig/ctr-arc.png Graphic file (type png)
+<use fig/ctr-arc.png>
+Package pdftex.def Info: fig/ctr-arc.png  used on input line 275.
+(pdftex.def)             Requested size: 385.94093pt x 248.17657pt.
+
+Package xcolor Warning: Incompatible color definition on input line 275.
+
+
+Package xcolor Warning: Incompatible color definition on input line 275.
+
+
+Package xcolor Warning: Incompatible color definition on input line 278.
+
+
+Underfull \hbox (badness 6608) in paragraph at lines 283--284
+\T1/times/n/n/10 cloud-native environments, operational factors such as
+ []
+
+
+LaTeX Warning: Reference `fig:PCR-model' on page 4 undefined on input line 286.
+
+
+
+LaTeX Warning: Citation `uvicorn' on page 4 undefined on input line 286.
+
+
+Package xcolor Warning: Incompatible color definition on input line 289.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 292.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 292.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[4]
+
+LaTeX Warning: Citation `chen2025trade' on page 5 undefined on input line 301.
+
+
+LaTeX Warning: Citation `zhang2026adaptive' on page 5 undefined on input line 3
+01.
+
+
+LaTeX Warning: Citation `xiang2024cost' on page 5 undefined on input line 301.
+
+
+LaTeX Warning: Citation `santos2018analyzing' on page 5 undefined on input line
+ 301.
+
+
+Underfull \hbox (badness 2205) in paragraph at lines 301--302
+[]\T1/times/n/n/10 While conventional research often criticizes the PCR
+ []
+
+
+Underfull \hbox (badness 1577) in paragraph at lines 301--302
+\T1/times/n/n/10 permanent CPU, memory, and latency overheads during
+ []
+
+
+Underfull \hbox (badness 1478) in paragraph at lines 301--302
+\T1/times/n/n/10 sidecar acts as a highly optimized, asynchronous buffer
+ []
+
+
+Underfull \hbox (badness 5726) in paragraph at lines 301--302
+\T1/times/n/n/10 backlogs, and applies intelligent backpressure, thereby
+ []
+
+
+Underfull \hbox (badness 1968) in paragraph at lines 301--302
+\T1/times/n/n/10 protecting the underlying application container (whether
+ []
+
+
+Underfull \hbox (badness 1824) in paragraph at lines 303--304
+\T1/times/n/n/10 the roles of the TCP session, the HTTP/2 stream, and
+ []
+
+
+Underfull \hbox (badness 5147) in paragraph at lines 303--304
+\T1/times/n/n/10 application-layer channel management. A TCP session
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 306.
+
+
+LaTeX Warning: Citation `uvicorn' on page 5 undefined on input line 312.
+
+
+LaTeX Warning: Citation `dalai2024novel' on page 5 undefined on input line 312.
+
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 318.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 318.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[5 <./fig/ctr-arc.png>]
+Underfull \hbox (badness 1412) in paragraph at lines 320--321
+\T1/times/n/n/10 enables the asynchronous gateway to hold thousands of
+ []
+
+
+Underfull \hbox (badness 2772) in paragraph at lines 320--321
+\T1/times/n/n/10 catastrophic packet drops far beyond the limits of the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 323--324
+[]\T1/times/b/n/10 [TODO: Since in the Introduction we raise a
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 323--324
+\T1/times/b/n/10 contribution for demonstration of how connection
+ []
+
+
+Underfull \hbox (badness 5077) in paragraph at lines 323--324
+\T1/times/b/n/10 instantiation inflates service time (S) and degrades
+ []
+
+
+Underfull \hbox (badness 1430) in paragraph at lines 323--324
+\T1/times/b/n/10 based on the formalized equations. This will lead to
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 328--328
+[]\T1/times/b/n/10 Algorithm 1 \T1/times/n/n/10 Autonomic Controller with Math-
+based
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 380.
+
+
+LaTeX Warning: Citation `armstrong2017towards' on page 6 undefined on input lin
+e 382.
+
+
+LaTeX Warning: Citation `carnevali2025compositional' on page 6 undefined on inp
+ut line 383.
+
+
+LaTeX Warning: Citation `toka2021machine' on page 6 undefined on input line 383
+.
+
+
+LaTeX Warning: Citation `qiu2020firm' on page 6 undefined on input line 383.
+
+
+LaTeX Warning: Citation `dautov2014utilising' on page 6 undefined on input line
+ 383.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 382--384
+\T1/times/n/n/10 telemetry aggregation and decision latencies, making
+ []
+
+
+Underfull \hbox (badness 1371) in paragraph at lines 382--384
+\T1/times/n/n/10 them less effective in responding to immediate network
+ []
+
+
+Underfull \hbox (badness 1502) in paragraph at lines 382--384
+\T1/times/n/n/10 connection starvation problems when runtime conditions
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 387--388
+[]\T1/times/n/n/10 The Algorithm 1[] is represented to accommodate
+ []
+
+
+Underfull \hbox (badness 3179) in paragraph at lines 387--388
+\T1/times/n/n/10 mathematical processes in this section. There are four
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 390.
+
+
+Underfull \hbox (badness 3128) in paragraph at lines 392--393
+\T1/times/n/n/10 controller. The controller relies on two complementary
+ []
+
+
+Overfull \hbox (18.07655pt too wide) in paragraph at lines 392--393
+\T1/times/n/n/10 analysis: \T1/times/n/it/10 grpc_client_roundtrip_latency_seco
+nds_sum \T1/times/n/n/10 ($\T1/times/n/it/10 gRPC[]$\T1/times/n/n/10 )
+ []
+
+
+Overfull \hbox (10.96707pt too wide) in paragraph at lines 392--393
+\T1/times/n/n/10 and \T1/times/n/it/10 grpc_client_roundtrip_latency_seconds_co
+unt \T1/times/n/n/10 ($\T1/times/n/it/10 gRPC[]$\T1/times/n/n/10 ). 
+ []
+
+
+Underfull \hbox (badness 1694) in paragraph at lines 394--395
+\T1/times/n/n/10 digital counter, registering the exact volume of discrete
+ []
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 395.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 395.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[6]
+
+Package xcolor Warning: Incompatible color definition on input line 406.
+
+
+Package xcolor Warning: Incompatible color definition on input line 409.
+
+
+LaTeX Warning: Citation `tijms2003first' on page 7 undefined on input line 410.
+
+
+
+LaTeX Warning: Citation `Banerjee2023MTDDHJSMTA' on page 7 undefined on input l
+ine 410.
+
+
+LaTeX Warning: Citation `angus2001introduction' on page 7 undefined on input li
+ne 410.
+
+
+Underfull \hbox (badness 7869) in paragraph at lines 428--429
+[]\T1/times/n/n/10 To guarantee survivability, the controller defines a
+ []
+
+
+Overfull \hbox (2.41438pt too wide) in paragraph at lines 428--429
+\T1/times/n/n/10 predictive intervention boundary ($\OML/cmm/m/it/10 ^^U[]$\T1/
+times/n/n/10 ) using a configurable
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 435.
+
+
+Underfull \hbox (badness 5970) in paragraph at lines 436--437
+\T1/times/n/n/10 using theoretical capacity as stated in [], we also
+ []
+
+
+Underfull \hbox (badness 5924) in paragraph at lines 438--439
+[]\T1/times/n/n/10 Targeting the 95th percentile ensures the controller
+ []
+
+
+Underfull \hbox (badness 3449) in paragraph at lines 438--439
+\T1/times/n/n/10 while filtering out extreme, transient outliers (like the
+ []
+
+
+Underfull \hbox (badness 1394) in paragraph at lines 438--439
+\T1/times/n/n/10 condition, the controller completely avoids false-positive
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 442.
+
+
+Overfull \hbox (3.99614pt too wide) in paragraph at lines 445--446
+\T1/times/n/n/10 The control framework directly solves architectural inelastici
+ty
+ []
+
+
+Underfull \hbox (badness 2837) in paragraph at lines 445--446
+\T1/times/n/n/10 by bridging the CPR and PCR states dynamically. To
+ []
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 452.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 452.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[7]
+
+Package xcolor Warning: Incompatible color definition on input line 456.
+
+<fig/topology.png, id=54, 633.36626pt x 691.58376pt>
+File: fig/topology.png Graphic file (type png)
+<use fig/topology.png>
+Package pdftex.def Info: fig/topology.png  used on input line 462.
+(pdftex.def)             Requested size: 123.07585pt x 134.38869pt.
+
+Package xcolor Warning: Incompatible color definition on input line 463.
+
+
+Package xcolor Warning: Incompatible color definition on input line 463.
+
+<fig/eval-stg-A.png, id=55, 1304.875pt x 540.0175pt>
+File: fig/eval-stg-A.png Graphic file (type png)
+<use fig/eval-stg-A.png>
+Package pdftex.def Info: fig/eval-stg-A.png  used on input line 469.
+(pdftex.def)             Requested size: 313.17639pt x 129.60684pt.
+<fig/eval-stg-B.png, id=56, 718.685pt x 540.0175pt>
+File: fig/eval-stg-B.png Graphic file (type png)
+<use fig/eval-stg-B.png>
+Package pdftex.def Info: fig/eval-stg-B.png  used on input line 471.
+(pdftex.def)             Requested size: 172.48792pt x 129.60684pt.
+
+Package xcolor Warning: Incompatible color definition on input line 472.
+
+
+Package xcolor Warning: Incompatible color definition on input line 472.
+
+
+LaTeX Warning: Citation `gunicorn' on page 8 undefined on input line 479.
+
+
+LaTeX Warning: Citation `uvicorn' on page 8 undefined on input line 479.
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 479--480
+\T1/times/n/n/10 We aim to check how gRPC connection churn impacts
+ []
+
+
+Underfull \hbox (badness 3281) in paragraph at lines 479--480
+\T1/times/n/n/10 performance, not to compare frameworks. Synchronous
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 501.
+
+
+Overfull \hbox (11.45413pt too wide) in paragraph at lines 504--518
+ [][] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 521.
+
+
+Underfull \hbox (badness 1533) in paragraph at lines 524--525
+\T1/times/n/n/10 The experiment was conducted on a Kubernetes cluster
+ []
+
+
+Underfull \hbox (badness 5175) in paragraph at lines 527--528
+[]\T1/times/b/n/10 gRPC Backend Service (prime-server)\T1/times/n/n/10 : A high
+-
+ []
+
+
+Underfull \hbox (badness 6016) in paragraph at lines 527--528
+\T1/times/n/n/10 intensive prime number verification. To eliminate
+ []
+
+
+Underfull \hbox (badness 5652) in paragraph at lines 527--528
+\T1/times/n/n/10 backend capacity as a confounding variable, this
+ []
+
+
+Underfull \hbox (badness 3417) in paragraph at lines 527--528
+\T1/times/n/n/10 component was over-provisioned with 10 identical
+ []
+
+
+Underfull \hbox (badness 4660) in paragraph at lines 529--530
+[]\T1/times/b/n/10 API Gateway (prime-frontend)\T1/times/n/n/10 : A Python Flas
+k
+ []
+
+
+Underfull \hbox (badness 5741) in paragraph at lines 529--530
+\T1/times/n/n/10 and FastAPI application running within Gunicorn
+ []
+
+
+Underfull \hbox (badness 3209) in paragraph at lines 529--530
+\T1/times/n/n/10 and Uvicorn workers. This component acts as an
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 532.
+
+
+LaTeX Warning: Citation `wrk2' on page 8 undefined on input line 536.
+
+
+LaTeX Warning: Citation `ghz' on page 8 undefined on input line 536.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 536--537
+\T1/times/n/n/10 To precisely calculate the application-layer gateway
+ []
+
+<fig/baseline_backend.png, id=57, 575.5101pt x 383.2719pt>
+File: fig/baseline_backend.png Graphic file (type png)
+<use fig/baseline_backend.png>
+Package pdftex.def Info: fig/baseline_backend.png  used on input line 542.
+(pdftex.def)             Requested size: 517.9543pt x 344.94151pt.
+
+Overfull \hbox (12.83253pt too wide) in paragraph at lines 542--544
+ [][] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 546.
+
+
+Package xcolor Warning: Incompatible color definition on input line 546.
+
+
+Package xcolor Warning: Incompatible color definition on input line 550.
+
+
+Overfull \hbox (4.70285pt too wide) in paragraph at lines 551--552
+\T1/times/n/n/10 To evaluate the overall system performance and comprehensive
+ []
+
+
+Underfull \hbox (badness 6575) in paragraph at lines 551--552
+\T1/times/n/n/10 an end-to-end (E2E) evaluation stage was conducted.
+ []
+
+
+LaTeX Warning: Citation `wsgi' on page 8 undefined on input line 555.
+
+
+LaTeX Warning: Citation `asgi' on page 8 undefined on input line 555.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 555--556
+\T1/times/n/n/10 The API gateway tier was interchangeably evaluated
+ []
+
+
+Underfull \hbox (badness 1895) in paragraph at lines 555--556
+\T1/times/n/n/10 Server Gateway Interface-ASGI [\T1/times/b/n/10 ?\T1/times/n/n
+/10 ] handling profile) to
+ []
+
+
+Underfull \hbox (badness 2302) in paragraph at lines 555--556
+\T1/times/n/n/10 entirely on default Kubernetes static scheduling) and a
+ []
+
+
+Underfull \hbox (badness 2495) in paragraph at lines 555--556
+\T1/times/n/n/10 their respective impacts on latency mitigation, resource
+ []
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 556.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 556.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[8 <./fig/topology.png>]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 556.
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 556.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[9 <./fig/eval-stg-A.png> <./fig/eval-stg-B.png> <./fig/baseline_backend.png>]
+Underfull \hbox (badness 6188) in paragraph at lines 564--565
+\T1/times/n/n/10 daemon initiated continuous polling of container-
+ []
+
+
+Underfull \hbox (badness 7362) in paragraph at lines 564--565
+\T1/times/n/n/10 level resource consumption using the Kubernetes
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 568--569
+[]\T1/times/b/n/10 Data Processing and Metric Extraction: \T1/times/n/n/10 Upon
+
+ []
+
+<fig/baseline_latency.png, id=68, 574.5465pt x 383.2719pt>
+File: fig/baseline_latency.png Graphic file (type png)
+<use fig/baseline_latency.png>
+Package pdftex.def Info: fig/baseline_latency.png  used on input line 578.
+(pdftex.def)             Requested size: 517.08707pt x 344.94151pt.
+
+Overfull \hbox (62.48058pt too wide) in paragraph at lines 578--579
+ [][] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 582.
+
+
+Package xcolor Warning: Incompatible color definition on input line 582.
+
+
+Package xcolor Warning: Incompatible color definition on input line 586.
+
+
+Underfull \hbox (badness 1454) in paragraph at lines 587--588
+\T1/times/n/n/10 Unlike end-to-end scenarios that evaluate the system as
+ []
+
+
+Underfull \hbox (badness 1484) in paragraph at lines 587--588
+\T1/times/n/n/10 API gateway, directly injecting gRPC payloads into the
+ []
+
+
+Underfull \hbox (badness 2478) in paragraph at lines 589--590
+\T1/times/n/n/10 performance when gRPC requests traverse the backend
+ []
+
+
+Underfull \hbox (badness 4193) in paragraph at lines 591--592
+\T1/times/n/n/10 capabilities. The $\T1/times/n/it/10 T[]$ \T1/times/n/n/10 val
+ue is calculated based on
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 596.
+
+
+Underfull \hbox (badness 3746) in paragraph at lines 600--601
+\T1/times/n/n/10 degradation in the microservices architecture originates
+ []
+
+
+Underfull \hbox (badness 2884) in paragraph at lines 600--601
+\T1/times/n/n/10 directly from the queueing constraints imposed by the
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 600--601
+\T1/times/n/n/10 Connection-Per-Request (CPR) paradigm. Conversely,
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 600--601
+\T1/times/n/n/10 implementing Persistent Channel Reuse (PCR)^^Veither
+ []
+
+
+Underfull \hbox (badness 5985) in paragraph at lines 600--601
+\T1/times/n/n/10 statically or dynamically via our proposed autonomic
+ []
+
+
+Underfull \hbox (badness 3375) in paragraph at lines 600--601
+\T1/times/n/n/10 controller^^Vfundamentally alters this queueing behavior,
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 602.
+
+
+Underfull \hbox (badness 2293) in paragraph at lines 605--606
+\T1/times/n/n/10 To establish a strict computational baseline and isolate
+ []
+
+
+Underfull \hbox (badness 4254) in paragraph at lines 607--608
+\T1/times/n/n/10 consistently delivered a total average response latency
+ []
+
+
+Underfull \hbox (badness 1635) in paragraph at lines 607--608
+\OT1/cmr/m/n/10 0\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 19[][]0\OML/cmm/m/it/10 :\OT
+1/cmr/m/n/10 29[]$\T1/times/n/n/10 ). Furthermore, tail latencies remained
+ []
+
+
+Underfull \hbox (badness 3646) in paragraph at lines 609--610
+\T1/times/n/n/10 from $\OT1/cmr/m/n/10 83\OML/cmm/m/it/10 :\OT1/cmr/m/n/10 51[]
+$ \T1/times/n/n/10 at 200 RPS to $\OT1/cmr/m/n/10 281\OML/cmm/m/it/10 :\OT1/cmr
+/m/n/10 16[]$
+ []
+
+
+Underfull \hbox (badness 1931) in paragraph at lines 609--610
+\T1/times/n/n/10 at 1200 RPS, while memory footprint remained flat at
+ []
+
+
+Underfull \hbox (badness 3039) in paragraph at lines 609--610
+\T1/times/n/n/10 approximately $\OT1/cmr/m/n/10 200[]$\T1/times/n/n/10 . This f
+lat latency and resource
+ []
+
+File: notaglinelogo.png Graphic file (type png)
+<use notaglinelogo.png>
+Package pdftex.def Info: notaglinelogo.png  used on input line 610.
+(pdftex.def)             Requested size: 91.32pt x 23.1352pt.
+
+LaTeX Font Warning: Font shape `T1/formata/m/sl' undefined
+(Font)              using `T1/formata/m/it' instead on input line 610.
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Overfull \hbox (505.12177pt too wide) has occurred while \output is active
+[]
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+[10]
+<fig/base_vs_ctr_cpr.png, id=72, 502.5174pt x 383.2719pt>
+File: fig/base_vs_ctr_cpr.png Graphic file (type png)
+<use fig/base_vs_ctr_cpr.png>
+Package pdftex.def Info: fig/base_vs_ctr_cpr.png  used on input line 617.
+(pdftex.def)             Requested size: 251.25807pt x 191.63547pt.
+
+Overfull \hbox (23.95483pt too wide) in paragraph at lines 617--621
+ [][] 
+ []
+
+<fig/base_vs_ctr_pcr.png, id=73, 502.5174pt x 383.2719pt>
+File: fig/base_vs_ctr_pcr.png Graphic file (type png)
+<use fig/base_vs_ctr_pcr.png>
+Package pdftex.def Info: fig/base_vs_ctr_pcr.png  used on input line 627.
+(pdftex.def)             Requested size: 251.25807pt x 191.63547pt.
+
+Overfull \hbox (8.80179pt too wide) in paragraph at lines 627--631
+ [][] 
+ []
+
+
+Package xcolor Warning: Incompatible color definition on input line 633.
+
+
+Package xcolor Warning: Incompatible color definition on input line 633.
+
+
+Package xcolor Warning: Incompatible color definition on input line 637.
+
+
+LaTeX Warning: Reference `tab:baseline-comp' on page 11 undefined on input line
+ 640.
+
+
+Underfull \hbox (badness 4872) in paragraph at lines 640--641
+\T1/times/n/n/10 disparities between connection paradigms and gateway
+ []
+
+
+LaTeX Warning: Reference `fig:baseline-perf' on page 11 undefined on input line
+ 642.
+
+
+LaTeX Warning: Reference `fig:baseline-perf' on page 11 undefined on input line
+ 644.
+
+
+Package xcolor Warning: Incompatible color definition on input line 648.
+
+Please use mathbf in math mode instead of bf.
+Please use mathbf in math mode instead of bf. Excluding 'comment' comment.)
+Runaway argument?
+! File ended while scanning use of \next.
+<inserted text> 
+                \par 
+<*> ./access-overleaf.tex
+                         
+I suspect you have forgotten a `}', causing me
+to read past where you wanted me to stop.
+I'll try to recover; but if the error is serious,
+you'd better type `E' or `X' now and fix your file.
+
+! Emergency stop.
+<*> ./access-overleaf.tex
+                         
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 11026 strings out of 469438
+ 241592 string characters out of 5460503
+ 640821 words of memory out of 5000000
+ 39882 multiletter control sequences out of 15000+600000
+ 710701 words of font info for 178 fonts, out of 8000000 for 9000
+ 0 hyphenation exceptions out of 8191
+ 73i,13n,117p,1759b,541s stack positions out of 10000i,1000n,20000p,200000b,200000s
+!  ==> Fatal error occurred, no output PDF file produced!

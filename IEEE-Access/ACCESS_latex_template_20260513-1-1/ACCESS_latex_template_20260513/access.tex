@@ -33,8 +33,12 @@
 \renewcommand\boldmath{\@nomath\boldmath\mathversion{bold}}}
 \makeatother
 
-\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
-    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+%\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+%    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+%\bibliographystyle{IEEEtran} % Use IEEE transaction style
+%\bibliography{IEEEabrv,mybibfile}
+
 
 
 %Your document starts from here ___________________________________________________
@@ -121,9 +125,9 @@ Therefore, this paper demonstrates how converting the original CPR approach into
 \end{comment}
 
 
-\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{Ventre2018SDNAAA}. Unlike the stateless nature of traditional REST, gRPC multiplexes multiple requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As demonstrated by Zhu \emph{et al.} \cite{zhu2023dissecting}, significant infrastructural overheads remain hidden within service mesh sidecars; similarly, we observe that undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
+\PARstart{T}{he} transition to cloud-native microservices has established API gateways and high-performance RPC frameworks like gRPC as standard infrastructure. In this architecture, the API gateway functions as the singular entry point for external traffic, acting primarily as a reverse proxy and protocol transcoder. While external clients typically communicate using standard HTTP/1.1 and JSON payloads—often following RESTful paradigms as discussed in \cite{martin2022online}—internal microservices increasingly rely on gRPC over HTTP/2 for high-performance communication \cite{ventre2018sdn}. Unlike the stateless nature of traditional REST, gRPC multiplexes multiple requests over a single persistent HTTP/2 connection. However, the implementation details of this inter-service communication layer are often abstracted away by frameworks. As demonstrated by Zhu \emph{et al.} \cite{zhu2023dissecting}, significant infrastructural overheads remain hidden within service mesh sidecars; similarly, we observe that undocumented performance penalties exist within the application layer of API gateways when protocol translations are mismanaged.
 
-The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020StatefulTCPANAA}. However, applying legacy REST-based connection management to gRPC environments remains a pervasive flaw. While recent work on high-throughput serialization formats like Bebop highlights how CPU branch mispredictions and framing overheads bottleneck RPC runtimes \cite{sampson2026simplicity}, the fundamental overhead of connection instantiation at the gateway level is frequently overlooked. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and FastAPI) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
+The specific issue addressed in this paper is the performance degradation caused by the "connection-per-request" (CPR) anti-pattern within these gateways. Previous studies have shown how TCP and TLS handshake delays reduce throughput in distributed systems \cite{Guo2020Stateful}. However, applying legacy REST-based connection management to gRPC environments remains a pervasive flaw. While recent work on high-throughput serialization formats like Bebop highlights how CPU branch mispredictions and framing overheads bottleneck RPC runtimes \cite{sampson2026simplicity}, the fundamental overhead of connection instantiation at the gateway level is frequently overlooked. We define gRPC connection churn as the continuous cycle of establishing and tearing down complex network state (TCP handshakes and HTTP/2 protocol negotiations) for every individual application-layer request, rather than multiplexing traffic. Establishing a new connection per request is an $O(N)$ operation, where $N$ represents the number of incoming client requests. This directly conflicts with the $O(1)$ multiplexed design of HTTP/2, forcing gateway worker threads to spend excessive CPU cycles on network context switching. We explore this vulnerability using a standard Python WSGI stack \cite{wsgi-pep} (Flask and FastAPI) as a representative testbed, as its synchronous worker model clearly exposes the severe latency penalties of blocking network I/O.
 
 While the research community has modeled microservice performance extensively, the specific intersection of application-layer connection churn and queueing network saturation remains empirically unquantified. Recent works evaluate microservice resilience using stochastic Petri Nets \cite{pinheiro2024performance} or optimize multi-service resource provisioning using stochastic execution models \cite{carnevali2025compositional}. However, evaluating dynamic latency under load requires integrating these approaches with queueing theory \cite{DAuria2021AnMQA}. We argue that implementation-level bottlenecks, specifically gRPC con-nection churn, dynamically inflate the service time ($S$) of the system, degrading the effective service rate ($\mu$). This churn converts what should be a constant-time RPC execution into a highly variable, load-dependent event. Unmanaged connection churn destabilizes base duration estimates, forcing premature queue saturation long before physical CPU or memory thresholds are reached.
 
@@ -392,7 +396,7 @@ In the field of classical queuing theory, service time ($S$) is commonly used to
 \label{sec3.2}
 
 \subsubsection{Predictive Mathematical Formulation}
-To mathematically formalize the system's performance under increasing target rates, the system architecture is modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / S_{cpr}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{Banerjee2023MTDDHJSMTA}. For the system to remain stable, utilization must remain below capacity ($\rho < 1$). As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula \cite{angus2001introduction}, the probability that an arriving request must wait in the queue ($P_Q$) is:
+To mathematically formalize the system's performance under increasing target rates, the system architecture is modeled as an $M/M/c$ queue. This assumes a Poisson arrival process for incoming requests with rate $\lambda$ (target rate), exponentially distributed service times with rate $\mu$ (where $\mu = 1 / S_{cpr}$), and $c$ parallel computing resources \cite{tijms2003first} \cite{banerjee2023mtd}. For the system to remain stable, utilization must remain below capacity ($\rho < 1$). As the target rate $\lambda$ increases toward the total service capacity $c\mu$, the system enters a state of high utilization. According to Erlang's C formula \cite{angus2001introduction}, the probability that an arriving request must wait in the queue ($P_Q$) is:
 
 \begin{equation}
 	P_Q = \frac{\frac{(c\rho)^c}{c!(1-\rho)}}{\sum_{n=0}^{c-1} \frac{(c\rho)^n}{n!} + \frac{(c\rho)^c}{c!(1-\rho)}}
@@ -546,7 +550,7 @@ To precisely calculate the application-layer gateway overhead, we utilized two s
 	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-c.png}\label{fig:backend-c}}
 	\hfil
 	\subfloat[]{\includegraphics[width=0.48\textwidth]{fig/baseline_backend-d.png}\label{fig:backend-d}}
-	\caption{Baseline performance evaluation of backend service that evaluate directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref{fig:evalB}.}
+	\caption{Baseline performance evaluation result of backend service that evaluated directly to the backend server using ghz tool with gRPC load request: (a) median and tail latency ($p50, p99$); (b) compute vs net and queue time latency ($t_{comp}, t_{net\_queue}$); (c) systems throughput; (d) resource utilization (CPU and Memory). These graphs are represent the result correspond to the evaluation scenario b on Fig. \ref{fig:evalB}.}
 	\label{fig:baseline-backend}
 \end{figure*}
 
@@ -589,7 +593,7 @@ To maintain rigorous evaluation control and eliminate state leakage between load
 \subsubsection{Backend service evaluation}
 Unlike end-to-end scenarios that evaluate the system as a whole, to accurately isolate the source of architectural bottlenecks within the end-to-end communication mesh in our cloud native environment cluster, the core prime-checking backend was subjected to a direct, high-intensity load test. This isolated evaluation completely bypassed the frontend API gateway, directly injecting gRPC payloads into the internal cluster mesh to evaluate the true computational and network baselines. The evaluation sequences in this scenario follow a routine very similar to the E2E evaluation scenario. However, the workload is not injected from Machine A (the load generator); instead, it is generated directly within the cluster of Machine B (the SUT).
 
-This evaluation scenario captures the total client-perceived performance when gRPC requests traverse the backend system path—from internal load generation (\textit{ghz}—a gRPC performance tool) hosts that act as frontend service requests, penetrating directly through the backend service cluster using dynamic Kubernetes ClusterIP resolution on port 50051. The backend service evaluation scenario is shown in Fig. \ref{fig:eval}B.
+This evaluation scenario captures the total client-perceived performance when gRPC requests traverse the backend system path—from internal load generation (\textit{ghz}—a gRPC performance tool) hosts that act as frontend service requests, penetrating directly through the backend service cluster using dynamic Kubernetes ClusterIP resolution on port 50051. The backend service evaluation scenario is shown in Fig. \ref{fig:evalB}.
 
 In this scenario, we also intend to quantify that the $T_{compute}$ of the prime-service backend reflects high-speed calculation capabilities. The $T_{compute}$ value is calculated based on two metrics, cumulative execution latency ($\Delta gRPC_{sum}$) and request count ($\Delta gRPC_{count}$), derived from the Prometheus scrape process and subsequently aggregated using \textit{awk}, as mathematically expressed in \eqref{eq:t-comp}. Despite the minimal $T_{compute}$ latency, we also analyze the causes of significant latency spikes arising from substantial network and queue delays, the magnitudes of which are calculated according to \eqref{eq:t-net}.
 
@@ -619,7 +623,7 @@ The backend successfully processed 100\% of the injected traffic without a singl
 		\vspace*{0pt}
 		\includegraphics[scale=0.5]{fig/base_vs_ctr_cpr.png}
 		\vspace*{4pt}
-		\centering{\small(A)}
+		\centering{\small(a)}
 		%\label{eval-stg}
 	\end{minipage}
 	\hfill
@@ -629,11 +633,11 @@ The backend successfully processed 100\% of the injected traffic without a singl
 		\vspace*{0pt}
 		\includegraphics[scale=0.5]{fig/base_vs_ctr_pcr.png}
 		\vspace*{4pt}
-		\centering{\small(B)}
+		\centering{\small(b)}
 		%\label{eval-stg}
 	\end{minipage}
 	
-	\caption{\textbf{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (A) Connection Per-Request (CPR); (B) Persistent Connection Reuse (PCR) mode.}}
+	\caption{\textbf{Baseline vs controller performance evaluation of frontend apps both in Synchronous and Asyncronous framework gateway within: (a) Connection Per-Request (CPR); (b) Persistent Connection Reuse (PCR) mode.}}
 	\label{base-vs-ctr}
 \end{figure*}
 
@@ -853,7 +857,7 @@ The operational impact of this fixed transcoding tax becomes critical when mappe
 
 In the synchronous multi-threaded architecture (Flask), request processing operates as an $M/M/c$ queue where worker threads block during both CPU transcoding and downstream network I/O. Under Connection Per-Request (CPR), connection negotiation ($t_{\text{tcp}} + t_{\text{http2}}$) inflates total service time ($S_{\text{cpr}}$), severely depressing service rate $\mu_{\text{cpr}}$. As arrival rate $\lambda$ approaches total worker capacity $c\mu_{\text{cpr}}$, utilization $\rho = \frac{\lambda}{c\mu} \to 1$. Governed by Little's Law \cite{little2011or}, queueing delay $W_{\text{queue}} \propto \frac{\rho}{1-\rho}$ grows asymptotically, driving OS listen backlogs to saturation and causing severe packet drops.
 
-In contrast, the asynchronous event-loop architecture (FastAPI) operates as an $M/G/1$ Processor Sharing ($PS$) queue \cite{KahramanMG1,dalai2024novel}. By yielding execution during external gRPC I/O wait states, FastAPI decouples task handling from OS physical thread counts, distributing CPU tick duration across $N_{\text{active}}$ concurrent connections:
+In contrast, the asynchronous event-loop architecture (FastAPI) operates as an $M/G/1$ Processor Sharing ($PS$) queue \cite{kahraman2011distribution,dalai2024novel}. By yielding execution during external gRPC I/O wait states, FastAPI decouples task handling from OS physical thread counts, distributing CPU tick duration across $N_{\text{active}}$ concurrent connections:
 \begin{equation}
 	W_{\text{queue, PS}} = \frac{\rho}{1 - \rho} \cdot S_{g}
 \end{equation}
@@ -883,6 +887,54 @@ As detailed in Table~\ref{tab:controller-telemetry-summary}, empirical telemetry
 \end{itemize}
 
 Ultimately, transitioning the system to PCR—either statically or via dynamic Envoy sidecar actuation—scales effective service rate $\mu_{\text{pcr}} \gg \mu_{\text{cpr}}$, keeping system utilization $\rho \ll 1$ and completely suppressing non-linear latency spikes without requiring additional hardware provisioning.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Validation of Theoretical Queueing Models Against Empirical Baselines}
+\label{sec5.3_queueing_validation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=0.48\textwidth]{fig/queue-theory-eval-2.png}\label{fig:queue-2}
+	
+	\caption{Baseline performance E2E evaluation vs. queuing theoretical validation: (a) median and tail latency ($p50$); (b) .}
+	\label{fig:queue}
+\end{figure}
+
+To establish that the observed latency degradation is governed by formal queueing limits rather than transient infrastructure noise, we validate the empirical gateway metrics against theoretical queueing models. Specifically, we compare the synchronous multi-threaded architecture against the $M/M/c$ queueing model and the asynchronous event-driven architecture against the $M/G/1$ Processor Sharing ($M/G/1\text{-}PS$) model.
+
+\subsubsection{Mathematical Parameterization}
+The frontend gateway deployment provisions Gunicorn with $2$ worker processes and $10$ threads per worker, establishing a strict upper bound of $c = 20$ concurrent execution channels for the synchronous Flask framework. Under the $M/M/c$ queueing model, the expected end-to-end response time $E[T]_{M/M/c}$ is expressed via the Erlang-C formula:
+\begin{equation}
+	E[T]_{M/M/c} = S(\lambda) + \frac{C(c, \rho)}{c\mu(\lambda) - \lambda}
+\end{equation}
+where $\rho = \frac{\lambda}{c\mu(\lambda)}$ represents total system utilization, and $C(c, \rho)$ denotes the Erlang-C probability that an arriving request must wait in queue:
+\begin{equation}
+	C(c, \rho) = \frac{\frac{(c\rho)^c}{c!} \left(\frac{1}{1-\rho}\right)}{\sum_{k=0}^{c-1} \frac{(c\rho)^k}{k!} + \frac{(c\rho)^c}{c!} \left(\frac{1}{1-\rho}\right)}
+\end{equation}
+
+Under Connection Per-Request (CPR), service time $S(\lambda)$ is not constant. At un-queued low load ($\lambda = 200\text{ RPS}$), the baseline service time is $S_0 = 2.735\text{ ms}$, yielding an un-queued service rate $\mu_0 \approx 365.6\text{ req/s/thread}$. However, as arrival rate $\lambda$ increases, cyclic TCP/HTTP2 handshake negotiation and OS thread contention inflate $S(\lambda)$. Near system saturation, $S(\lambda)$ expands to an effective service time $S_{\text{eff}} \approx 29.47\text{ ms}$, dynamically contracting the system's theoretical capacity limit from an un-queued $c\mu_0 \approx 7,312\text{ RPS}$ down to an effective ceiling of $\lambda_{\text{sat}} = c\mu_{\text{eff}} \approx 678.6\text{ RPS}$. As arrival rate $\lambda \to \lambda_{\text{sat}}$, utilization $\rho \to 1$, driving the denominator $(c\mu - \lambda) \to 0$ and forcing the theoretical queueing delay toward infinity.
+
+Conversely, the asynchronous FastAPI gateway operating with Persistent Connection Reuse (PCR) is modeled as an $M/G/1\text{-}PS$ queue. Because non-blocking asynchronous event loops yield CPU execution during downstream gRPC I/O wait states, task concurrency is decoupled from physical OS thread limits. The expected response time under Processor Sharing is given by:
+\begin{equation}
+	E[T]_{M/G/1\text{-}PS} = \frac{S}{1 - \rho_{\text{CPU}}}
+\end{equation}
+Because network wait states consume negligible CPU capacity ($\rho_{\text{CPU}} \ll 1$), the denominator remains near unity across all arrival rates ($200 \le \lambda \le 1200\text{ RPS}$), maintaining a flat horizontal response curve $E[T] \approx S \approx 0.63\text{ to }1.41\text{ ms}$.
+
+\subsubsection{Comparative Structural Analysis: Subplots (a) vs. (b)}
+Figure~\ref{fig:e2e_vs_queue_validation} contrasts the empirical end-to-end system telemetry with the theoretical queueing validation across two complementary views:
+
+\begin{enumerate}
+	\item \textbf{End-to-End Operational Performance [Subplot (a)]:} Rendered on a logarithmic scale, Subplot~(a) evaluates latency trajectories across all four operational permutations (Flask/FastAPI under baseline vs.\ controller-managed CPR). The logarithmic axis compresses multi-order-of-magnitude latency differences, demonstrating how the controller successfully mitigates median latencies ($P_{50}$) for legacy Flask CPR workloads from $>27000\text{ ms}$ down to $3800\text{ ms}$ at peak saturation ($1200\text{ RPS}$), while maintaining FastAPI PCR latencies at sub-2~ms levels.
+	\item \textbf{Queueing Model Validation [Subplot (b)]:} Rendered on a linear scale, Subplot~(b) overlays the theoretical $M/M/20$ Erlang-C curve (parameterized at $S_{\text{eff}} \approx 29.47\text{ ms}$) and $M/G/1\text{-}PS$ baseline directly onto the empirical baselines. The linear scale highlights the system capacity boundary. At $\lambda \ge 600\text{ RPS}$, connection churn drives the empirical Flask CPR throughput to its maximum ceiling of $678.6\text{ RPS}$, causing empirical $P_{50}$ latency to shoot vertically from $25.76\text{ ms}$ at $600\text{ RPS}$ to $27,372.6\text{ ms}$ at $1200\text{ Target RPS}$. This vertical wall matches the theoretical $M/M/20$ asymptote at $\lambda_{\text{sat}} \approx 678.6\text{ RPS}$. In contrast, the empirical FastAPI PCR data tracks the flat theoretical $M/G/1\text{-}PS$ line across the entire load spectrum up to $1200\text{ RPS}$.
+\end{enumerate}
+
+\subsubsection{Architectural Implications}
+This close alignment between theoretical models and empirical telemetry confirms two primary insights:
+\begin{enumerate}
+	\item The sharp latency wall observed in synchronous microservice gateways is an inherent mathematical outcome of thread pool saturation ($M/M/c$) compounded by CPR service-time inflation ($S_0 \to S_{\text{eff}}$), formally defining the "Thread Pool Trap."
+	\item Persistent Channel Reuse fundamentally transforms the queueing discipline from a bounded $M/M/c$ thread model to an $M/G/1\text{-}PS$ regime, unbinding ingress throughput from physical CPU core and thread limits.
+\end{enumerate}
 
 
 \subsection{Cross-Architectural Synthesis and Decision Matrix}
@@ -948,6 +1000,8 @@ cases, sponsor and financial support acknowledgments are placed in the
 unnumbered footnote on the first page, not here.
 
 
+
+\begin{comment}
 \begin{thebibliography}{00}
 
 % bib-1
@@ -1062,6 +1116,12 @@ I. Angus et al., ``An introduction to Erlang B and Erlang C,'' \textit{Telemanag
 \bibitem{kephart2003vision} J. O. Kephart and D. M. Chess, ``The vision of autonomic computing,'' \textit{Computer}, vol. 36, no. 1, pp. 41--50, Jan. 2003, doi: 10.1109/MC.2003.1160055.
 
 \end{thebibliography}
+	
+\end{comment}
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref}  % Points to references.bib (do not add .bib extension)
+
 
 \begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{author1.png}}]{First A. Author} received the B.S. and M.S. degrees in aerospace engineering from
 the University of Virginia, Charlottesville, in 2001 and the Ph.D. degree in
